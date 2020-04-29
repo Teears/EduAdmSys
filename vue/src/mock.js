@@ -4,7 +4,7 @@ const vcode ="1234"
 const userInfo = function(){
     // const prarmsObj = JSON.parse(prarms.body);
     return{
-        code:1,
+        code:2,
         msg:"登录成功",
         datas:{
             userid: "2017110323",

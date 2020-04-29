@@ -1,6 +1,7 @@
 package com.qifangli.edumanage.controller;
 
 import com.qifangli.edumanage.dao.entity.Student;
+import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class StudentController {
     @Autowired
-    private StudentServiceImpl studentService;
+    private StudentService studentService;
 
     @GetMapping("/getStudent")
     public List<Student> getStudent(){
@@ -21,9 +22,9 @@ public class StudentController {
         return studentService.getStudent();
     }
 
-//    @RequestMapping("test1")
-//    public String hello(){
-//        System.out.println("test1 is running");
-//        return "this is test1";
-//    }
+    @RequestMapping("test1")
+    public String hello(){
+        System.out.println("test1 is running");
+        return "this is test1";
+    }
 }

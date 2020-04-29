@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
+@MapperScan("com.qifangli.edumanage.dao.mapper")
 public class EdumanageApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
