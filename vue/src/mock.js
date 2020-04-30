@@ -1520,7 +1520,7 @@ Mock.mock('/api/getTeaTableData','post',getTeaTableData)
 Mock.mock('/api/getStuTableData','post',getStuTableData)
 Mock.mock('/api/getCrsTableData','post',getCrsTableData);
 Mock.mock('/api/loginAdmin','post',loginAdmin);
-Mock.mock('/api/login','post',userInfo);
+Mock.mock('/test/login','post',userInfo);
 Mock.mock('/api/getTelCode','post',getTelCode);
 Mock.mock('/api/getTermTable','post',getTermTable);
 Mock.mock('/api/getRoomTable','post',getRoomTable);

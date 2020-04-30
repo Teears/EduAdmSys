@@ -4,8 +4,18 @@
     <resultMap id ="StudentInfoMap" type="com.qifangli.edumanage.dao.entity.Student">
         <result column="stu_no" property="id"/>
         <result column="stu_name" property="name"/>
+        <result column="stu_sex" property="sex"/>
+        <result column="stu_gdu" property="granduate"/>
+        <result column="stu_bth" property="birth"/>
+        <result column="stu_tel" property="telephone"/>
+        <result column="stu_pol" property="political"/>
+        <result column="stu_dpt" property="department"/>
+        <result column="stu_class" property="classAndGrade"/>
+        <result column="stu_reg" property="jiguan"/>
+        <result column="stu_sta" property="status"/>
+        <result column="stu_pwd" property="pass"/>
     </resultMap>
-    <select id="getStudent" resultMap="StudentInfoMap">
-        select stu_no,stu_name  from tbl_student
+    <select id="findStudentByIdAndPwd" resultMap="StudentInfoMap">
+        SELECT * FROM tbl_student WHERE stu_no = #{id} AND stu_pwd = #{pwd}
     </select>
 </mapper>

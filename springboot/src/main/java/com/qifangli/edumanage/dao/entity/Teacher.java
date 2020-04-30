@@ -1,19 +1,19 @@
 package com.qifangli.edumanage.dao.entity;
 
-public class Student {
+public class Teacher {
     private String id;
     private String name;
     private String pass;
     private String sex;
-    private String granduate;
+    private String degree;
+    private String title;
     private String birth;
     private String idCard;
     private String telephone;
     private String political;
     private String department;
-    private String classAndGrade;
     private String jiguan;
-    private String status;
+    private String workTime;
 
     public void setId(String id) {
         this.id = id;
@@ -31,8 +31,12 @@ public class Student {
         this.sex = sex;
     }
 
-    public void setGranduate(String granduate) {
-        this.granduate = granduate;
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setBirth(String birth) {
@@ -55,16 +59,12 @@ public class Student {
         this.department = department;
     }
 
-    public void setClassAndGrade(String classAndGrade) {
-        this.classAndGrade = classAndGrade;
-    }
-
     public void setJiguan(String jiguan) {
         this.jiguan = jiguan;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setWorkTime(String workTime) {
+        this.workTime = workTime;
     }
 
     public String getId() {
@@ -83,8 +83,12 @@ public class Student {
         return sex;
     }
 
-    public String getGranduate() {
-        return granduate;
+    public String getDegree() {
+        return degree;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getBirth() {
@@ -107,15 +111,11 @@ public class Student {
         return department;
     }
 
-    public String getClassAndGrade() {
-        return classAndGrade;
-    }
-
     public String getJiguan() {
         return jiguan;
     }
 
-    public String getStatus() {
-        return status;
+    public String getWorkTime() {
+        return workTime;
     }
 }
