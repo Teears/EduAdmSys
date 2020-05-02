@@ -4,12 +4,14 @@ import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * 跨域的设置问题
- * @author tonywu
+ * @author qifangli
  * @version v1.0.0
  */
 
@@ -39,14 +41,17 @@ public class ACAFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse)servletResponse;
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        HttpServletRequest request = (HttpServletRequest)servletRequest;
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8081");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        //response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", ":x-requested-with,content-type");
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        response.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
+
         //((HttpServletResponse)servletResponse).setHeader("Access-Control-Allow-Origin", "*");
         filterChain.doFilter(servletRequest,servletResponse);
-        System.out.println("to access control allow origin");
-    }
+        System.out.println("*********************************过滤器被使用**************************");    }
 
     /**
      * 销毁

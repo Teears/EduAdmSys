@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { Message } from 'element-ui';
+// import { Message } from 'element-ui';
  
 axios.defaults.timeout = 5000; //超时终止请求
 axios.defaults.baseURL ='http://localhost:8080/'; //配置请求地址

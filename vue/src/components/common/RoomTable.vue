@@ -120,8 +120,8 @@ import roomOptions from '../global/roomOptions.js'
         this.$axios
         .post('/api/getRoomTable', { //获取查询教室课表接口
             term: this.termSelected,
-            area: this.areaSelected,
-            room: this.roomSelected
+            area: this.areaSelected.label,
+            room: this.roomSelected,label
         })
         .then((result)=> {
             if (result.data.code === 1) {

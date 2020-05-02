@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.CourseArrangeMapper">
+    <resultMap id ="CourseArrangeInfoMap" type="com.qifangli.edumanage.dao.entity.CourseArrange">
+        <result column="tea_crs_no" property="id"/>
+        <result column="tea_name" property="teacherName"/>
+        <result column="crs_name" property="courseName"/>
+        <result column="term" property="term"/>
+        <result column="week" property="week"/>
+        <result column="time" property="time"/>
+        <result column="spot" property="spot"/>
+    </resultMap>
+    <select id="findByTermAndSpot" resultMap="CourseArrangeInfoMap">
+        SELECT tea_crs_no, tea_name, crs_name, term, week, time, spot
+        FROM tbl_teacher,tbl_course,tbl_tea_crs
+        WHERE term = #{term} AND spot = #{spot} AND
+        tbl_teacher.tea_no=tbl_tea_crs.tea_no AND tbl_tea_crs.crs_no=tbl_course.crs_no
+    </select>
+</mapper>

@@ -19,29 +19,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController //将类中所有控制器的方法返回值转为json格式，并响应前端 = @Controller + @responseBody
-@RequestMapping("/test")
+@RequestMapping("/api")
 public class LoginController {
     @Autowired
     private StudentService studentService;
 
-    @RequestMapping(value = "login")
+    @PostMapping(value = "login")
     public Result login(@RequestBody JSONObject param,HttpServletRequest request){
         HttpSession session = request.getSession();
         String id = param.getString("user");
         String pwd = param.getString("pass");
-        String vcode = param.getString("vcode");
-        System.out.println(id + " " + pwd + " " + vcode);
-        if(!vcode.equals(session.getAttribute("verCode"))){
-            return ResultUtils.error(-1,"验证码错误");
-        }
+        String vcode = param.getString("vcode").toLowerCase();
+        System.out.println("*************登录**************");
+//        System.out.println("sessionId="+session.getId());
+//        if(!vcode.equals(session.getAttribute("verCode"))){
+//            return ResultUtils.error(-1,"验证码错误");
+//        }
         Student student = studentService.findStudentByIdAndPwd(id,pwd);
         if(student == null){
             return ResultUtils.error(-2,"用户名或密码不正确");
         }
         Map<String,String> datas = new HashMap<>();
-        datas.put("userid",student.getId());
+//        datas.put("userid",student.getId());
         datas.put("username",student.getName());
-        return ResultUtils.success(datas);
+        session.setAttribute("id",student.getId());
+        System.out.println("sessionId="+session.getId());
+        Result result = new Result();
+        result.setCode(1);
+        result.setMsg("登录成功");
+        result.setDatas(datas);
+        return result;
     }
 
     @RequestMapping(value = "yzm")
@@ -59,6 +66,8 @@ public class LoginController {
         session.removeAttribute("codeTime");
         session.setAttribute("verCode", verifyCode.toLowerCase());		//生成session
         session.setAttribute("codeTime", LocalDateTime.now());
+        System.out.println("***************获取图片验证码****************");
+        System.out.println("sessionId="+session.getId());
         // 生成图片
         int w = 100, h = 40;
         OutputStream out = response.getOutputStream();

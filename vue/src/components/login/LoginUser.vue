@@ -12,8 +12,12 @@
   </el-form-item>
   
   <el-form-item>
-    <el-input v-model="loginForm.vcode" maxlength="4" placeholder="验证码" style="width: 100px"></el-input> 
-    <img id="code_img" src="http://localhost:8080/test/yzm" @click="changeCode()" style="height:40px; width: 100px; margin-left:20px cursor: pointer;" title="点击更换" >
+    <el-col :span="12">
+      <el-input v-model="loginForm.vcode" maxlength="4" placeholder="验证码" style="width: 130px"></el-input> 
+    </el-col>
+    <el-col :span="12">
+      <img id="code_img" src="http://localhost:8080/api/yzm" @click="changeCode()" style="height:40px; width: 100px; margin-left:25px; cursor: pointer;" title="点击更换" >
+    </el-col>
   </el-form-item>
   
   <el-form-item>
@@ -67,23 +71,14 @@ import qs from 'qs'
                 }
                 alert(JSON.stringify(this.loginForm))
                 this.$axios
-                  .post('/test/login', this.loginForm
+                  .post('/api/login', this.loginForm
                   )
                   .then((result)=> {
                     if (result.data.code === 1) {
                       alert("学生登录成功")//测试返回数据
-                      alert(JSON.stringify(result.data))
-                      setCookie("userid",result.data.datas.userid,3)
-                      setCookie("username",result.data.datas.username,3)
-                      setCookie("identify",1,3)//identify==1表示学生
-                      setCookie("status",1,3)
                       this.$router.replace({ path: '/Stu1_1' }); //跳转到student组件中
                     } else if(result.data.code === 2){
                       alert("老师登录成功")//测试返回数据
-                      setCookie("userid",result.data.datas.userid,3)
-                      setCookie("username",result.data.datas.username,3)
-                      setCookie("identify",2,3)//identify==2表示老师
-                      setCookie("status",1,3)
                       this.$router.replace({ path: '/Tea1_1' }); //跳转到teacher组件中   
                     }else if(result.data.code === -1){
                       alert("验证码错误")
@@ -114,7 +109,6 @@ import qs from 'qs'
           }
         })
       }
-
     }
   }
 </script>
