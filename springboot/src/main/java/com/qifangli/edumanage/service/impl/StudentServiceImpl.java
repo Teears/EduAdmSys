@@ -10,11 +10,9 @@ import javax.annotation.Resource;
 @Service
 public class StudentServiceImpl implements StudentService {
 //    @Autowired
-    private StudentMapper studentMapper;
     @Resource
-    public void setStudentMapper(StudentMapper studentMapper){
-        this.studentMapper = studentMapper;
-    }
+    private StudentMapper studentMapper;
+
 
     @Override
     public Student findStudentByIdAndPwd(String id, String pass) {
