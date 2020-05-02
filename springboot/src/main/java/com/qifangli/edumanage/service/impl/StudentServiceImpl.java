@@ -18,19 +18,4 @@ public class StudentServiceImpl implements StudentService {
     public Student findStudentByIdAndPwd(String id, String pass) {
         return studentMapper.findStudentByIdAndPwd(id,pass);
     }
-
-//    @Override
-//    public List<User> getStudent() {
-//        System.out.println("/getStudent start...");
-//        return studentMapper.getStudent();
-//    }
-
-//    @Override
-//    public Student getUserById(String id) {
-//        System.out.println("StudentServiceImpl start...");
-//        return studentMapper.findStudentById(id);
-//    }
-
-
-
 }

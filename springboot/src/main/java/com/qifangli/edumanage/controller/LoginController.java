@@ -41,8 +41,8 @@ public class LoginController {
         }
         Map<String,String> datas = new HashMap<>();
 //        datas.put("userid",student.getId());
-        datas.put("username",student.getStuName());
-        session.setAttribute("id",student.getStuId());
+        datas.put("username",student.getName());
+        session.setAttribute("id",student.getId());
         System.out.println("sessionId="+session.getId());
         Result result = new Result();
         result.setCode(1);
