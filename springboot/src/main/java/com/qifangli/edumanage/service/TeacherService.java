@@ -4,5 +4,6 @@ import com.qifangli.edumanage.dao.entity.Teacher;
 
 public interface TeacherService {
 
-    Teacher findTeacherById(String id);
+    Teacher findTeacherByIdAndPwd(String id, String pwd);
+
 }

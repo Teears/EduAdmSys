@@ -4,19 +4,16 @@ import com.qifangli.edumanage.dao.entity.CourseArrange;
 import com.qifangli.edumanage.dao.entity.Spot;
 import com.qifangli.edumanage.dao.mapper.CourseArrangeMapper;
 import com.qifangli.edumanage.dao.mapper.SpotMapper;
-import com.qifangli.edumanage.service.RoomService;
+import com.qifangli.edumanage.service.SpotService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class RoomServiceImpl implements RoomService {
+public class SpotServiceImpl implements SpotService {
     @Resource
     private SpotMapper spotMapper;
-
-    @Resource
-    private CourseArrangeMapper courseArrangeMapper;
 
     @Override
     public Spot findSpotByAreaAndRoom(String area, String room) {
@@ -24,7 +21,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<CourseArrange> findByTermAndSpot(String term, String spot) {
-        return courseArrangeMapper.findByTermAndSpot(term, spot);
+    public Spot findSpotById(String id) {
+        return spotMapper.findSpotById(id);
     }
+
 }

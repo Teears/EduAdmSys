@@ -16,4 +16,12 @@
         WHERE term = #{term} AND spot = #{spot} AND
         tbl_teacher.tea_no=tbl_tea_crs.tea_no AND tbl_tea_crs.crs_no=tbl_course.crs_no
     </select>
+
+    <select id="findByTermAndStuId" resultMap="CourseArrangeInfoMap">
+        select T.tea_crs_no, tea_name, crs_name, T.term, T.week, T.time, T.spot
+        from (select * from tbl_tea_crs where term=#{term} and tea_crs_no in (
+        select tea_crs_no from tbl_score where stu_no=#{id}))T,tbl_teacher,tbl_course
+        where tbl_teacher.tea_no=T.tea_no AND T.crs_no=tbl_course.crs_no
+    </select>
+
 </mapper>

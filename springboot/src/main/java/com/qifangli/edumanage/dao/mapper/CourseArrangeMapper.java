@@ -9,5 +9,8 @@ import java.util.List;
 @Mapper
 public interface CourseArrangeMapper {
 
-    public List<CourseArrange> findByTermAndSpot(@Param("term") String term, @Param("spot") String spot);
+    List<CourseArrange> findByTermAndSpot(@Param("term") String term, @Param("spot") String spot);
+
+    List<CourseArrange> findByTermAndStuId(@Param("term") String term, @Param("id") String id);
+
 }

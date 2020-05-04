@@ -1,4 +1,4 @@
-package com.qifangli.edumanage.utli.yzm;
+package com.qifangli.edumanage.util.yzm;
 
 import java.awt.Color;
 import java.awt.Font;

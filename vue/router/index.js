@@ -36,8 +36,12 @@ Vue.use(Router)
 export default new Router({
   mode:'history',
     routes: [
+      {
+        path: '/',
+        redirect: '/login'
+      },
         {
-          path: '/',
+          path: '/login',
           component: Login,
           meta:{
             keepalive:false
@@ -62,7 +66,8 @@ export default new Router({
           path: '/Student',
           component: Student,
           meta:{
-            keepalive: false
+            keepalive: false,
+            requireAuth: true
           },
           children:[
             {
@@ -99,7 +104,8 @@ export default new Router({
           path: '/Teacher',
           component: Teacher,
           meta:{
-            keepalive: false
+            keepalive: false,
+            requireAuth: true
           },
           children:[
             {
@@ -136,7 +142,8 @@ export default new Router({
           path: '/Admin',
           component: Admin,
           meta:{
-            keepalive: false
+            keepalive: false,
+            requireAuth: true
           },
           children:[
             {
@@ -171,4 +178,5 @@ export default new Router({
           
         }
       ]
-})
+});
+

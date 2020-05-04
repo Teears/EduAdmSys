@@ -2,10 +2,13 @@ package com.qifangli.edumanage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.Student;
-import com.qifangli.edumanage.utli.result.Result;
-import com.qifangli.edumanage.utli.result.ResultUtils;
+import com.qifangli.edumanage.dao.entity.Teacher;
+import com.qifangli.edumanage.service.TeacherService;
+import com.qifangli.edumanage.util.shiro.JWTUtil;
+import com.qifangli.edumanage.util.result.Result;
+import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.service.StudentService;
-import com.qifangli.edumanage.utli.yzm.VerifyCodeUtils;
+import com.qifangli.edumanage.util.yzm.VerifyCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,36 +21,52 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController //将类中所有控制器的方法返回值转为json格式，并响应前端 = @Controller + @responseBody
+/**
+ * @author Tears
+ */
+@RestController
 @RequestMapping("/api")
 public class LoginController {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private TeacherService teacherService;
 
     @PostMapping(value = "login")
-    public Result login(@RequestBody JSONObject param,HttpServletRequest request){
-        HttpSession session = request.getSession();
+    public Result login(@RequestBody JSONObject param,HttpServletResponse response){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
         System.out.println("*************登录**************");
-//        System.out.println("sessionId="+session.getId());
 //        if(!vcode.equals(session.getAttribute("verCode"))){
 //            return ResultUtils.error(-1,"验证码错误");
 //        }
-        Student student = studentService.findStudentByIdAndPwd(id,pwd);
-        if(student == null){
+        Result result = new Result();
+        Map<String,String> data = new HashMap<>();
+        if(id.length()==10){
+            Student student = studentService.findStudentByIdAndPwd(id,pwd);
+            if(student == null){
+                return ResultUtils.error(-2,"用户名或密码不正确");
+            }
+            result.setCode(1);
+            result.setMsg("登录成功");
+            String token = JWTUtil.sign(student.getId(), student.getPass());
+            data.put("token",token);
+            result.setDatas(data);
+        }else if(id.length()==8){
+            Teacher teacher = teacherService.findTeacherByIdAndPwd(id,pwd);
+            if(teacher == null){
+                return ResultUtils.error(-2,"用户名或密码不正确");
+            }
+            result.setCode(2);
+            result.setMsg("登录成功");
+            String token = JWTUtil.sign(teacher.getId(),teacher.getPass());
+            data.put("token",token);
+            result.setDatas(data);
+        }else{
             return ResultUtils.error(-2,"用户名或密码不正确");
         }
-        Map<String,String> datas = new HashMap<>();
-//        datas.put("userid",student.getId());
-        datas.put("username",student.getName());
-        session.setAttribute("id",student.getId());
-        System.out.println("sessionId="+session.getId());
-        Result result = new Result();
-        result.setCode(1);
-        result.setMsg("登录成功");
-        result.setDatas(datas);
+
         return result;
     }
 

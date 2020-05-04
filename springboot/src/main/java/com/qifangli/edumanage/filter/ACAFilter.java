@@ -45,9 +45,9 @@ public class ACAFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8081");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", ":x-requested-with,content-type");
+        response.setHeader("Access-Control-Allow-Headers", ":x-requested-with,content-type,token");
         response.setHeader("Access-Control-Allow-Credentials","true");
-        response.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
+//        response.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
 
         //((HttpServletResponse)servletResponse).setHeader("Access-Control-Allow-Origin", "*");
         filterChain.doFilter(servletRequest,servletResponse);

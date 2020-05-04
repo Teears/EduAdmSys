@@ -24,7 +24,7 @@
       width="50">
     </el-table-column>
     <el-table-column
-      prop="number"
+      prop="id"
       label="课程编号"
       width="100">
     </el-table-column>
@@ -44,7 +44,7 @@
       width="100">
     </el-table-column>
     <el-table-column
-      prop="coursename"
+      prop="name"
       label="课程名"
       width="400">
     </el-table-column>
@@ -73,8 +73,7 @@ export default {
     methods: {
     getTermSelected(){
         this.$axios
-        .post('/api/getStuGradeTable', { //获取查询学生学期成绩接口
-            userid: getCookie("userid"),
+        .post('/Student/getScoreTable', { //获取查询学生学期成绩接口
             term: this.termSelected
         })
         .then((result)=> {

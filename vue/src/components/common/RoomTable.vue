@@ -84,6 +84,7 @@ import termOptions from '../global/termOptions.js'
 import roomTable from '../global/roomTable.js'
 import areaOptions from '../global/areaOptions.js'
 import roomOptions from '../global/roomOptions.js'
+import qs from 'qs'
   export default {
     data() {
       return {
@@ -106,22 +107,26 @@ import roomOptions from '../global/roomOptions.js'
       },
       getAreaSelected(){
         for(var key in this.allRoomOptions){
-          if(key == this.areaSelected){
+          if(key === this.areaSelected){
             this.roomOptions = this.allRoomOptions[key]
-            return
           }
         }
+      },
+      getRoomSelected(){
+        alert(this.areaSelected)
+        alert(this.roomSelected)
       },
       selectOk(){
         if(this.termSelected==''||this.areaSelected==''||this.roomSelected==''){
           alert("请检查查询条件")
           return
         }
+        alert(this.areaSelected);
         this.$axios
-        .post('/api/getRoomTable', { //获取查询教室课表接口
+        .post('/Student/getRoomTable', { //获取查询教室课表接口
             term: this.termSelected,
-            area: this.areaSelected.label,
-            room: this.roomSelected,label
+            area: this.areaSelected,
+            room: this.roomSelected
         })
         .then((result)=> {
             if (result.data.code === 1) {

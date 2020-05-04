@@ -9,7 +9,7 @@
         <result column="crs_dpt" property="department"/>
         <result column="crs_type" property="type"/>
     </resultMap>
-    <select id="findSpotByAreaAndRoom" resultMap="SpotInfoMap">
+    <select id="findCourseById" resultMap="CourseInfoMap">
         SELECT * FROM tbl_course WHERE crs_no = #{id}
     </select>
 </mapper>

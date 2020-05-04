@@ -25,10 +25,10 @@ export default {
         'v-leftMenuTea': leftMenuTea
     },
     created(){
-        if(getCookie("status") != 1||getCookie("identify")!=2){
-            alert("请先登录")
-            this.$router.replace({ path: '/' });
-        }
+        // if(getCookie("status") != 1||getCookie("identify")!=2){
+        //     alert("请先登录")
+        //     this.$router.replace({ path: '/' });
+        // }
     }
 }
 </script>

@@ -1,14 +1,12 @@
 package com.qifangli.edumanage.service;
 
 import com.qifangli.edumanage.dao.entity.CourseArrange;
-import com.qifangli.edumanage.dao.entity.Spot;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface RoomService {
-
-    Spot findSpotByAreaAndRoom(String area, String room);
+public interface CourseArrangeService {
 
     List<CourseArrange> findByTermAndSpot(String term, String spot);
-
+    List<CourseArrange> findByTermAndStuId(String term,String id);
 }

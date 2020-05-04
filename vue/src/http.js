@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-// import { Message } from 'element-ui';
+// import { Message } from 'element-ui'
  
 axios.defaults.timeout = 5000; //超时终止请求
 axios.defaults.baseURL ='http://localhost:8080/'; //配置请求地址
@@ -9,15 +9,14 @@ axios.defaults.baseURL ='http://localhost:8080/'; //配置请求地址
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
-    // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
     config.headers = {
-      /*'Content-Type':'application/x-www-form-urlencoded'*/
-      'Content-Type':'application/json;charset=UTF-8'
+      'Content-Type':'application/json;charset=UTF-8' 
     }
-    // if(token){
-    //   config.params = {'token':token}
-    // }
+    var token =  localStorage.token
+    if(token){
+      config.headers.token = token
+    }
     return config;
   },
   error => {
@@ -25,29 +24,19 @@ axios.interceptors.request.use(
   }
 );
  
- 
 //http response 拦截器
- 
 axios.interceptors.response.use(
   response => {
-    if(response.data.errCode ==2){
-      router.push({
-        path:"/",
-        querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
-      })
+    if(response.data.code === 0){
+      router.replace("/")
+      alert("请重新登录")
     }
     return response;
   },
   error => {
-    Message({
-      Message:error.message,
-      type:'error',
-      duration:5*1000
-    });
     return Promise.reject(error)
   }
 )
- 
  
  
 /**

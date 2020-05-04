@@ -5,5 +5,8 @@ import org.apache.ibatis.annotations.Param;
 
 public interface TeacherMapper {
 
-    public Teacher findTeacherById(@Param("id") String id);
+    Teacher findTeacherById(@Param("id") String id);
+
+    Teacher findTeacherByIdAndPwd(@Param("id") String id, @Param("pwd") String pwd);
+
 }

@@ -73,9 +73,7 @@ import termTable from '../global/termTable.js'
       },
       getTermSelected(){
         this.$axios
-        .post('/api/getTermTable', { //获取查询学期课表接口
-            userid: getCookie("userid"),
-            identify: getCookie("identify"),
+        .post('/Student/getTermTable', { //获取查询学期课表接口
             term: this.termSelected
         })
         .then((result)=> {
@@ -111,7 +109,10 @@ import termTable from '../global/termTable.js'
                     break  
                 }
               }
-            }else{
+            }else if(result.data.code === -1){
+              this.$router.replace({ path: '/' });
+            }
+            else{
                 console.log("查询失败");
                 return false;
             }

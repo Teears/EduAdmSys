@@ -9,4 +9,7 @@
     <select id="findSpotByAreaAndRoom" resultMap="SpotInfoMap">
         SELECT * FROM tbl_spot WHERE spt_area = #{area} AND spt_room = #{room}
     </select>
+    <select id="findSpotById" resultMap="SpotInfoMap">
+        SELECT * FROM tbl_spot WHERE spt_no = #{id}
+    </select>
 </mapper>

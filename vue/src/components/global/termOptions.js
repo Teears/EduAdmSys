@@ -1,5 +1,5 @@
 module.exports = [{
-    term: '20172',
+    term: '20192',
     label: '19-20第二学期'
   }, {
     term: '20191',

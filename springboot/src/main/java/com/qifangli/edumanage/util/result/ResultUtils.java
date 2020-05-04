@@ -1,4 +1,4 @@
-package com.qifangli.edumanage.utli.result;
+package com.qifangli.edumanage.util.result;
 
 public class ResultUtils {
     /**

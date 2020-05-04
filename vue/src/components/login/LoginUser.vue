@@ -64,11 +64,6 @@ import qs from 'qs'
         this.$refs[formName].validate((valid) => {
             if (valid) {
                 //提交表单
-                if(this.loginForm.user.length === 10){
-                  var identify = 1
-                }else if(this.loginForm.user.length === 8){
-                  var identify = 2
-                }
                 alert(JSON.stringify(this.loginForm))
                 this.$axios
                   .post('/api/login', this.loginForm
@@ -76,16 +71,18 @@ import qs from 'qs'
                   .then((result)=> {
                     if (result.data.code === 1) {
                       alert("学生登录成功")//测试返回数据
+                      window.localStorage["token"] = JSON.stringify(result.data.datas.token)
                       this.$router.replace({ path: '/Stu1_1' }); //跳转到student组件中
                     } else if(result.data.code === 2){
                       alert("老师登录成功")//测试返回数据
+                      window.localStorage["token"] = JSON.stringify(result.data.datas.token)
                       this.$router.replace({ path: '/Tea1_1' }); //跳转到teacher组件中   
                     }else if(result.data.code === -1){
                       alert("验证码错误")
                     }else if(result.data.code === -2){
                       alert("用户名或密码错误")
                     }else{
-                      console.log("登录失败");
+                      console.log("未知错误");
                       return false;
                     }
                   })

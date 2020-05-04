@@ -1,5 +1,5 @@
 module.exports = {
-    jiaoxueA:[{
+    'jiaoxueA':[{
         area:'A101',
         label:'A101',
     },{
@@ -12,7 +12,7 @@ module.exports = {
         area:'A104',
         label:'A104',
     }],
-    jiaoxueB:[{
+    'jiaoxueB':[{
         area:'B101',
         label:'B101',
     },{
@@ -25,30 +25,30 @@ module.exports = {
         area:'B104',
         label:'B104',
     }],
-    shiyan1:[{
-        area:'W201',
-        label:'西201',
+    'shiyan1':[{
+        area:'201',
+        label:'201',
     },{
-        area:'W202',
-        label:'西202',
+        area:'202',
+        label:'202',
     },{
-        area:'W203',
-        label:'西203',
+        area:'203',
+        label:'203',
     },{
-        area:'W204',
-        label:'西204',
+        area:'204',
+        label:'204',
     }],
-    shiyan2:[{
-        area:'E401',
-        label:'东401',
+    'shiyan2':[{
+        area:'401',
+        label:'401',
     },{
-        area:'E402',
-        label:'东402',
+        area:'402',
+        label:'402',
     },{
-        area:'E403',
-        label:'东403',
+        area:'403',
+        label:'403',
     },{
-        area:'E404',
-        label:'东404',
+        area:'404',
+        label:'404',
     }]     
 }

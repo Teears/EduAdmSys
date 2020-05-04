@@ -4,7 +4,7 @@ const vcode ="1234"
 const userInfo = function(){
     // const prarmsObj = JSON.parse(prarms.body);
     return{
-        code:2,
+        code:1,
         msg:"登录成功",
         datas:{
             userid: "2017110323",
@@ -1520,7 +1520,7 @@ Mock.mock('/api/getTeaTableData','post',getTeaTableData)
 Mock.mock('/api/getStuTableData','post',getStuTableData)
 Mock.mock('/api/getCrsTableData','post',getCrsTableData);
 Mock.mock('/api/loginAdmin','post',loginAdmin);
-Mock.mock('/test/login','post',userInfo);
+Mock.mock('/api/login','post',userInfo);
 Mock.mock('/api/getTelCode','post',getTelCode);
 Mock.mock('/api/getTermTable','post',getTermTable);
 Mock.mock('/api/getRoomTable','post',getRoomTable);
