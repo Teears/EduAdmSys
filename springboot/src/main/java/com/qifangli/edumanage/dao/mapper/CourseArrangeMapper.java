@@ -13,4 +13,6 @@ public interface CourseArrangeMapper {
 
     List<CourseArrange> findByTermAndStuId(@Param("term") String term, @Param("id") String id);
 
+    List<CourseArrange> findByTermAndDpt(@Param("term") String term, @Param("dpt") String dpt);
+
 }

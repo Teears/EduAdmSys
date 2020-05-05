@@ -10,54 +10,26 @@
     :header-cell-style="{padding:'4px'}"
     :row-style="{height:'20px'}"
     :cell-style="{padding:'2px'}">
-    <el-table-column
-      type="index"
-      width="50">
+    <el-table-column type="index" width="50">
     </el-table-column>
-    <el-table-column
-      prop="number"
-      label="课程编号"
-      width="100">
+    <el-table-column prop="number" label="课程编号" width="100">
     </el-table-column>
-    <el-table-column
-      prop="type"
-      label="课程类型"
-      width="100">
+    <el-table-column prop="type" label="课程类型" width="100">
     </el-table-column>
-    <el-table-column
-      prop="coursename"
-      label="课程名"
-      width="300">
+    <el-table-column prop="coursename" label="课程名" width="200">
     </el-table-column>
-    <el-table-column
-      prop="credit"
-      label="学分"
-      width="60">
+    <el-table-column prop="credit" label="学分" width="60">
     </el-table-column>
-    <el-table-column
-      prop="hours"
-      label="学时"
-      width="60">
+    <el-table-column prop="hours" label="学时" width="60">
     </el-table-column>
-    <el-table-column
-      prop="spot"
-      label="地点"
-      width="100">
+    <el-table-column prop="spot" label="地点" width="200">
     </el-table-column>
-    <el-table-column
-      prop="teacher"
-      label="任课教师"
-      width="100">
+    <el-table-column prop="teacher" label="任课教师" width="100">
     </el-table-column>
-    <el-table-column
-      prop="rate"
-      label="已选"
-      width="80">
+    <el-table-column prop="selected,total" label="已选" width="80">
+      <template slot-scope="scope"> {{scope.row.selected}}<span>\\</span>({{scope.row.total}}) </template>
     </el-table-column>
-    <el-table-column
-      prop="grade"
-      label="选项"
-      width="200">
+    <el-table-column prop="grade" label="选项" width="200">
         <template slot-scope="scope">
           <el-button size="mini" plain type="primary"
             @click="handleAdd(scope.$index, scope.row)">选课</el-button>

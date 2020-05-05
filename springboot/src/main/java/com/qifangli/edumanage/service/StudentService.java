@@ -11,4 +11,6 @@ public interface StudentService {
 
     List<StudentScore> findScoreByTermAndStuId(String term, String id);
 
+    Student findStudentById(String id);
+
 }

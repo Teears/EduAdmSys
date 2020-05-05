@@ -8,14 +8,15 @@ import com.qifangli.edumanage.service.SpotService;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@RestController
+@RequestMapping("/Spot")
 public class RoomController {
     @Autowired
     private SpotService spotService;
@@ -23,6 +24,12 @@ public class RoomController {
     @Autowired
     private CourseArrangeService courseArrangeService;
 
+    @GetMapping("getRoomByArea")
+    public Result getRoomByArea(@RequestBody JSONObject param){
+        String area = param.getString("area");
+        List<String> room = spotService.findRoomByArea(area);
+        return ResultUtils.success(room);
+    }
 
     @PostMapping("getRoomTable")
     public Result getRoomTable(@RequestBody JSONObject param){
@@ -39,6 +46,6 @@ public class RoomController {
             data.put("info",item.getCourseName() + "\n" + item.getTeacherName());
             datas.add(data);
         }
-        return ResultUtils.success(courseArrange);
+        return ResultUtils.success(datas);
     }
 }

@@ -5,50 +5,23 @@
     border
     style="width: 100%">
     <el-table-column label="个人信息">
-    <el-table-column
-      prop="sid"
-      label="学号"
-      width="150">
+    <el-table-column prop="id" label="学号" width="150">
     </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="150">
+    <el-table-column prop="name" label="姓名" width="150">
     </el-table-column>
-    <el-table-column
-      prop="sex"
-      label="性别"
-      width="100">
+    <el-table-column prop="sex" label="性别" width="100">
     </el-table-column>
-    <el-table-column
-      prop="birth"
-      label="出生日期"
-      width="150">
+    <el-table-column prop="birth" label="出生日期" width="150">
     </el-table-column>
-    <el-table-column
-      prop="politic"
-      label="政治面貌"
-      width="150">
+    <el-table-column prop="political" label="政治面貌" width="150">
     </el-table-column>
-    <el-table-column
-      prop="class"
-      label="行政班级"
-      width="150">
+    <el-table-column prop="classAndGrade" label="行政班级" width="150">
     </el-table-column>
-    <el-table-column
-      prop="state"
-      label="学生状态"
-      width="100">
+    <el-table-column prop="status" label="学生状态" width="100">
     </el-table-column>
-    <el-table-column
-      prop="all_credit"
-      label="总学分"
-      width="100">
+    <el-table-column prop="all_credit" label="总学分" width="100">
     </el-table-column>
-    <el-table-column
-      prop="avg_grade"
-      label="平均成绩"
-      width="100">
+    <el-table-column prop="avg_grade" label="平均成绩" width="100">
     </el-table-column>
     </el-table-column>
   </el-table>
@@ -66,7 +39,7 @@ import {getCookie} from '../global/cookie'
     methods:{
       getInfoTable(){
         this.$axios
-        .post('/api/getInfoTable', { //获取查询学期课表接口
+        .post('/Student/getInfoTable', { //获取查询学期课表接口
             userid: getCookie("userid")
         })
         .then((result)=> {

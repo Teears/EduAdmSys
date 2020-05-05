@@ -1,5 +1,5 @@
 module.exports = {
-    'jiaoxueA':[{
+    '教学楼A区':[{
         area:'A101',
         label:'A101',
     },{
@@ -12,7 +12,7 @@ module.exports = {
         area:'A104',
         label:'A104',
     }],
-    'jiaoxueB':[{
+    '教学楼B区':[{
         area:'B101',
         label:'B101',
     },{
@@ -25,7 +25,7 @@ module.exports = {
         area:'B104',
         label:'B104',
     }],
-    'shiyan1':[{
+    '第一实验楼':[{
         area:'201',
         label:'201',
     },{
@@ -38,7 +38,7 @@ module.exports = {
         area:'204',
         label:'204',
     }],
-    'shiyan2':[{
+    '第二实验楼':[{
         area:'401',
         label:'401',
     },{

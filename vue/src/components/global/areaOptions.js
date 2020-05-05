@@ -1,13 +1,13 @@
 module.exports = [{
-    area:'jiaoxueA',
+    area:'教学楼A区',
     label:'教学楼A区',
 },{
-    area:'jiaoxueB',
+    area:'教学楼B区',
     label:'教学楼B区',
 },{
-    area:'shiyan1',
+    area:'第一实验楼',
     label:'第一实验楼',
 },{
-    area:'shiyan2',
+    area:'第二实验楼',
     label:'第二实验楼',
 }]

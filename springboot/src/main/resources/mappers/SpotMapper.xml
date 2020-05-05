@@ -6,10 +6,16 @@
         <result column="spt_area" property="area"/>
         <result column="spt_room" property="room"/>
     </resultMap>
+    <resultMap id ="RoomInfoMap" type="com.qifangli.edumanage.dao.entity.Spot">
+        <result column="spt_room" property="room"/>
+    </resultMap>
     <select id="findSpotByAreaAndRoom" resultMap="SpotInfoMap">
         SELECT * FROM tbl_spot WHERE spt_area = #{area} AND spt_room = #{room}
     </select>
     <select id="findSpotById" resultMap="SpotInfoMap">
         SELECT * FROM tbl_spot WHERE spt_no = #{id}
+    </select>
+    <select id="findRoomByArea" resultMap="RoomInfoMap">
+        SELECT spt_room FROM tbl_spot WHERE spt_area = #{area}
     </select>
 </mapper>

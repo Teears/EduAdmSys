@@ -18,7 +18,7 @@
     <el-option
       v-for="item in areaOptions"
       :key="item.area"
-      :label="item.label"
+      :label="item.area"
       :value="item.area">
     </el-option>
     </el-select>
@@ -29,7 +29,7 @@
     <el-option
       v-for="item in roomOptions"
       :key="item.room"
-      :label="item.label"
+      :label="item.room"
       :value="item.room">
     </el-option>
     </el-select>
@@ -83,7 +83,6 @@
 import termOptions from '../global/termOptions.js'
 import roomTable from '../global/roomTable.js'
 import areaOptions from '../global/areaOptions.js'
-import roomOptions from '../global/roomOptions.js'
 import qs from 'qs'
   export default {
     data() {
@@ -93,7 +92,6 @@ import qs from 'qs'
         termSelected: '',
         areaOptions:areaOptions,
         areaSelected:'',
-        allRoomOptions:roomOptions,
         roomOptions:'',
         roomSelected:''
       }
@@ -106,15 +104,16 @@ import qs from 'qs'
         return '';
       },
       getAreaSelected(){
-        for(var key in this.allRoomOptions){
-          if(key === this.areaSelected){
-            this.roomOptions = this.allRoomOptions[key]
-          }
-        }
-      },
-      getRoomSelected(){
-        alert(this.areaSelected)
-        alert(this.roomSelected)
+        this.$axios
+        .post('/Spot/getRoomByArea', { 
+          term: this.termSelected
+        })
+        .then((result)=> {
+           this.roomOptions = result.data.datas
+        })
+        .catch((error)=> {
+            alert(error)
+        })
       },
       selectOk(){
         if(this.termSelected==''||this.areaSelected==''||this.roomSelected==''){

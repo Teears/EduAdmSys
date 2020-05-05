@@ -29,4 +29,9 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentScore> findScoreByTermAndStuId(String term, String id) {
         return studentScoreMapper.findScoreByTermAndStuId(term,id);
     }
+
+    @Override
+    public Student findStudentById(String id) {
+        return studentMapper.findStudentById(id);
+    }
 }

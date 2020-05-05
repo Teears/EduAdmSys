@@ -20,4 +20,7 @@
         SELECT * FROM tbl_student WHERE stu_no = #{id} AND stu_pwd = #{pwd}
     </select>
 
+    <select id="findStudentById" resultMap="StudentInfoMap">
+        SELECT * FROM tbl_student WHERE stu_no = #{id}
+    </select>
 </mapper>

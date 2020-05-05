@@ -41,19 +41,19 @@
     </el-table-column>
     <el-table-column prop="cnumber" label="课程编号" width="100">
     </el-table-column>
+    <el-table-column prop="type" label="课程类型" width="150">
+    </el-table-column>
     <el-table-column prop="crsname" label="课程名称" width="200">
-    </el-table-column>
-    <el-table-column prop="type" label="课程类别" width="150">
-    </el-table-column>
-    <el-table-column prop="tnumber" label="教师编号" width="130">
-    </el-table-column>
-    <el-table-column prop="teaname" label="教师姓名" width="150">
-    </el-table-column>
-    <el-table-column prop="port" label="上课地点" width="200">
     </el-table-column>
     <el-table-column prop="hours" label="学时" width="50">
     </el-table-column>
     <el-table-column prop="credit" label="学分" width="50">
+    </el-table-column>
+    <el-table-column prop="port" label="上课地点" width="200">
+    </el-table-column>
+    <el-table-column prop="teaname" label="任课教师" width="150">
+    </el-table-column>
+    <el-table-column prop="total" label="最大选课人数" width="130">
     </el-table-column>
     <el-table-column fixed="right" prop="operate" label="操作" width="100">
       <template slot-scope="scope">

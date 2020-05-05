@@ -9,19 +9,38 @@
         <result column="week" property="week"/>
         <result column="time" property="time"/>
         <result column="spot" property="spot"/>
+        <result column="tea_no" property="teacherno"/>
+        <result column="crs_type" property="type"/>
+        <result column="crs_no" property="courseno"/>
+        <result column="crs_cdt" property="credit"/>
+        <result column="spt_area" property="area"/>
+        <result column="spt_room" property="room"/>
+        <result column="crs_hours" property="hours"/>
+        <result column="selected" property="selected"/>
+        <result column="total" property="total"/>
+
     </resultMap>
     <select id="findByTermAndSpot" resultMap="CourseArrangeInfoMap">
-        SELECT tea_crs_no, tea_name, crs_name, term, week, time, spot
-        FROM tbl_teacher,tbl_course,tbl_tea_crs
-        WHERE term = #{term} AND spot = #{spot} AND
-        tbl_teacher.tea_no=tbl_tea_crs.tea_no AND tbl_tea_crs.crs_no=tbl_course.crs_no
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
+        from tbl_course,tbl_teacher,tbl_spot,
+        (SELECT * FROM tbl_tea_crs where term = #{term} AND spot = #{spot})T
+        where tbl_course.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
     </select>
 
     <select id="findByTermAndStuId" resultMap="CourseArrangeInfoMap">
-        select T.tea_crs_no, tea_name, crs_name, T.term, T.week, T.time, T.spot
-        from (select * from tbl_tea_crs where term=#{term} and tea_crs_no in (
-        select tea_crs_no from tbl_score where stu_no=#{id}))T,tbl_teacher,tbl_course
-        where tbl_teacher.tea_no=T.tea_no AND T.crs_no=tbl_course.crs_no
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
+        from tbl_course,tbl_teacher,tbl_spot,
+        (select * from tbl_tea_crs where term=#{term} and tea_crs_no in (
+        select tea_crs_no from tbl_score where stu_no=#{id}))T
+        where tbl_course.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
+    </select>
+
+    <select id="findByTermAndDpt" resultMap="CourseArrangeInfoMap">
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
+        from tbl_teacher,tbl_spot,
+        (select * from tbl_course where crs_dpt=#{dpt})S,
+        (SELECT * FROM tbl_tea_crs where term=#{term})T
+        where S.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
     </select>
 
 </mapper>

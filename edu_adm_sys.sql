@@ -11,11 +11,49 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 29/04/2020 16:24:12
+ Date: 04/05/2020 20:15:33
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for permission
+-- ----------------------------
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一标识一个操作权限',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '一个操作权限的名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一标识一个角色的编号',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '角色名',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES (1, 'admin');
+INSERT INTO `role` VALUES (2, 'super_admin');
+INSERT INTO `role` VALUES (3, 'teacher');
+INSERT INTO `role` VALUES (4, 'student');
+
+-- ----------------------------
+-- Table structure for role_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `role_permission`;
+CREATE TABLE `role_permission`  (
+  `rid` int(0) NOT NULL COMMENT '角色id',
+  `pid` int(0) NOT NULL COMMENT '操作权限的id',
+  PRIMARY KEY (`rid`, `pid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tbl_class
@@ -73,7 +111,7 @@ CREATE TABLE `tbl_department`  (
   `dpt_no` char(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '学院编号',
   `dpt_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '学院名称',
   PRIMARY KEY (`dpt_no`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_department
@@ -106,12 +144,14 @@ CREATE TABLE `tbl_score`  (
   INDEX `fk_score_tea_crs`(`tea_crs_no`) USING BTREE,
   CONSTRAINT `fk_score_student` FOREIGN KEY (`stu_no`) REFERENCES `tbl_student` (`stu_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_score_tea_crs` FOREIGN KEY (`tea_crs_no`) REFERENCES `tbl_tea_crs` (`tea_crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_score
 -- ----------------------------
 INSERT INTO `tbl_score` VALUES (1, '2017110323', 1, NULL, NULL, 80);
+INSERT INTO `tbl_score` VALUES (2, '2017110323', 2, NULL, NULL, 81);
+INSERT INTO `tbl_score` VALUES (3, '2017110323', 4, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tbl_spot
@@ -160,8 +200,8 @@ CREATE TABLE `tbl_student`  (
   PRIMARY KEY (`stu_no`) USING BTREE,
   INDEX `fk_student_department`(`stu_dpt`) USING BTREE,
   INDEX `fk_student_class`(`stu_class`) USING BTREE,
-  CONSTRAINT `fk_student_department` FOREIGN KEY (`stu_dpt`) REFERENCES `tbl_department` (`dpt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_student_class` FOREIGN KEY (`stu_class`) REFERENCES `tbl_class` (`class_no`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `fk_student_class` FOREIGN KEY (`stu_class`) REFERENCES `tbl_class` (`class_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_student_department` FOREIGN KEY (`stu_dpt`) REFERENCES `tbl_department` (`dpt_no`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -184,25 +224,30 @@ CREATE TABLE `tbl_tea_crs`  (
   `tea_crs_no` int(0) NOT NULL AUTO_INCREMENT COMMENT '某次授课的唯一编号',
   `tea_no` char(8) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '教师编号',
   `crs_no` char(5) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '课程编号',
-  `term` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '上课学年',
-  `time` tinyint(0) NULL DEFAULT NULL COMMENT '上课时间',
+  `term` int(0) NULL DEFAULT NULL COMMENT '上课学年',
+  `time` enum('0','1','3','4','6') CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '上课时间',
   `spot` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '上课地点',
+  `week` enum('Mon','Tues','Wed','Thur','Fri') CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '第几周上课',
+  `selected` int(0) NULL DEFAULT 0 COMMENT '已选课人数',
+  `total` int(0) NULL DEFAULT NULL COMMENT '最大上课人数',
   PRIMARY KEY (`tea_crs_no`) USING BTREE,
-  INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
-  INDEX `fk_tea_crs_term`(`term`) USING BTREE,
   INDEX `fk_tea_crs_spot`(`spot`) USING BTREE,
   INDEX `fk_tea_crs_teacher`(`tea_no`) USING BTREE,
-  CONSTRAINT `fk_tea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
+  INDEX `fk_rea_crs_term`(`term`) USING BTREE,
   CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+  CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_tea_crs
 -- ----------------------------
-INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', '11001', '20191', 1, '0102');
-INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', '11002', '20191', 2, '0103');
+INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', '11001', 20191, '0', '0102', 'Tues', 0, 30);
+INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', '11002', 20191, '3', '0103', 'Wed', 0, 30);
+INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', '11003', 20191, '4', '0102', 'Mon', 0, 40);
+INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', '11005', 20192, '3', '0101', 'Thur', 0, 30);
 
 -- ----------------------------
 -- Table structure for tbl_teacher
@@ -212,7 +257,7 @@ CREATE TABLE `tbl_teacher`  (
   `tea_no` char(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '工号4位入职年份2位学院2位编号',
   `tea_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '姓名',
   `tea_sex` enum('男','女') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '性别',
-  `tea_acd` enum('本科','硕士','博士','其他') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '学历',
+  `tea_degree` enum('本科','硕士','博士','其他') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '学历',
   `tea_title` enum('教授','副教授','讲师','助教') CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '职称',
   `tea_birth` date NOT NULL COMMENT '出生日期',
   `tea_id` char(18) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '身份证号',
@@ -243,7 +288,7 @@ INSERT INTO `tbl_teacher` VALUES ('20151107', '周老师', '男', '本科', '讲
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_term`;
 CREATE TABLE `tbl_term`  (
-  `term_no` char(5) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '4位年份1位学期 1表示春季 2表示秋季',
+  `term_no` int(0) NOT NULL COMMENT '4位年份1位学期 1表示春季 2表示秋季',
   `term_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`term_no`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
@@ -251,15 +296,25 @@ CREATE TABLE `tbl_term`  (
 -- ----------------------------
 -- Records of tbl_term
 -- ----------------------------
-INSERT INTO `tbl_term` VALUES ('20152', '2015-2016第一学年');
-INSERT INTO `tbl_term` VALUES ('20161', '2015-2016第二学年');
-INSERT INTO `tbl_term` VALUES ('20162', '2016-2017第一学年');
-INSERT INTO `tbl_term` VALUES ('20171', '2016-2017第二学年');
-INSERT INTO `tbl_term` VALUES ('20172', '2017-2018第一学年');
-INSERT INTO `tbl_term` VALUES ('20181', '2017-2018第二学年');
-INSERT INTO `tbl_term` VALUES ('20182', '2018-2019第一学年');
-INSERT INTO `tbl_term` VALUES ('20191', '2018-2019第二学年');
-INSERT INTO `tbl_term` VALUES ('20192', '2019-2020第一学年');
-INSERT INTO `tbl_term` VALUES ('20201', '2019-2020第二学年');
+INSERT INTO `tbl_term` VALUES (20152, '2015-2016第一学年');
+INSERT INTO `tbl_term` VALUES (20161, '2015-2016第二学年');
+INSERT INTO `tbl_term` VALUES (20162, '2016-2017第一学年');
+INSERT INTO `tbl_term` VALUES (20171, '2016-2017第二学年');
+INSERT INTO `tbl_term` VALUES (20172, '2017-2018第一学年');
+INSERT INTO `tbl_term` VALUES (20181, '2017-2018第二学年');
+INSERT INTO `tbl_term` VALUES (20182, '2018-2019第一学年');
+INSERT INTO `tbl_term` VALUES (20191, '2018-2019第二学年');
+INSERT INTO `tbl_term` VALUES (20192, '2019-2020第一学年');
+INSERT INTO `tbl_term` VALUES (20201, '2019-2020第二学年');
+
+-- ----------------------------
+-- Table structure for user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role`  (
+  `uid` int(0) NOT NULL COMMENT '用户编号',
+  `rid` int(0) NOT NULL COMMENT '角色id',
+  PRIMARY KEY (`uid`, `rid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

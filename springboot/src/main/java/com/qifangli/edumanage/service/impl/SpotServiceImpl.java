@@ -25,4 +25,9 @@ public class SpotServiceImpl implements SpotService {
         return spotMapper.findSpotById(id);
     }
 
+    @Override
+    public List<String> findRoomByArea(String area) {
+        return spotMapper.findRoomByArea(area);
+    }
+
 }

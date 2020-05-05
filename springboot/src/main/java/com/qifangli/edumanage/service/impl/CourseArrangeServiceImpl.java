@@ -22,4 +22,9 @@ public class CourseArrangeServiceImpl implements CourseArrangeService {
     public List<CourseArrange> findByTermAndStuId(String term, String id) {
         return courseArrangeMapper.findByTermAndStuId(term,id);
     }
+
+    @Override
+    public List<CourseArrange> findByTermAndDpt(String term,String dpt) {
+        return courseArrangeMapper.findByTermAndDpt(term,dpt);
+    }
 }
