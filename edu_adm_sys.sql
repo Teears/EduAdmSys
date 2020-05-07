@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 04/05/2020 20:15:33
+ Date: 07/05/2020 10:17:59
 */
 
 SET NAMES utf8mb4;
@@ -196,7 +196,7 @@ CREATE TABLE `tbl_student`  (
   `stu_class` char(8) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '4位年级2位学院2位班级',
   `stu_reg` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '籍贯',
   `stu_sta` enum('毕业','在校','休学','退学') CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '在校' COMMENT '状态',
-  `stu_pwd` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '密码',
+  `stu_pwd` blob NOT NULL COMMENT '密码',
   PRIMARY KEY (`stu_no`) USING BTREE,
   INDEX `fk_student_department`(`stu_dpt`) USING BTREE,
   INDEX `fk_student_class`(`stu_class`) USING BTREE,
@@ -207,14 +207,14 @@ CREATE TABLE `tbl_student`  (
 -- ----------------------------
 -- Records of tbl_student
 -- ----------------------------
-INSERT INTO `tbl_student` VALUES ('2016110312', '候同学', '男', '第三中学', '1998-12-14', '510722199812147564', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110301', '刘同学', '女', '第五中学', '1998-12-14', '510722199812147561', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110302', '赵同学', '女', '第六中学', '1998-12-14', '51072219981214146X', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110305', '李同学', '女', '实验中学', '1998-12-14', '510722199812111111', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110314', '黄同学', '男', '第二中学', '1998-12-14', '510722199812149632', '18011122222', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110318', '雷同学', '女', '第一中学', '1998-12-14', '510722199812147894', '19982031936', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110323', '李同学', '女', '实验中学', '1998-12-14', '510722199812142384', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
-INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '男', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', '123456');
+INSERT INTO `tbl_student` VALUES ('2016110312', '候同学', '男', '第三中学', '1998-12-14', '510722199812147564', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110301', '刘同学', '女', '第五中学', '1998-12-14', '510722199812147561', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110302', '赵同学', '女', '第六中学', '1998-12-14', '51072219981214146X', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110305', '李同学', '女', '实验中学', '1998-12-14', '510722199812111111', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110314', '黄同学', '男', '第二中学', '1998-12-14', '510722199812149632', '18011122222', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110318', '雷同学', '女', '第一中学', '1998-12-14', '510722199812147894', '19982031936', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110323', '李同学', '女', '实验中学', '1998-12-14', '510722199812142384', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '男', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 
 -- ----------------------------
 -- Table structure for tbl_tea_crs
@@ -235,11 +235,11 @@ CREATE TABLE `tbl_tea_crs`  (
   INDEX `fk_tea_crs_teacher`(`tea_no`) USING BTREE,
   INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
   INDEX `fk_rea_crs_term`(`term`) USING BTREE,
+  CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_tea_crs
@@ -248,6 +248,7 @@ INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', '11001', 20191, '0', '0102', 'T
 INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', '11002', 20191, '3', '0103', 'Wed', 0, 30);
 INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', '11003', 20191, '4', '0102', 'Mon', 0, 40);
 INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', '11005', 20192, '3', '0101', 'Thur', 0, 30);
+INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', '11003', 20201, '4', '0105', 'Tues', 0, 30);
 
 -- ----------------------------
 -- Table structure for tbl_teacher
@@ -266,7 +267,7 @@ CREATE TABLE `tbl_teacher`  (
   `rea_dpt` char(2) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '所属学院',
   `tea_reg` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '籍贯',
   `tea_wkt` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '离职时间',
-  `tea_pwd` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '密码',
+  `tea_pwd` blob NOT NULL COMMENT '密码',
   PRIMARY KEY (`tea_no`) USING BTREE,
   INDEX `fk_teacher_department`(`rea_dpt`) USING BTREE,
   CONSTRAINT `fk_teacher_department` FOREIGN KEY (`rea_dpt`) REFERENCES `tbl_department` (`dpt_no`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -275,13 +276,13 @@ CREATE TABLE `tbl_teacher`  (
 -- ----------------------------
 -- Records of tbl_teacher
 -- ----------------------------
-INSERT INTO `tbl_teacher` VALUES ('20011103', '李老师', '女', '博士', '教授', '1976-04-14', '510722197604147894', '13811104563', '共产党员', '11', '四川成都', '2001-09至今', '123456');
-INSERT INTO `tbl_teacher` VALUES ('20051106', '刘老师', '男', '硕士', '助教', '1976-04-14', '510722197604147894', '13511163563', '共产党员', '11', '四川成都', '2005-09至今', '123456');
-INSERT INTO `tbl_teacher` VALUES ('20061101', '张老师', '男', '硕士', '讲师', '1976-04-14', '510722197604147894', '15811104563', '群众', '11', '四川成都', '2006-09至今', '123456');
-INSERT INTO `tbl_teacher` VALUES ('20061102', '张老师', '女', '硕士', '讲师', '1976-03-14', '510722197603147894', '15814504563', '群众', '11', '四川成都', '2006-09至今', '123456');
-INSERT INTO `tbl_teacher` VALUES ('20061104', '王老师', '男', '博士', '副教授', '1976-04-14', '510722197604147894', '15811185563', '共产党员', '11', '四川成都', '2006-09至今', '123456');
-INSERT INTO `tbl_teacher` VALUES ('20061105', '赵老师', '女', '硕士', '讲师', '1976-04-14', '510722197604147894', '18717894563', '共产党员', '11', '四川成都', '2006-09至今', '123456');
-INSERT INTO `tbl_teacher` VALUES ('20151107', '周老师', '男', '本科', '讲师', '1976-04-14', '510722197604147894', '18011244563', '共产党员', '11', '四川成都', '2015-09至今', '123456');
+INSERT INTO `tbl_teacher` VALUES ('20011103', '李老师', '女', '博士', '教授', '1976-04-14', '510722197604147894', '13811104563', '共产党员', '11', '四川成都', '2001-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20051106', '刘老师', '男', '硕士', '助教', '1976-04-14', '510722197604147894', '13511163563', '共产党员', '11', '四川成都', '2005-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20061101', '张老师', '男', '硕士', '讲师', '1976-04-14', '510722197604147894', '15811104563', '群众', '11', '四川成都', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20061102', '张老师', '女', '硕士', '讲师', '1976-03-14', '510722197603147894', '15814504563', '群众', '11', '四川成都', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20061104', '王老师', '男', '博士', '副教授', '1976-04-14', '510722197604147894', '15811185563', '共产党员', '11', '四川成都', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20061105', '赵老师', '女', '硕士', '讲师', '1976-04-14', '510722197604147894', '18717894563', '共产党员', '11', '四川成都', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20151107', '周老师', '男', '本科', '讲师', '1976-04-14', '510722197604147894', '18011244563', '共产党员', '11', '四川成都', '2015-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
 
 -- ----------------------------
 -- Table structure for tbl_term
