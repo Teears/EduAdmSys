@@ -13,7 +13,7 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public Teacher findTeacherByIdAndPwd(String id, String pwd) {
-        return teacherMapper.findTeacherByIdAndPwd(id,pwd);
+    public Teacher findTeacherById(String id) {
+        return teacherMapper.findTeacherById(id);
     }
 }

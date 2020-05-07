@@ -44,8 +44,8 @@ public class LoginController {
         Result result = new Result();
         Map<String,String> data = new HashMap<>();
         if(id.length()==10){
-            Student student = studentService.findStudentByIdAndPwd(id,pwd);
-            if(student == null){
+            Student student = studentService.findStudentById(id);
+            if(!student.getPass().equals(pwd)){
                 return ResultUtils.error(-2,"用户名或密码不正确");
             }
             result.setCode(1);
@@ -54,8 +54,8 @@ public class LoginController {
             data.put("token",token);
             result.setDatas(data);
         }else if(id.length()==8){
-            Teacher teacher = teacherService.findTeacherByIdAndPwd(id,pwd);
-            if(teacher == null){
+            Teacher teacher = teacherService.findTeacherById(id);
+            if(!teacher.getPass().equals(pwd)){
                 return ResultUtils.error(-2,"用户名或密码不正确");
             }
             result.setCode(2);

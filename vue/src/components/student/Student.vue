@@ -25,11 +25,11 @@ export default {
     components:{
         'v-leftMenuStu': leftMenuStu
     },
-    // created(){
-    //     if(getCookie("status") != 1||getCookie("identify")!=1){
-    //         alert("请先登录")
-    //         this.$router.replace({ path: '/' });
-    //     }
-    // }
+    created(){
+        if(localStorage.token == null){
+            alert("请先登录")
+            this.$router.replace({ path: '/' });
+        }
+    }
 }
 </script>

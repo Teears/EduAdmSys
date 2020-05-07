@@ -19,12 +19,6 @@ public class StudentServiceImpl implements StudentService {
     @Resource
     private StudentScoreMapper studentScoreMapper;
 
-
-    @Override
-    public Student findStudentByIdAndPwd(String id, String pass) {
-        return studentMapper.findStudentByIdAndPwd(id,pass);
-    }
-
     @Override
     public List<StudentScore> findScoreByTermAndStuId(String term, String id) {
         return studentScoreMapper.findScoreByTermAndStuId(term,id);

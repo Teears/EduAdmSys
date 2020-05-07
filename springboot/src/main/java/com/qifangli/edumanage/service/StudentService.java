@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface StudentService {
 
-    Student findStudentByIdAndPwd(String id, String pass);
-
     List<StudentScore> findScoreByTermAndStuId(String term, String id);
 
     Student findStudentById(String id);

@@ -7,6 +7,4 @@ public interface TeacherMapper {
 
     Teacher findTeacherById(@Param("id") String id);
 
-    Teacher findTeacherByIdAndPwd(@Param("id") String id, @Param("pwd") String pwd);
-
 }

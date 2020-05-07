@@ -19,7 +19,4 @@
     <select id="findTeacherById" resultMap="TeacherInfoMap">
         SELECT * FROM tbl_teacher WHERE tea_no = #{id}
     </select>
-    <select id="findTeacherByIdAndPwd" resultMap="TeacherInfoMap">
-        SELECT * FROM tbl_teacher WHERE tea_no = #{id} AND tea_pwd = #{pwd}
-    </select>
 </mapper>

@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import {setCookie} from '../global/cookie';
+import {setCookie} from '../global/cookie'
 import qs from 'qs'
+import md5 from "js-md5"
   export default {
     data() {
       var validateUser = (rule, value, callback) => {
@@ -66,8 +67,11 @@ import qs from 'qs'
                 //提交表单
                 alert(JSON.stringify(this.loginForm))
                 this.$axios
-                  .post('/api/login', this.loginForm
-                  )
+                  .post('/api/login', {
+                    user: this.loginForm.user,
+                    pass: md5(this.loginForm.pass),
+                    vcode: this.loginForm.vcode
+                  })
                   .then((result)=> {
                     if (result.data.code === 1) {
                       alert("学生登录成功")//测试返回数据
