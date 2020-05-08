@@ -49,21 +49,21 @@ public class JWTUtil {
     /**
      * 判断token的时效性
      */
-    public static boolean isTimeout(String token, String secret){
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).build();
-            DecodedJWT jwt = verifier.verify(token);
-            if (jwt.getExpiresAt().before(new Date())) {
-                System.out.println("token已过期");
-                return false;
-            }
-            return true;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return false;
-        }
-    }
+//    public static boolean isTimeout(String token, String secret){
+//        try {
+//            Algorithm algorithm = Algorithm.HMAC256(secret);
+//            JWTVerifier verifier = JWT.require(algorithm).build();
+//            DecodedJWT jwt = verifier.verify(token);
+//            if (jwt.getExpiresAt().before(new Date())) {
+//                System.out.println("token已过期");
+//                return false;
+//            }
+//            return true;
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//            return false;
+//        }
+//    }
 
 
     /**

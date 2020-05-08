@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.qifangli.edumanage.dao.mapper.ScoreMapper">
     <resultMap id ="ScoreInfoMap" type="com.qifangli.edumanage.dao.entity.Score">
-        <result column="score_no" property="id"/>
         <result column="stu_no" property="stuId"/>
         <result column="tea_crs_no" property="teaCrsId"/>
         <result column="score_pro" property="scorePro"/>
@@ -12,4 +11,14 @@
     <select id="findScoreByStuId" resultMap="ScoreInfoMap">
         SELECT * FROM tbl_score WHERE stu_no = #{id}
     </select>
+    <select id="findAvgScore" resultType="double">
+        SELECT AVG(score) FROM `tbl_score` where stu_no=#{id}
+    </select>
+
+    <insert id="addCrs">
+        INSERT INTO tbl_score(stu_no, tea_crs_no) VALUES (#{stuId}, #{teaCrsId})
+    </insert>
+    <delete id="deleteCrs">
+        DELETE FROM tbl_score where stu_no=#{stuId} and tea_crs_no=#{teaCrsId}
+    </delete>
 </mapper>

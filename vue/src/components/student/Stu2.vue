@@ -49,7 +49,7 @@
       width="400">
     </el-table-column>
     <el-table-column
-      prop="grade"
+      prop="score"
       label="成绩"
       width="150">
     </el-table-column>
@@ -73,7 +73,7 @@ export default {
     methods: {
     getTermSelected(){
         this.$axios
-        .post('/Student/getScoreTable', { //获取查询学生学期成绩接口
+        .post('/student/getScoreTable', { //获取查询学生学期成绩接口
             term: this.termSelected
         })
         .then((result)=> {

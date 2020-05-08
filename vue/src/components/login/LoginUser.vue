@@ -65,9 +65,8 @@ import md5 from "js-md5"
         this.$refs[formName].validate((valid) => {
             if (valid) {
                 //提交表单
-                alert(JSON.stringify(this.loginForm))
                 this.$axios
-                  .post('/api/login', {
+                  .post('/login/user', {
                     user: this.loginForm.user,
                     pass: md5(this.loginForm.pass),
                     vcode: this.loginForm.vcode
@@ -75,11 +74,11 @@ import md5 from "js-md5"
                   .then((result)=> {
                     if (result.data.code === 1) {
                       alert("学生登录成功")//测试返回数据
-                      window.localStorage["token"] = JSON.stringify(result.data.datas.token)
+                      setCookie("token",result.data.datas.token,1)
                       this.$router.replace({ path: '/Stu1_1' }); //跳转到student组件中
                     } else if(result.data.code === 2){
                       alert("老师登录成功")//测试返回数据
-                      window.localStorage["token"] = JSON.stringify(result.data.datas.token)
+                      setCookie("token",result.data.datas.token,1)
                       this.$router.replace({ path: '/Tea1_1' }); //跳转到teacher组件中   
                     }else if(result.data.code === -1){
                       alert("验证码错误")
@@ -100,7 +99,7 @@ import md5 from "js-md5"
         })
       },
       changeCode(){
-        document.getElementById("code_img").src = "http://localhost:8080/test/yzm?" + Math.random()
+        document.getElementById("code_img").src = "http://localhost:8080/login/yzm?" + Math.random()
       },
       toForgot(){
         this.$router.push({

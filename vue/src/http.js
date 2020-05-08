@@ -1,4 +1,4 @@
-
+import {getCookie} from './components/global/cookie';
 import axios from 'axios';
 // import { Message } from 'element-ui'
  
@@ -13,7 +13,7 @@ axios.interceptors.request.use(
     config.headers = {
       'Content-Type':'application/json;charset=UTF-8' 
     }
-    var token =  localStorage.token
+    var token =  getCookie("token")
     if(token){
       config.headers.token = token
     }

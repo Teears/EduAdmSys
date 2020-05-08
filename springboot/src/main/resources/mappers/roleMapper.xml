@@ -4,7 +4,7 @@
     <resultMap id ="RoleInfoMap" type="com.qifangli.edumanage.dao.entity.Role">
         <result column="uid" property="uid"/>
         <result column="code" property="role"/>
-        <result column="code" property="id"/>
+        <result column="id" property="rid"/>
     </resultMap>
 
     <select id="findRoleByUserId" resultMap="RoleInfoMap">

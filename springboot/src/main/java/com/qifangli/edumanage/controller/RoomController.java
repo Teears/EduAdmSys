@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/Spot")
+@RequestMapping("/spot")
 public class RoomController {
     @Autowired
     private SpotService spotService;
@@ -24,7 +24,7 @@ public class RoomController {
     @Autowired
     private CourseArrangeService courseArrangeService;
 
-    @GetMapping("getRoomByArea")
+    @PostMapping("getRoomByArea")
     public Result getRoomByArea(@RequestBody JSONObject param){
         String area = param.getString("area");
         List<String> room = spotService.findRoomByArea(area);

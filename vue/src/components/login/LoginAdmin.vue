@@ -28,7 +28,9 @@
 </template>
 
 <script>
-import {setCookie,getCookie} from '../global/cookie';
+import {setCookie,getCookie} from '../global/cookie'
+import md5 from "js-md5"
+
   export default {
     data() {
       var validateUser = (rule, value, callback) => {
@@ -65,25 +67,23 @@ import {setCookie,getCookie} from '../global/cookie';
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            var data = JSON.stringify(this.userForm)
-            alert(data)//测试提交的数据
             this.$axios
-            .post('/api/loginAdmin', { //用户登录表单提交接口,提交user,pass,vcode,真实后台login会结合，根据identify判断
-              identify:3,
-              data
+            .post('/login/admin', {
+              user: this.userForm.user,
+              pass: md5(this.userForm.pass),
+              vcode: this.userForm.vcode
             })
             .then((result)=> {
               if (result.data.code === 1) {
+                alert(result.data.datas.token)
                 alert("管理员登录成功")//测试返回数据
-                setCookie("userid",result.data.datas.userid,1)
-                setCookie("username",result.data.datas.username,1)
-                setCookie("identify",3,1)
-                setCookie("status",1,1)
-                setCookie("superAdmin",result.data.datas.superAdmin,1)
-                if(result.data.datas.superAdmin===1){
-                  setCookie("dept",result.data.datas.dept,1)
-                }
-                this.$router.replace({ path: '/Adm1_1' }); //跳转到student组件中
+                setCookie("token",result.data.datas.token,1)
+                this.$router.replace({
+                  name:'/Adm1_1',
+                  params:{
+                    perm:result.data.datas.perm
+                  }
+                })
               }else if(result.data.code === -1){
                 alert("验证码错误")
               }else if(result.data.code === -2){

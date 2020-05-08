@@ -2,15 +2,20 @@ package com.qifangli.edumanage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.CourseArrange;
+import com.qifangli.edumanage.dao.entity.Score;
 import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.StudentScore;
 import com.qifangli.edumanage.service.CourseArrangeService;
+import com.qifangli.edumanage.service.ScoreService;
 import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.TermService;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.util.JWTUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController()
-@RequestMapping("/Student")
+@RequestMapping("/student")
 public class StudentController {
     @Autowired
     private CourseArrangeService courseArrangeService;
@@ -31,6 +36,7 @@ public class StudentController {
     @Autowired
     private TermService termService;
 
+    @RequiresRoles(value={"student"})
     @PostMapping("getTermTable")
     public Result getTermTable(@RequestBody JSONObject param, HttpServletRequest request){
         String token = request.getHeader("token");
@@ -55,9 +61,7 @@ public class StudentController {
     public Result getScoreTable(@RequestBody JSONObject param, HttpServletRequest request){
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
-        if(id == null){
-            return ResultUtils.error(0,"登录已过期");
-        }
+
         String term = param.getString("term");
         List<StudentScore> studentScore = studentService.findScoreByTermAndStuId(term,id);
 
@@ -68,20 +72,28 @@ public class StudentController {
     public Result getInfoTable(HttpServletRequest request){
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
-        if(id == null){
-            return ResultUtils.error(0,"登录已过期");
-        }
         Student student = studentService.findStudentById(id);
-        return ResultUtils.success(student);
+        Map<String,String> datas = new HashMap<>();
+        datas.put("id",student.getId());
+        datas.put("name",student.getName());
+        datas.put("sex",student.getSex());
+        datas.put("birth",student.getBirth());
+        datas.put("political",student.getPolitical());
+        datas.put("classAndGrade",student.getClassAndGrade());
+        datas.put("status",student.getStatus());
+        datas.put("all_credit","");
+        datas.put("avg_grade", studentService.findAvgScore(id).toString());
+
+        return ResultUtils.success(datas);
     }
 
+    @RequiresRoles(value={"student"})
+    @RequiresPermissions(value={"student:select"})
     @PostMapping("getNewCourseArrange")
     public Result getNewCourseArrange (HttpServletRequest request){
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
-        if(id == null){
-            return ResultUtils.error(0,"登录已过期");
-        }
+
         String term = termService.findLatestTerm().toString();
         String dpt = studentService.findStudentById(id).getDepartment();
         List<CourseArrange> newArrange = courseArrangeService.findByTermAndDpt(term,dpt);
@@ -89,4 +101,39 @@ public class StudentController {
         return ResultUtils.success(newArrange);
     }
 
+    @PostMapping("getNewCourseArrange/addSelect")
+    public Result addSelect (@RequestBody JSONObject param,HttpServletRequest request){
+        String token = request.getHeader("token");
+        String id = JWTUtil.getUsername(token);
+        String teaCrsId = param.getString("id");
+        try{
+            studentService.addCrs(id,teaCrsId);
+        }catch (DataAccessException e){
+            return ResultUtils.error(-1,"重复选课");
+        }
+        try {
+            studentService.updataSelectedAdd(teaCrsId);
+        }catch (DataAccessException e){
+            return ResultUtils.error(-2,"选课人数已满");
+        }
+        return ResultUtils.success();
+    }
+
+    @PostMapping("getNewCourseArrange/deleteSelect")
+    public Result deleteSelect (@RequestBody JSONObject param,HttpServletRequest request){
+        String token = request.getHeader("token");
+        String id = JWTUtil.getUsername(token);
+        String teaCrsId = param.getString("id");
+        try{
+            studentService.deleteCrs(id,teaCrsId);
+        }catch (DataAccessException e){
+            return ResultUtils.error(-1,"你没有选修该门课");
+        }
+        try {
+            studentService.updataSelectedSub(teaCrsId);
+        }catch (DataAccessException e){
+            return ResultUtils.error(-2,"已到最大退课人数");
+        }
+        return ResultUtils.success();
+    }
 }

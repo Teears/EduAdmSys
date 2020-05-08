@@ -3,6 +3,7 @@ package com.qifangli.edumanage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.Teacher;
+import com.qifangli.edumanage.service.RoleService;
 import com.qifangli.edumanage.service.TeacherService;
 import com.qifangli.edumanage.util.JWTUtil;
 import com.qifangli.edumanage.util.result.Result;
@@ -31,9 +32,11 @@ public class LoginController {
     private StudentService studentService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private RoleService roleService;
 
-    @PostMapping(value = "student")
-    public Result login(@RequestBody JSONObject param,HttpServletResponse response){
+    @PostMapping(value = "user")
+    public Result login(@RequestBody JSONObject param){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
@@ -66,6 +69,38 @@ public class LoginController {
         }else{
             return ResultUtils.error(-2,"用户名或密码不正确");
         }
+
+        return result;
+    }
+
+    @PostMapping(value = "admin")
+    public Result loginAdmin(@RequestBody JSONObject param){
+        String id = param.getString("user");
+        String pwd = param.getString("pass");
+        String vcode = param.getString("vcode").toLowerCase();
+        System.out.println("*************登录**************");
+//        if(!vcode.equals(session.getAttribute("verCode"))){
+//            return ResultUtils.error(-1,"验证码错误");
+//        }
+        Result result = new Result();
+        Map<String,String> data = new HashMap<>();
+        String role = roleService.findRoleByUserId(id).getRole();
+        Teacher teacher = teacherService.findTeacherById(id);
+        if(!teacher.getPass().equals(pwd)){
+            return ResultUtils.error(-2,"用户名或密码不正确");
+        }
+        if("admin".equals(role)){
+            data.put("perm","1");
+        }else if("super_admin".equals(role)){
+            data.put("perm","2");
+        }else{
+            return ResultUtils.error(-2,"用户名或密码不正确");
+        }
+        result.setCode(1);
+        result.setMsg("登录成功");
+        String token = JWTUtil.sign(teacher.getId(),teacher.getPass());
+        data.put("token",token);
+        result.setDatas(data);
 
         return result;
     }

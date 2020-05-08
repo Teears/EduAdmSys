@@ -22,13 +22,13 @@ public class UserUtil {
             if(student == null){
                 return null;
             }
-            student.getPass();
+            return student.getPass();
         }else if(id.length()== tlog){
             Teacher teacher = teacherService.findTeacherById(id);
             if (teacher == null){
                 return null;
             }
-            pwd = teacher.getPass();
+            return pwd = teacher.getPass();
         }
         return pwd;
     }

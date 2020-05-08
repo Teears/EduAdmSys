@@ -105,10 +105,11 @@ import qs from 'qs'
       },
       getAreaSelected(){
         this.$axios
-        .post('/Spot/getRoomByArea', { 
-          term: this.termSelected
+        .post('/spot/getRoomByArea', { 
+          area:this.areaSelected
         })
         .then((result)=> {
+          this.roomSelected = ""
            this.roomOptions = result.data.datas
         })
         .catch((error)=> {
@@ -122,7 +123,7 @@ import qs from 'qs'
         }
         alert(this.areaSelected);
         this.$axios
-        .post('/Student/getRoomTable', { //获取查询教室课表接口
+        .post('/spot/getRoomTable', { //获取查询教室课表接口
             term: this.termSelected,
             area: this.areaSelected,
             room: this.roomSelected

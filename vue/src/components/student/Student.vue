@@ -26,16 +26,7 @@ export default {
         'v-leftMenuStu': leftMenuStu
     },
     methods:{
-        vertify() {
-            this.$axios
-            .post('/api/login', this.loginForm)
-            .then((result)=> {
-                    
-            })
-            .catch((error)=> {
-                alert(error)
-            })
-        }
+        
     },
     created(){
         

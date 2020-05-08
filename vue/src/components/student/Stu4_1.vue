@@ -31,22 +31,20 @@
 <script>
 import {getCookie} from '../global/cookie'
   export default {
-    data() {
-      return {
-        infoTableData:[]
-      }
+    data(){
+        return{
+          infoTableData: {}
+        }
     },
     methods:{
       getInfoTable(){
         this.$axios
-        .post('/Student/getInfoTable', { //获取查询学期课表接口
-            userid: getCookie("userid")
+        .post('/student/getInfoTable', {
         })
         .then((result)=> {
-            result.data = JSON.stringify(result.data)
-            result.data = JSON.parse(result.data)
             if (result.data.code === 1) {
-                this.infoTableData = result.data.datas
+              this.infoTableData = result.data.datas
+              alert(result.data.datas.name)
             }else{
                 console.log("查询失败");
                 return false;
@@ -57,8 +55,10 @@ import {getCookie} from '../global/cookie'
         })
       }
     },
+
     created:function(){
       this.getInfoTable()
+      alert(this.infoTableData.name)
     }
   }
 </script>

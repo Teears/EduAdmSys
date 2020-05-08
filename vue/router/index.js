@@ -140,6 +140,7 @@ export default new Router({
           
         },{
           path: '/Admin',
+          name:'/Admin',
           component: Admin,
           meta:{
             keepalive: false,
@@ -148,6 +149,7 @@ export default new Router({
           children:[
             {
               path:'/Adm1_1',
+              name:'/Adm1_1',
               component:Adm1_1
             },
             {

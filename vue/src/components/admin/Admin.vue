@@ -29,7 +29,7 @@ export default {
     },
     methods:{
         created(){
-            if(getCookie("status") != 1||getCookie("identify")!=3){
+            if(getCookie("token") == null){
                 alert("请先登录")
                 this.$router.replace({ path: '/loginAdmin' });
             }

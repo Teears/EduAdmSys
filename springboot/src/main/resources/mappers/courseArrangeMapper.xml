@@ -43,4 +43,10 @@
         where S.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
     </select>
 
+    <select id="updateSelectedAdd">
+        UPDATE tbl_tea_crs set selected=selected+1 where tea_crs_no=#{id}
+    </select>
+    <select id="updateSelectedSub">
+        UPDATE tbl_tea_crs set selected=selected-1 where tea_crs_no=#{id}
+    </select>
 </mapper>

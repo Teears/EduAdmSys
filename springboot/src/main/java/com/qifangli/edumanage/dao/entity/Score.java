@@ -1,20 +1,11 @@
 package com.qifangli.edumanage.dao.entity;
 
 public class Score {
-    private String id;
     private String stuId;
     private String teaCrsId;
     private Integer scorePro;
     private Integer scoreEnd;
     private Integer score;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getStuId() {
         return stuId;

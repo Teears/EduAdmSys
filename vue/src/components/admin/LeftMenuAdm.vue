@@ -45,7 +45,7 @@ import {getCookie} from '../global/cookie';
     },
     methods: {
       isSuperAdmin(){
-        if(getCookie('superAdmin') == 1){
+        if(this.$route.params.perm == 2){
           this.menu[3] = this.superMenu
         }
       }

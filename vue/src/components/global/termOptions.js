@@ -1,4 +1,8 @@
-module.exports = [{
+module.exports = [
+  {
+    term: '20201',
+    label: '20-21第一学期'
+  },{
     term: '20192',
     label: '19-20第二学期'
   }, {
