@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.Teacher;
 import com.qifangli.edumanage.service.TeacherService;
-import com.qifangli.edumanage.util.shiro.JWTUtil;
+import com.qifangli.edumanage.util.JWTUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.service.StudentService;
@@ -25,14 +25,14 @@ import java.util.Map;
  * @author Tears
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/login")
 public class LoginController {
     @Autowired
     private StudentService studentService;
     @Autowired
     private TeacherService teacherService;
 
-    @PostMapping(value = "login")
+    @PostMapping(value = "student")
     public Result login(@RequestBody JSONObject param,HttpServletResponse response){
         String id = param.getString("user");
         String pwd = param.getString("pass");

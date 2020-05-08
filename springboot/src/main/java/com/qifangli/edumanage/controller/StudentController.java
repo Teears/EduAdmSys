@@ -9,7 +9,7 @@ import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.TermService;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
-import com.qifangli.edumanage.util.shiro.JWTUtil;
+import com.qifangli.edumanage.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

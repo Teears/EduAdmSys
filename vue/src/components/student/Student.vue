@@ -25,11 +25,21 @@ export default {
     components:{
         'v-leftMenuStu': leftMenuStu
     },
-    created(){
-        if(localStorage.token == null){
-            alert("请先登录")
-            this.$router.replace({ path: '/' });
+    methods:{
+        vertify() {
+            this.$axios
+            .post('/api/login', this.loginForm)
+            .then((result)=> {
+                    
+            })
+            .catch((error)=> {
+                alert(error)
+            })
         }
+    },
+    created(){
+        
+      
     }
 }
 </script>

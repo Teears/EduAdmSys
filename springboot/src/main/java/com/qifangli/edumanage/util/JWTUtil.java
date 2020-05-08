@@ -1,4 +1,4 @@
-package com.qifangli.edumanage.util.shiro;
+package com.qifangli.edumanage.util;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JWTUtil {
     // 过期时间10分钟
-    private static final long EXPIRE_TIME = 1*60*1000;
+    private static final long EXPIRE_TIME = 10*60*1000;
 
     /**
      * 校验token有效性
@@ -67,7 +67,7 @@ public class JWTUtil {
 
 
     /**
-     * 生成签名,5min后过期
+     * 生成签名,10min后过期
      * @param username 用户名
      * @param secret 用户的密码
      * @return 加密的token

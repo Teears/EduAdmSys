@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.RoleMapper">
+    <resultMap id ="RoleInfoMap" type="com.qifangli.edumanage.dao.entity.Role">
+        <result column="uid" property="uid"/>
+        <result column="code" property="role"/>
+        <result column="code" property="id"/>
+    </resultMap>
+
+    <select id="findRoleByUserId" resultMap="RoleInfoMap">
+        select uid,code,id from user_role,role
+        where uid=#{id} and rid=id
+    </select>
+</mapper>

@@ -1,16 +1,24 @@
 package com.qifangli.edumanage.dao.entity;
 
 public class Role {
-    private String roleId;
-
+    private String uid;
+    private String rid;
     private String role;
 
-    public String getRoleId() {
-        return roleId;
+    public String getRid() {
+        return rid;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId == null ? null : roleId.trim();
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid == null ? null : uid.trim();
     }
 
     public String getRole() {

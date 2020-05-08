@@ -21,8 +21,9 @@
             </el-option>
         </el-select>
     </el-col>
-    <el-col :span="2">
+    <el-col :span="4">
       <el-button type="danger" size="small" @click="release" icon="el-icon-check">发布</el-button>
+      <el-button type="danger" size="small" @click="stop">结束选课</el-button>
     </el-col>
     </el-row>
 
