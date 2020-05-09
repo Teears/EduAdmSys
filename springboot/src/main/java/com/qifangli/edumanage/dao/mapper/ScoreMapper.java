@@ -15,4 +15,6 @@ public interface ScoreMapper {
     void deleteCrs(@Param("stuId") String stuId,@Param("teaCrsId") String teaCrsId) throws DataAccessException;
 
     Double findAvgScore(@Param("id") String id);
+
+    Integer findSumCredit(@Param("id") String id);
 }

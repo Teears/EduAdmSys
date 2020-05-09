@@ -62,4 +62,9 @@ public class StudentServiceImpl implements StudentService {
     public Double findAvgScore(String id) {
         return scoreMapper.findAvgScore(id);
     }
+
+    @Override
+    public Integer findSumCredit(String id) {
+        return scoreMapper.findSumCredit(id);
+    }
 }

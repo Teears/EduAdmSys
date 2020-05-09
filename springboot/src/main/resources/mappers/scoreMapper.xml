@@ -14,6 +14,11 @@
     <select id="findAvgScore" resultType="double">
         SELECT AVG(score) FROM `tbl_score` where stu_no=#{id}
     </select>
+    <select id="findSumCredit" resultType="int">
+        select SUM(crs_cdt) from tbl_course where crs_no in(
+        select crs_no from tbl_tea_crs where tea_crs_no in(
+        SELECT tea_crs_no FROM `tbl_score` where stu_no=#{id} and score>=60))
+    </select>
 
     <insert id="addCrs">
         INSERT INTO tbl_score(stu_no, tea_crs_no) VALUES (#{stuId}, #{teaCrsId})
@@ -21,4 +26,5 @@
     <delete id="deleteCrs">
         DELETE FROM tbl_score where stu_no=#{stuId} and tea_crs_no=#{teaCrsId}
     </delete>
+
 </mapper>

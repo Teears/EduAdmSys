@@ -29,36 +29,31 @@
 </template>
 
 <script>
-import {getCookie} from '../global/cookie'
-  export default {
-    data(){
-        return{
-          infoTableData: {}
-        }
-    },
-    methods:{
-      getInfoTable(){
-        this.$axios
-        .post('/student/getInfoTable', {
-        })
-        .then((result)=> {
-            if (result.data.code === 1) {
-              this.infoTableData = result.data.datas
-              alert(result.data.datas.name)
-            }else{
-                console.log("查询失败");
-                return false;
-            }
-        })
-        .catch((error)=> {
-            alert(error)
-        })
+export default {
+  data() {
+      return {
+        infoTableData:[]
       }
     },
-
-    created:function(){
-      this.getInfoTable()
-      alert(this.infoTableData.name)
+  methods:{
+    getInfoTable(){
+      this.$axios
+      .post('/student/getInfoTable', {})
+      .then((result)=> {
+        if (result.data.code === 1) {
+          this.infoTableData = result.data.datas
+        }else{
+          console.log("查询失败");
+          return false;
+        }
+      })
+      .catch((error)=> {
+        alert(error)
+      })
     }
+  },
+  created:function(){
+    this.getInfoTable()
   }
+}
 </script>

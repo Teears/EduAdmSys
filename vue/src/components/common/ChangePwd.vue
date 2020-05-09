@@ -21,7 +21,8 @@
 </template>
 
 <script>
-  import {getCookie} from '../global/cookie'
+import {getCookie} from '../global/cookie'
+import md5 from "js-md5"
   export default {
     data() {
         var validateOldPass = (rule, value, callback) => {
@@ -64,14 +65,11 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid) {
-                //提交表单
-                var data = JSON.stringify(this.userForm)
-                alert(data)//测试提交的数据
                 this.$axios
-                .post('/api/changePwd', { //  
-                    userid: getCookie("userid"),
-                    identify: getCookie("identify"),
-                    data
+                .post('/pwd/changePwd', { //  
+                    oldPass:md5(this.userForm.oldPass),
+                    newPass:md5(this.userForm.pass),
+                    checkPass:md5(this.userForm.checkPass)
                 })
                 .then((result)=> {
                 if (result.data.code === 1) {

@@ -73,17 +73,18 @@ public class StudentController {
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
         Student student = studentService.findStudentById(id);
-        Map<String,String> datas = new HashMap<>();
-        datas.put("id",student.getId());
-        datas.put("name",student.getName());
-        datas.put("sex",student.getSex());
-        datas.put("birth",student.getBirth());
-        datas.put("political",student.getPolitical());
-        datas.put("classAndGrade",student.getClassAndGrade());
-        datas.put("status",student.getStatus());
-        datas.put("all_credit","");
-        datas.put("avg_grade", studentService.findAvgScore(id).toString());
-
+        LinkedList<Map<String,String>> datas = new LinkedList<>();
+        Map<String,String> data = new HashMap<>();
+        data.put("id",student.getId());
+        data.put("name",student.getName());
+        data.put("sex",student.getSex());
+        data.put("birth",student.getBirth());
+        data.put("political",student.getPolitical());
+        data.put("classAndGrade",student.getClassAndGrade());
+        data.put("status",student.getStatus());
+        data.put("all_credit",studentService.findSumCredit(id).toString());
+        data.put("avg_grade", String.format("%.2f",studentService.findAvgScore(id)));
+        datas.add(data);
         return ResultUtils.success(datas);
     }
 

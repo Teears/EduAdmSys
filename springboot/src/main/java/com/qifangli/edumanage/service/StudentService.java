@@ -21,4 +21,6 @@ public interface StudentService {
     void updataSelectedSub(String id);
 
     Double findAvgScore(String id);
+
+    Integer findSumCredit(String id);
 }
