@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 09/05/2020 01:07:14
+ Date: 10/05/2020 18:18:17
 */
 
 SET NAMES utf8mb4;
@@ -22,72 +22,74 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一标识一个操作权限',
+  `pid` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一标识一个操作权限',
   `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '一个操作权限的名称',
   `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`pid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES (1, '授权管理', 'admin:authorized', '/admin/authorized/**');
-INSERT INTO `permission` VALUES (2, '教师档案管理', 'admin:teaAdmin', '/admin/teacher/**');
-INSERT INTO `permission` VALUES (3, '课程档案管理', 'admin:crsAdmin', '/admin/course/**');
-INSERT INTO `permission` VALUES (4, '排课', 'admin:select', '/admin/select/**');
-INSERT INTO `permission` VALUES (5, '开启结束选课', 'admin:selectCrs', '/admin/openAndClose');
-INSERT INTO `permission` VALUES (6, '学生档案管理', 'admin:stuAdmin', '/admin/student/**');
-INSERT INTO `permission` VALUES (7, '教师普通操作', 'teacher:', '/teacher/**');
-INSERT INTO `permission` VALUES (8, '普通学生操作', 'student:', '/student/**');
-INSERT INTO `permission` VALUES (9, '学生选课通道', 'student:select', '/student/selectCrs');
+INSERT INTO `permission` VALUES (1, '授权管理', 'admin_authorized', '/admin/authorized/**');
+INSERT INTO `permission` VALUES (2, '教师档案管理', 'admin_teaAdmin', '/admin/teacher/**');
+INSERT INTO `permission` VALUES (3, '课程档案管理', 'admin_crsAdmin', '/admin/course/**');
+INSERT INTO `permission` VALUES (4, '排课', 'admin_select', '/admin/select/**');
+INSERT INTO `permission` VALUES (5, '开启结束选课', 'admin_selectCrs', '/admin/openAndClose');
+INSERT INTO `permission` VALUES (6, '学生档案管理', 'admin_stuAdmin', '/admin/student/**');
+INSERT INTO `permission` VALUES (7, '教师普通操作', 'teacher_all', '/teacher/**');
+INSERT INTO `permission` VALUES (8, '普通学生操作', 'student_all', '/student/**');
+INSERT INTO `permission` VALUES (9, '学生选课通道', 'student_select', '/student/selectCrs');
 
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一标识一个角色的编号',
-  `code` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '角色名',
+  `rid` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '角色名',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`rid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES (1, 'admin', '管理员');
-INSERT INTO `role` VALUES (2, 'super_admin', '超级管理员');
-INSERT INTO `role` VALUES (3, 'teacher', '教师');
-INSERT INTO `role` VALUES (4, 'student', '学生');
+INSERT INTO `role` VALUES ('admin', '管理员');
+INSERT INTO `role` VALUES ('student', '学生');
+INSERT INTO `role` VALUES ('super_admin', '超级管理员');
+INSERT INTO `role` VALUES ('teacher', '教师');
 
 -- ----------------------------
 -- Table structure for role_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission`  (
-  `rid` int(0) NOT NULL COMMENT '角色id',
-  `pid` int(0) NOT NULL COMMENT '操作权限的id',
-  PRIMARY KEY (`rid`, `pid`) USING BTREE
+  `rid` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `pid` int(0) NOT NULL,
+  PRIMARY KEY (`rid`, `pid`) USING BTREE,
+  INDEX `fk_rp_p`(`pid`) USING BTREE,
+  CONSTRAINT `fk_rp_p` FOREIGN KEY (`pid`) REFERENCES `permission` (`pid`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_rp_r` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role_permission
 -- ----------------------------
-INSERT INTO `role_permission` VALUES (1, 2);
-INSERT INTO `role_permission` VALUES (1, 3);
-INSERT INTO `role_permission` VALUES (1, 4);
-INSERT INTO `role_permission` VALUES (1, 5);
-INSERT INTO `role_permission` VALUES (1, 6);
-INSERT INTO `role_permission` VALUES (2, 1);
-INSERT INTO `role_permission` VALUES (2, 2);
-INSERT INTO `role_permission` VALUES (2, 3);
-INSERT INTO `role_permission` VALUES (2, 4);
-INSERT INTO `role_permission` VALUES (2, 5);
-INSERT INTO `role_permission` VALUES (2, 6);
-INSERT INTO `role_permission` VALUES (3, 7);
-INSERT INTO `role_permission` VALUES (4, 8);
-INSERT INTO `role_permission` VALUES (4, 9);
+INSERT INTO `role_permission` VALUES ('super_admin', 1);
+INSERT INTO `role_permission` VALUES ('admin', 2);
+INSERT INTO `role_permission` VALUES ('super_admin', 2);
+INSERT INTO `role_permission` VALUES ('admin', 3);
+INSERT INTO `role_permission` VALUES ('super_admin', 3);
+INSERT INTO `role_permission` VALUES ('admin', 4);
+INSERT INTO `role_permission` VALUES ('super_admin', 4);
+INSERT INTO `role_permission` VALUES ('admin', 5);
+INSERT INTO `role_permission` VALUES ('super_admin', 5);
+INSERT INTO `role_permission` VALUES ('admin', 6);
+INSERT INTO `role_permission` VALUES ('super_admin', 6);
+INSERT INTO `role_permission` VALUES ('teacher', 7);
+INSERT INTO `role_permission` VALUES ('student', 8);
+INSERT INTO `role_permission` VALUES ('student', 9);
 
 -- ----------------------------
 -- Table structure for tbl_class
@@ -176,7 +178,7 @@ CREATE TABLE `tbl_score`  (
   INDEX `fk_score_tea_crs`(`tea_crs_no`) USING BTREE,
   CONSTRAINT `fk_score_student` FOREIGN KEY (`stu_no`) REFERENCES `tbl_student` (`stu_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_score_tea_crs` FOREIGN KEY (`tea_crs_no`) REFERENCES `tbl_tea_crs` (`tea_crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_score
@@ -184,6 +186,7 @@ CREATE TABLE `tbl_score`  (
 INSERT INTO `tbl_score` VALUES ('2017110323', 1, NULL, NULL, 80);
 INSERT INTO `tbl_score` VALUES ('2017110323', 2, NULL, NULL, 81);
 INSERT INTO `tbl_score` VALUES ('2017110323', 4, NULL, NULL, NULL);
+INSERT INTO `tbl_score` VALUES ('2017110323', 5, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 6, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 7, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 8, NULL, NULL, NULL);
@@ -248,7 +251,7 @@ INSERT INTO `tbl_student` VALUES ('2017110302', '赵同学', '女', '第六中�
 INSERT INTO `tbl_student` VALUES ('2017110305', '李同学', '女', '实验中学', '1998-12-14', '510722199812111111', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110314', '黄同学', '男', '第二中学', '1998-12-14', '510722199812149632', '18011122222', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110318', '雷同学', '女', '第一中学', '1998-12-14', '510722199812147894', '19982031936', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_student` VALUES ('2017110323', '李同学', '女', '实验中学', '1998-12-14', '510722199812142384', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110323', '李同学', '女', '实验中学', '1998-12-14', '510722199812142384', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x3235643535616432383361613430306166343634633736643731336330376164);
 INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '男', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '11', '20171103', '四川成都', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 
 -- ----------------------------
@@ -274,7 +277,7 @@ CREATE TABLE `tbl_tea_crs`  (
   CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_tea_crs
@@ -283,7 +286,7 @@ INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', '11001', 20191, '0', '0102', 'T
 INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', '11002', 20191, '3', '0103', 'Wed', 0, 30);
 INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', '11003', 20191, '4', '0102', 'Mon', 0, 40);
 INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', '11005', 20192, '3', '0101', 'Thur', 0, 30);
-INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', '11003', 20201, '4', '0105', 'Tues', 0, 30);
+INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', '11003', 20201, '4', '0105', 'Tues', 1, 30);
 INSERT INTO `tbl_tea_crs` VALUES (6, '20051106', '11003', 20201, '3', '0106', 'Wed', 3, 40);
 INSERT INTO `tbl_tea_crs` VALUES (7, '20061104', '11002', 20201, '4', '0201', 'Thur', 4, 30);
 INSERT INTO `tbl_tea_crs` VALUES (8, '20051106', '11006', 20201, '0', '0201', 'Tues', 1, 30);
@@ -352,16 +355,18 @@ INSERT INTO `tbl_term` VALUES (20201, '2019-2020第二学年');
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role`  (
-  `uid` int(0) NOT NULL COMMENT '用户编号',
-  `rid` int(0) NOT NULL COMMENT '角色id',
-  PRIMARY KEY (`uid`, `rid`) USING BTREE
+  `uid` varchar(225) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '用户编号',
+  `rid` varchar(225) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '角色id',
+  PRIMARY KEY (`uid`, `rid`) USING BTREE,
+  INDEX `fk_role`(`rid`) USING BTREE,
+  CONSTRAINT `fk_role` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
-INSERT INTO `user_role` VALUES (20011103, 2);
-INSERT INTO `user_role` VALUES (20061101, 1);
+INSERT INTO `user_role` VALUES ('20061101', 'admin');
+INSERT INTO `user_role` VALUES ('20011103', 'super_admin');
 
 -- ----------------------------
 -- Triggers structure for table tbl_tea_crs

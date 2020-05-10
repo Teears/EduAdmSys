@@ -12,8 +12,12 @@
   </el-form-item>
   
   <el-form-item>
-    <el-input v-model="userForm.vcode" maxlength="4" placeholder="验证码" style="width: 150px"></el-input> 
-    <img id="code_img" @click="changeCode()" style="height:40px; width: 100px; margin-left: 28px; cursor: pointer;" title="点击更换" >
+    <el-col :span="12">
+      <el-input v-model="userForm.vcode" maxlength="4" placeholder="验证码" style="width: 130px"></el-input> 
+    </el-col>
+    <el-col :span="12">
+      <img id="code_img" src="http://localhost:8080/login/yzm" @click="changeCode()" style="height:40px; width: 100px; margin-left:25px; cursor: pointer;" title="点击更换" >
+    </el-col>
   </el-form-item>
   
   <el-form-item>
@@ -98,21 +102,7 @@ import md5 from "js-md5"
         })
       },
       changeCode(){
-        //   axios.get( ".../user/v1/qrcode?param=..." , {
-        //     responseType: "arraybuffer",
-        //   }).then(res => {
-        //     return 'data:image/png;base64,' + btoa(
-        //     new Uint8Array(res.data)
-        //     .reduce((data, byte) => data + String.fromCharCode(byte), '')
-        //   );
-        //   })
-        //   .then(data => {
-        //     $('#qrCode').attr('src', data);
-        //    })
-        //   .catch(ex => {
-        //     console.error(ex);
-        //   });
-        // }
+        document.getElementById("code_img").src = "http://localhost:8080/login/yzm?" + Math.random()
       },
       toForgot(){
         this.$router.push({
