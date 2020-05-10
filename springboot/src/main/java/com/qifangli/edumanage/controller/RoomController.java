@@ -43,7 +43,7 @@ public class RoomController {
             Map<String,String> data = new HashMap<>();
             data.put("week",item.getWeek());
             data.put("time",item.getTime());
-            data.put("info",item.getCourseName() + "\n" + item.getTeacherName());
+            data.put("info",item.getCourseName() + "\n" + item.getTeacherName() + "["+item.getSelected()+"人]");
             datas.add(data);
         }
         return ResultUtils.success(datas);

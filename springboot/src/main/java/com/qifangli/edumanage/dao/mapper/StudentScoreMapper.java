@@ -10,4 +10,5 @@ import java.util.List;
 public interface StudentScoreMapper {
 
     List<StudentScore> findScoreByTermAndStuId(@Param("term") String term, @Param("id") String id);
+
 }

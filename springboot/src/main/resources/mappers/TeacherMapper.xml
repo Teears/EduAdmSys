@@ -19,4 +19,8 @@
     <select id="findTeacherById" resultMap="TeacherInfoMap">
         SELECT * FROM tbl_teacher WHERE tea_no = #{id}
     </select>
+    <update id="updatePwdByTeaId">
+        update tbl_teacher set tea_pwd=#{newPwd} where tea_no=#{id}
+    </update>
+
 </mapper>

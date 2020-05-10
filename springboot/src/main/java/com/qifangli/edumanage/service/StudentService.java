@@ -23,4 +23,6 @@ public interface StudentService {
     Double findAvgScore(String id);
 
     Integer findSumCredit(String id);
+
+    void updatePwdByStuId(String id,String newPwd);
 }

@@ -67,4 +67,9 @@ public class StudentServiceImpl implements StudentService {
     public Integer findSumCredit(String id) {
         return scoreMapper.findSumCredit(id);
     }
+
+    @Override
+    public void updatePwdByStuId(String id, String newPwd) {
+        studentMapper.updatePwdByStuId(id,newPwd);
+    }
 }

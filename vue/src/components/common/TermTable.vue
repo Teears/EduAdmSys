@@ -73,7 +73,7 @@ import termTable from '../global/termTable.js'
       },
       getTermSelected(){
         this.$axios
-        .post('/Student/getTermTable', { //获取查询学期课表接口
+        .post('/stuAndTea/getTermTable', { //获取查询学期课表接口
             term: this.termSelected
         })
         .then((result)=> {
@@ -109,7 +109,7 @@ import termTable from '../global/termTable.js'
                     break  
                 }
               }
-            }else if(result.data.code === -1){
+            }else if(result.data.code === 0){
               this.$router.replace({ path: '/' });
             }
             else{

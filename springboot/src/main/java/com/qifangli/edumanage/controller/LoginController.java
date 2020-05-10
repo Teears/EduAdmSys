@@ -1,20 +1,14 @@
 package com.qifangli.edumanage.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qifangli.edumanage.dao.entity.Student;
-import com.qifangli.edumanage.dao.entity.Teacher;
-import com.qifangli.edumanage.service.RoleService;
-import com.qifangli.edumanage.service.TeacherService;
 import com.qifangli.edumanage.util.JWTUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
-import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.util.yzm.VerifyCodeUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,12 +26,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private TeacherService teacherService;
-    @Autowired
-    private RoleService roleService;
 
     @PostMapping(value = "user")
     public Result login(@RequestBody JSONObject param,HttpSession session){

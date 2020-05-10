@@ -12,8 +12,10 @@ import com.qifangli.edumanage.service.TermService;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.util.JWTUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,27 +37,6 @@ public class StudentController {
 
     @Autowired
     private TermService termService;
-
-    @RequiresPermissions("student_all")
-    @PostMapping("getTermTable")
-    public Result getTermTable(@RequestBody JSONObject param, HttpServletRequest request){
-        String token = request.getHeader("token");
-        String id = JWTUtil.getUsername(token);
-        if(id == null){
-            return ResultUtils.error(0,"登录已过期");
-        }
-        String term = param.getString("term");
-        List<CourseArrange> courseArrange = courseArrangeService.findByTermAndStuId(term,id);
-        LinkedList<Map<String,String>> datas = new LinkedList<>();
-        for(CourseArrange item : courseArrange){
-            Map<String,String> data = new HashMap<>();
-            data.put("week",item.getWeek());
-            data.put("time",item.getTime());
-            data.put("info",item.getCourseName() + "\n" + item.getTeacherName() + "\n" + item.getArea()+item.getRoom());
-            datas.add(data);
-        }
-        return ResultUtils.success(datas);
-    }
 
     @RequiresPermissions("student_all")
     @PostMapping("getScoreTable")

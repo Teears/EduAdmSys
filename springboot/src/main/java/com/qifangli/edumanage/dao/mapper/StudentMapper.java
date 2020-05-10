@@ -10,7 +10,7 @@ public interface StudentMapper {
 
    Student findStudentById(@Param("id") String id);
 
-   Student findStudentByIdAndPwd(@Param("id") String id, @Param("pwd") String pwd);
+   void updatePwdByStuId(@Param("id") String id,@Param("newPwd") String newPwd);
 
 }
 

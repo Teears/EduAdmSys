@@ -9,4 +9,6 @@ public interface TeacherMapper {
 
     Teacher findTeacherById(@Param("id") String id);
 
+    void updatePwdByTeaId(@Param("id") String id,@Param("newPwd") String newPwd);
+
 }

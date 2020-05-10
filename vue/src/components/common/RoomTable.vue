@@ -110,7 +110,7 @@ import qs from 'qs'
         })
         .then((result)=> {
           this.roomSelected = ""
-           this.roomOptions = result.data.datas
+          this.roomOptions = result.data.datas
         })
         .catch((error)=> {
             alert(error)
@@ -121,7 +121,6 @@ import qs from 'qs'
           alert("请检查查询条件")
           return
         }
-        alert(this.areaSelected);
         this.$axios
         .post('/spot/getRoomTable', { //获取查询教室课表接口
             term: this.termSelected,

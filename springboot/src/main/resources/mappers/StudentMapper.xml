@@ -20,4 +20,8 @@
     <select id="findStudentById" resultMap="StudentInfoMap">
         SELECT * FROM tbl_student WHERE stu_no = #{id}
     </select>
+    <update id="updatePwdByStuId">
+        update tbl_student set stu_pwd=#{newPwd} where stu_no=#{id}
+    </update>
+
 </mapper>

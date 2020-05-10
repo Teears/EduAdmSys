@@ -16,4 +16,9 @@ public class TeacherServiceImpl implements TeacherService {
     public Teacher findTeacherById(String id) {
         return teacherMapper.findTeacherById(id);
     }
+
+    @Override
+    public void updatePwdByTeaId(String id, String newPwd) {
+        teacherMapper.updatePwdByTeaId(id,newPwd);
+    }
 }

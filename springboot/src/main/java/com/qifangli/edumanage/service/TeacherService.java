@@ -6,4 +6,6 @@ public interface TeacherService {
 
     Teacher findTeacherById(String id);
 
+    void updatePwdByTeaId(String id,String newPwd);
+
 }

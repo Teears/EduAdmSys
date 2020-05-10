@@ -2,7 +2,7 @@
 <div class="changePT" style="height:250">
   <el-form :model="userForm" :rules="rules" ref="userForm" label-width="100px">
   <el-form-item label="原密码：" prop="oldPass">
-    <el-input v-model="userForm.oldPass"></el-input>
+    <el-input v-model="userForm.oldPass" show-password></el-input>
   </el-form-item>
   
    <el-form-item label="新密码：" prop="pass">
