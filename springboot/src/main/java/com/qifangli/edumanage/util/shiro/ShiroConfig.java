@@ -1,12 +1,17 @@
 package com.qifangli.edumanage.util.shiro;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import com.qifangli.edumanage.filter.ShiroUserFilter;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.servlet.Filter;
 
 @Configuration
 public class ShiroConfig {
@@ -15,15 +20,17 @@ public class ShiroConfig {
     ShiroFilterFactoryBean shiroFilterFactoryBean() {
         System.out.println("shiroFilterFactoryBean run");
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
+
+        Map<String, Filter> filter = new HashMap<>();
+        filter.put("user", new ShiroUserFilter());
+        bean.setFilters(filter);
+
         bean.setSecurityManager(securityManager());
         bean.setLoginUrl("/login/**");
         bean.setUnauthorizedUrl("/unauthorized");
         Map<String, String> map = new LinkedHashMap<>();
         map.put("/login/**", "anon");
-        map.put("/student/**","roles[student]");
-        map.put("/teacher/**","roles[teacher]");
-        map.put("/admin/**","roles[admin,super_admin]");
-        map.put("/**", "authc");
+        map.put("/**", "user");
         bean.setFilterChainDefinitionMap(map);
         return bean;
     }

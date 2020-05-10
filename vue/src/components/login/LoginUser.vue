@@ -16,7 +16,7 @@
       <el-input v-model="loginForm.vcode" maxlength="4" placeholder="验证码" style="width: 130px"></el-input> 
     </el-col>
     <el-col :span="12">
-      <img id="code_img" src="http://localhost:8080/api/yzm" @click="changeCode()" style="height:40px; width: 100px; margin-left:25px; cursor: pointer;" title="点击更换" >
+      <img id="code_img" src="http://localhost:8080/login/yzm" @click="changeCode()" style="height:40px; width: 100px; margin-left:25px; cursor: pointer;" title="点击更换" >
     </el-col>
   </el-form-item>
   

@@ -40,10 +40,13 @@ public class LoginController {
     private RoleService roleService;
 
     @PostMapping(value = "user")
-    public Result login(@RequestBody JSONObject param){
+    public Result login(@RequestBody JSONObject param,HttpSession session){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
+//        if(!vcode.equals(session.getAttribute("verCode"))){
+//            return ResultUtils.error(-1,"验证码错误");
+//        }
         Result result = new Result();
         Subject subject = SecurityUtils.getSubject();
         Map<String,String> data = new HashMap<>();
@@ -76,7 +79,6 @@ public class LoginController {
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
-        System.out.println("*************登录**************");
 //        if(!vcode.equals(session.getAttribute("verCode"))){
 //            return ResultUtils.error(-1,"验证码错误");
 //        }
@@ -105,27 +107,7 @@ public class LoginController {
             System.out.println("登录失败");
             return ResultUtils.error(-1,"用户名或密码错误");
         }
-//        Result result = new Result();
-//        Map<String,String> data = new HashMap<>();
-//        String role = roleService.findRoleByUserId(id).getRid();
-//        Teacher teacher = teacherService.findTeacherById(id);
-//        if(!teacher.getPass().equals(pwd)){
-//            return ResultUtils.error(-2,"用户名或密码不正确");
-//        }
-//        if("admin".equals(role)){
-//            data.put("perm","1");
-//        }else if("super_admin".equals(role)){
-//            data.put("perm","2");
-//        }else{
-//            return ResultUtils.error(-2,"用户名或密码不正确");
-//        }
-//        result.setCode(1);
-//        result.setMsg("登录成功");
-//        String token = JWTUtil.sign(teacher.getId(),teacher.getPass());
-//        data.put("token",token);
-//        result.setDatas(data);
-//
-//        return result;
+
     }
 
     @RequestMapping(value = "yzm")

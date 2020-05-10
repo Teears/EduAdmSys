@@ -1,12 +1,10 @@
 package com.qifangli.edumanage.util.shiro;
 
 import com.qifangli.edumanage.service.PermissionService;
-import com.qifangli.edumanage.util.JWTUtil;
 import com.qifangli.edumanage.dao.entity.Permission;
 import com.qifangli.edumanage.dao.entity.Role;
 import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.Teacher;
-import com.qifangli.edumanage.dao.mapper.PermissionMapper;
 import com.qifangli.edumanage.service.RoleService;
 import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.TeacherService;
@@ -101,5 +99,10 @@ public class MyRealm extends AuthorizingRealm {
         }
         return new SimpleAuthenticationInfo(username, pwd, "myRealm");
     }
+
+//    @Override
+//    public boolean supports(AuthenticationToken token) {
+//        return token instanceof JWTToken;
+//    }
 
 }

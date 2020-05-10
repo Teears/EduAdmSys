@@ -9,15 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * 跨域的设置问题
- * @author qifangli
- * @version v1.0.0
- */
 
-//@Component   //在启动类加了@ServletComponentScan无需加这个了
 @Order(3)//设置优先级加载
-//@ServletComponentScan  //加载启动类上了
 @WebFilter(urlPatterns = "/*",filterName = "ACAFilter")
 public class ACAFilter implements Filter {
 
@@ -49,7 +42,6 @@ public class ACAFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials","true");
 //        response.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
 
-        //((HttpServletResponse)servletResponse).setHeader("Access-Control-Allow-Origin", "*");
         filterChain.doFilter(servletRequest,servletResponse);
         System.out.println("*********************************过滤器被使用**************************");    }
 

@@ -36,7 +36,7 @@ public class StudentController {
     @Autowired
     private TermService termService;
 
-    @RequiresRoles(value={"student"})
+    @RequiresPermissions("student_all")
     @PostMapping("getTermTable")
     public Result getTermTable(@RequestBody JSONObject param, HttpServletRequest request){
         String token = request.getHeader("token");
@@ -57,6 +57,7 @@ public class StudentController {
         return ResultUtils.success(datas);
     }
 
+    @RequiresPermissions("student_all")
     @PostMapping("getScoreTable")
     public Result getScoreTable(@RequestBody JSONObject param, HttpServletRequest request){
         String token = request.getHeader("token");
@@ -68,6 +69,7 @@ public class StudentController {
         return ResultUtils.success(studentScore);
     }
 
+    @RequiresPermissions("student_all")
     @PostMapping("getInfoTable")
     public Result getInfoTable(HttpServletRequest request){
         String token = request.getHeader("token");
@@ -88,8 +90,7 @@ public class StudentController {
         return ResultUtils.success(datas);
     }
 
-    @RequiresRoles(value={"student"})
-    @RequiresPermissions(value={"student:select,student"})
+    @RequiresPermissions("student_select")
     @PostMapping("getNewCourseArrange")
     public Result getNewCourseArrange (HttpServletRequest request){
         String token = request.getHeader("token");
@@ -102,6 +103,7 @@ public class StudentController {
         return ResultUtils.success(newArrange);
     }
 
+    @RequiresPermissions("student_select")
     @PostMapping("getNewCourseArrange/addSelect")
     public Result addSelect (@RequestBody JSONObject param,HttpServletRequest request){
         String token = request.getHeader("token");
@@ -120,6 +122,7 @@ public class StudentController {
         return ResultUtils.success();
     }
 
+    @RequiresPermissions("student_select")
     @PostMapping("getNewCourseArrange/deleteSelect")
     public Result deleteSelect (@RequestBody JSONObject param,HttpServletRequest request){
         String token = request.getHeader("token");

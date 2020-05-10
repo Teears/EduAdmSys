@@ -8,8 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import {post,fetch,patch,put} from "./http.js";
 
 Vue.use(ElementUI)
-require('./mock.js')
-
+// require('./mock.js')
+ 
 axios.defaults.withCredentials = true
 Vue.prototype.$axios=axios;
 Vue.prototype.$post=post;
