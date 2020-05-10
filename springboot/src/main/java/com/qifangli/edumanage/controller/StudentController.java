@@ -89,7 +89,7 @@ public class StudentController {
     }
 
     @RequiresRoles(value={"student"})
-    @RequiresPermissions(value={"student:select"})
+    @RequiresPermissions(value={"student:select,student"})
     @PostMapping("getNewCourseArrange")
     public Result getNewCourseArrange (HttpServletRequest request){
         String token = request.getHeader("token");

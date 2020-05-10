@@ -3,7 +3,15 @@ package com.qifangli.edumanage.dao.entity;
 public class Role {
     private String uid;
     private String rid;
-    private String role;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getRid() {
         return rid;
@@ -21,11 +29,4 @@ public class Role {
         this.uid = uid == null ? null : uid.trim();
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
-    }
 }

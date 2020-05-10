@@ -80,12 +80,8 @@ import md5 from "js-md5"
                       alert("老师登录成功")//测试返回数据
                       setCookie("token",result.data.datas.token,1)
                       this.$router.replace({ path: '/Tea1_1' }); //跳转到teacher组件中   
-                    }else if(result.data.code === -1){
-                      alert("验证码错误")
-                    }else if(result.data.code === -2){
-                      alert("用户名或密码错误")
                     }else{
-                      console.log("未知错误");
+                      alert(result.data.msg)
                       return false;
                     }
                   })

@@ -5,10 +5,11 @@
         <result column="rid" property="rid"/>
         <result column="code" property="permsCode"/>
         <result column="url" property="url"/>
+        <result column="pid" property="pid"/>
     </resultMap>
 
     <select id="findPermsByRid" resultMap="PermissionInfoMap">
-        select role_permission.rid,permission.code,url from role_permission,permission
-        where role_permission.rid=#{rid} and role_permission.rid=permission.id
+        select permission.pid,rid,code,url from role_permission,permission
+        where role_permission.rid=#{rid} and role_permission.pid=permission.pid
     </select>
 </mapper>

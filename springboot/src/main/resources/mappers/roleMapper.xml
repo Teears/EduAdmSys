@@ -8,7 +8,7 @@
     </resultMap>
 
     <select id="findRoleByUserId" resultMap="RoleInfoMap">
-        select uid,code,id from user_role,role
-        where uid=#{id} and rid=id
+        select uid,role.rid,name from role,user_role
+        where role.rid=user_role.rid and uid=#{id}
     </select>
 </mapper>

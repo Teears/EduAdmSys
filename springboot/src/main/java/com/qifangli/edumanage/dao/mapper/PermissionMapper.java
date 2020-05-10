@@ -8,5 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface PermissionMapper {
+
      List<Permission> findPermsByRid(@Param("rid") String rid);
 }
