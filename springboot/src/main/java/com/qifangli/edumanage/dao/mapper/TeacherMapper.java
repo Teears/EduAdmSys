@@ -11,4 +11,6 @@ public interface TeacherMapper {
 
     void updatePwdByTeaId(@Param("id") String id,@Param("newPwd") String newPwd);
 
+
+
 }

@@ -5,7 +5,7 @@ public class Student {
     private String name;
     private String pass;
     private String sex;
-    private String granduate;
+    private String graduate;
     private String birth;
     private String idCard;
     private String telephone;
@@ -32,8 +32,8 @@ public class Student {
         this.sex = sex;
     }
 
-    public void setGranduate(String granduate) {
-        this.granduate = granduate;
+    public void setGraduate(String graduate) {
+        this.graduate = graduate;
     }
 
     public void setBirth(String birth) {
@@ -84,8 +84,8 @@ public class Student {
         return sex;
     }
 
-    public String getGranduate() {
-        return granduate;
+    public String getGraduate() {
+        return graduate;
     }
 
     public String getBirth() {

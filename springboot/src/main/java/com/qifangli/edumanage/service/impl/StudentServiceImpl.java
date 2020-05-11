@@ -72,4 +72,9 @@ public class StudentServiceImpl implements StudentService {
     public void updatePwdByStuId(String id, String newPwd) {
         studentMapper.updatePwdByStuId(id,newPwd);
     }
+
+    @Override
+    public List<Student> findStuByDpt(String dpt) {
+        return studentMapper.findStuByDpt(dpt);
+    }
 }

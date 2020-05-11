@@ -12,5 +12,7 @@ public interface StudentMapper {
 
    void updatePwdByStuId(@Param("id") String id,@Param("newPwd") String newPwd);
 
+   List<Student> findStuByDpt(@Param("dpt") String dpt);
+
 }
 

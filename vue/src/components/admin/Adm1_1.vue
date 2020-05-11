@@ -5,9 +5,9 @@
       <el-select v-model="deptSelected" placeholder="请选择学院" style="width:150px" size="small">
             <el-option
             v-for="item in deptOptions"
-            :key="item.dept"
-            :label="item.label"
-            :value="item.dept">
+            :key="item.dpt"
+            :label="item.dpt"
+            :value="item.dpt">
             </el-option>
         </el-select>
     </el-col>
@@ -16,7 +16,7 @@
             <el-option
             v-for="item in gradeOptions"
             :key="item.grade"
-            :label="item.label"
+            :label="item.grade"
             :value="item.grade">
             </el-option>
         </el-select>
@@ -31,8 +31,8 @@
   </el-row>
 
   <div style="background-color:#eff1f2;padding:5px;border-radius: 2px;">
-  <el-table
-    :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+  <el-table id="tableId"
+    :data="tables.slice((currentPage-1)*pageSize,currentPage*pageSize)"
     v-loading="loading"
     border
     stripe
@@ -43,27 +43,27 @@
     :cell-style="{padding:'2px'}">
     <el-table-column type="index" label="序号" width="59">
     </el-table-column>
-    <el-table-column prop="number" label="学号" width="110">
+    <el-table-column prop="id" label="学号" width="110">
     </el-table-column>
     <el-table-column prop="name" label="姓名" width="150">
     </el-table-column>
-    <el-table-column prop="state" label="状态" width="60">
+    <el-table-column prop="status" label="状态" width="60">
     </el-table-column>
     <el-table-column prop="sex" label="性别" width="50">
     </el-table-column>
-    <el-table-column prop="class" label="班级" width="100">
+    <el-table-column prop="classAndGrade" label="班级" width="100">
     </el-table-column>
-    <el-table-column prop="dept" label="学院" width="180">
+    <el-table-column prop="department" label="学院" width="180">
     </el-table-column>
-    <el-table-column prop="id" label="身份证号" width="200">
+    <el-table-column prop="idCard" label="身份证号" width="200">
     </el-table-column>
     <el-table-column prop="birth" label="出生日期" width="110">
     </el-table-column>
-    <el-table-column prop="politic" label="政治面貌" width="120">
+    <el-table-column prop="political" label="政治面貌" width="120">
     </el-table-column>
     <el-table-column prop="graduate" label="毕业学校" width="200">
     </el-table-column>
-    <el-table-column prop="tel" label="电话号码" width="120">
+    <el-table-column prop="telephone" label="电话号码" width="120">
     </el-table-column>
     <el-table-column fixed="right" prop="operate" label="操作" width="150">
       <template slot-scope="scope">
@@ -131,13 +131,12 @@
 
 <script>
 import {getCookie} from '../global/cookie'
-import deptOptions from '../global/deptOptions'
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
   export default {
     data() {
       return {
-        deptOptions:deptOptions,
+        deptOptions:[],
         deptSelected: '',
         gradeSelected:'',
         search: '',
@@ -177,25 +176,49 @@ import XLSX from 'xlsx'
                 year1--
             }
             return options
+        },
+        tables () {
+        const search = this.search
+        if (search) {
+          return this.tableData.filter(data => {
+            return Object.keys(data).some(key => {
+              return String(data[key]).toLowerCase().indexOf(search) > -1
+            })
+          })
         }
+        return this.tableData
+      }
     },
     methods:{
-      //根据条件请求某一页数据
-      getTableData(size,page){
+      getDptName(){
         this.$axios
-        .post('/api/getStuTableData', { //search为空,dept为all查询全部课程，search为空dept不为all查询某学院课程，
+        .post('/dpt/getDptName', {})
+        .then((result)=> {
+            if (result.data.code === 1) {//返回第一页数据，和
+              this.deptOptions = result.data.datas
+            }else{
+              alert(result.data.msg)
+              return false;
+            }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
+
+      //根据条件请求某一页数据
+      getTableData(){
+        this.$axios
+        .post('/admin/stuAdmin', { //search为空,dept为all查询全部课程，search为空dept不为all查询某学院课程，
         //search不为空dept为空在所有课程中搜索，search和dept都不为空在某学院里搜索
-            pageSize:size,
-            page:page,
-            dept:this.deptSelected,
-            grade:this.gradeSelected,
-            search:this.search
+
         })
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
-              this.totalCount = result.data.datas.len
-              this.tableData = result.data.datas.stu
+              this.totalCount = result.data.datas.length
+              this.tableData = result.data.datas
             }else{
+              alert(result.data.msg)
               return false;
             }
         })
@@ -235,7 +258,8 @@ import XLSX from 'xlsx'
 
     },
     created(){
-      this.getTableData(this.pageSize,1)
+      this.getTableData()
+      this.getDptName()
     }
   }
 </script>

@@ -5,7 +5,7 @@
         <result column="stu_no" property="id"/>
         <result column="stu_name" property="name"/>
         <result column="stu_sex" property="sex"/>
-        <result column="stu_gdu" property="granduate"/>
+        <result column="stu_gdu" property="graduate"/>
         <result column="stu_bth" property="birth"/>
         <result column="stu_tel" property="telephone"/>
         <result column="stu_pol" property="political"/>
@@ -17,11 +17,28 @@
         <result column="stu_id" property="idCard"/>
     </resultMap>
 
+    <resultMap id ="StudentInfoMapDpt" type="com.qifangli.edumanage.dao.entity.Student">
+        <result column="stu_no" property="id"/>
+        <result column="stu_name" property="name"/>
+        <result column="stu_sex" property="sex"/>
+        <result column="stu_gdu" property="graduate"/>
+        <result column="stu_bth" property="birth"/>
+        <result column="stu_tel" property="telephone"/>
+        <result column="stu_pol" property="political"/>
+        <result column="dpt_name" property="department"/>
+        <result column="stu_class" property="classAndGrade"/>
+        <result column="stu_sta" property="status"/>
+        <result column="stu_id" property="idCard"/>
+    </resultMap>
+
     <select id="findStudentById" resultMap="StudentInfoMap">
         SELECT * FROM tbl_student WHERE stu_no = #{id}
     </select>
     <update id="updatePwdByStuId">
         update tbl_student set stu_pwd=#{newPwd} where stu_no=#{id}
     </update>
-
+    <select id="findStuByDpt" resultMap="StudentInfoMapDpt">
+        select * from tbl_student,tbl_department
+        where tbl_student.stu_dpt=tbl_department.dpt_no and stu_dpt=#{dpt}
+    </select>
 </mapper>

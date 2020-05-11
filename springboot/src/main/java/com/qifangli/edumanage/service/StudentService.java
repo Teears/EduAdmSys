@@ -25,4 +25,7 @@ public interface StudentService {
     Integer findSumCredit(String id);
 
     void updatePwdByStuId(String id,String newPwd);
+
+    List<Student> findStuByDpt(String dpt);
+
 }
