@@ -72,31 +72,52 @@ export default new Router({
           children:[
             {
               path:'/Stu1_1',
-              component:Stu1_1
+              component:Stu1_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Stu1_2',
-              component:Stu1_2
+              component:Stu1_2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Stu2',
-              component:Stu2
+              component:Stu2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Stu3',
-              component:Stu3
+              component:Stu3,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Stu4_1',
-              component:Stu4_1
+              component:Stu4_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Stu4_2',
-              component:Stu4_2
+              component:Stu4_2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Stu4_3',
-              component:Stu4_3
+              component:Stu4_3,
+              meta:{
+                requireAuth: true
+              }
             },
           ]
           
@@ -110,31 +131,52 @@ export default new Router({
           children:[
             {
               path:'/Tea1_1',
-              component:Tea1_1
+              component:Tea1_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Tea1_2',
-              component:Tea1_2
+              component:Tea1_2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Tea2',
-              component:Tea2
+              component:Tea2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Tea3',
-              component:Tea3
+              component:Tea3,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Tea4_1',
-              component:Tea4_1
+              component:Tea4_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Tea4_2',
-              component:Tea4_2
+              component:Tea4_2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Tea4_3',
-              component:Tea4_3
+              component:Tea4_3,
+              meta:{
+                requireAuth: true
+              }
             },
           ]
           
@@ -150,51 +192,55 @@ export default new Router({
             {
               path:'/Adm1_1',
               name:'/Adm1_1',
-              component:Adm1_1
+              component:Adm1_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Adm1_2',
-              component:Adm1_2
+              component:Adm1_2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Adm1_3',
-              component:Adm1_3
+              component:Adm1_3,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Adm2_1',
-              component:Adm2_1
+              component:Adm2_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Adm3_1',
-              component:Adm3_1
+              component:Adm3_1,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Adm3_2',
-              component:Adm3_2
+              component:Adm3_2,
+              meta:{
+                requireAuth: true
+              }
             },
             {
               path:'/Adm4',
-              component:Adm4
+              component:Adm4,
+              meta:{
+                requireAuth: true
+              }
             }
           ]
           
         }
       ]
 });
-
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-//       if (store.state.token) {  // 通过vuex state获取当前的token是否存在
-//           next();
-//       }
-//       else {
-//           next({
-//               path: '/login',
-//               query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-//           })
-//       }
-//   }
-//   else {
-//       next();
-//   }
-// })

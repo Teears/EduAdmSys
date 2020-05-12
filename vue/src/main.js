@@ -5,7 +5,9 @@ import './components/global/global.css'
 import router from '../router/index'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import {post,fetch,patch,put} from "./http.js";
+import {post,fetch,patch,put} from "./http.js"
+import {getCookie} from './components/global/cookie'
+
 
 Vue.use(ElementUI)
 // require('./mock.js')
@@ -17,6 +19,25 @@ Vue.prototype.$fetch=fetch;
 Vue.prototype.$patch=patch;
 Vue.prototype.$put=put;
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+    if(getCookie("token")!==''){ //判断本地是否存在token
+      next();
+    }else {
+     if(to.path === '/'){
+        next()
+      }else {
+        next({
+          path:'/'
+        })
+      }
+    }
+  }
+  else {
+    next()
+  }
+})
 
 Vue.config.productionTip = false
 
