@@ -26,8 +26,8 @@ public class ShiroConfig {
         bean.setFilters(filter);
 
         bean.setSecurityManager(securityManager());
-        bean.setLoginUrl("/login/**");
-        bean.setUnauthorizedUrl("/unauthorized");
+        bean.setLoginUrl("/unauthorized/noLogin");
+        bean.setUnauthorizedUrl("/unauthorized/noPerm");
         Map<String, String> map = new LinkedHashMap<>();
         map.put("/login/**", "anon");
         map.put("/**", "user");

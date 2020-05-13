@@ -112,12 +112,12 @@ export default {
                 this.totalCount = result.data.datas.length
             }else{
                 this.selectCrsData = []
-                console.log("查询失败");
                 return false;
             }
         })
         .catch((error)=> {
-            alert(error)
+            this.selectCrsData = []
+            alert("选课未开放")
         })
       }
     },

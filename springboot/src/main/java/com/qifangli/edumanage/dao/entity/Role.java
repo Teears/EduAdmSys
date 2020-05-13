@@ -4,6 +4,33 @@ public class Role {
     private String uid;
     private String rid;
     private String name;
+    private String telephone;
+    private String department;
+    private String teaName;
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getTeaName() {
+        return teaName;
+    }
+
+    public void setTeaName(String teaName) {
+        this.teaName = teaName;
+    }
 
     public String getName() {
         return name;

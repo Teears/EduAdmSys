@@ -7,11 +7,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/unauthorized")
 public class UnauthorizedurlController {
-    @RequestMapping("")
+    @RequestMapping("noPerm")
     public Result unauthorized(){
         Result result = new Result();
         result.setCode(0);
         result.setMsg("not authorized");
+        return result;
+    }
+    @RequestMapping("noLogin")
+    public Result unidentified(){
+        Result result = new Result();
+        result.setCode(0);
+        result.setMsg("请先登录");
         return result;
     }
 }

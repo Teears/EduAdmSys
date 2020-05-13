@@ -148,8 +148,8 @@ import XLSX from 'xlsx'
         totalCount:1,
         loading:false,
 
-         dialogFormVisible: false,
-          form: {
+        dialogFormVisible: false,
+        form: {
           name: '',
           dept:'',
           type: '',
