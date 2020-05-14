@@ -73,11 +73,15 @@ import md5 from "js-md5"
                 })
                 .then((result)=> {
                 if (result.data.code === 1) {
-                    alert("密码已修改")//测试返回数据
-                }else if(result.data.code === -1){
-                    alert("原密码错误")
+                    this.$message({
+                        type: 'success',
+                        message: '密码已修改'
+                    });
                 }else{
-                    console.log("密码重置失败");
+                    this.$message({
+                        type: 'info',
+                        message: result.data.msg
+                    });
                     return false;
                 }
                 })

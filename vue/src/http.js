@@ -1,11 +1,37 @@
 import {getCookie} from './components/global/cookie';
 import axios from 'axios';
-// import { Message } from 'element-ui'
- 
+import {Loading } from 'element-ui'; 
 axios.defaults.timeout = 5000; //超时终止请求
 axios.defaults.baseURL ='http://localhost:8080/'; //配置请求地址
  
  
+let loading        //定义loading变量
+
+function startLoading() {    //使用Element loading-start 方法
+    loading = Loading.service({
+        lock: true,
+        text: '加载中……',
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
+}
+function endLoading() {    //使用Element loading-close 方法
+    loading.close()
+}
+let needLoadingRequestCount = 0
+export function showFullScreenLoading() {
+    if (needLoadingRequestCount === 0) {
+        startLoading()
+    }
+    needLoadingRequestCount++
+}
+export function tryHideFullScreenLoading() {
+    if (needLoadingRequestCount <= 0) return
+    needLoadingRequestCount--
+    if (needLoadingRequestCount === 0) {
+        endLoading()
+    }
+}
+
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
@@ -17,6 +43,7 @@ axios.interceptors.request.use(
     if(token){
       config.headers.token = token
     }
+    showFullScreenLoading()
     return config;
   },
   error => {
@@ -31,9 +58,11 @@ axios.interceptors.response.use(
       router.replace("/")
       alert("请重新登录")
     }
+    tryHideFullScreenLoading()
     return response;
   },
   error => {
+    tryHideFullScreenLoading()
     return Promise.reject(error)
   }
 )

@@ -22,12 +22,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 Vue.config.productionTip = false
 
-new Vue({
-  
-  router,
-  render: h => h(App),
-}).$mount('#app')
-
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
     if(getCookie("token")!==''){ //判断本地是否存在token
@@ -46,3 +40,9 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+new Vue({
+  
+  router,
+  render: h => h(App),
+}).$mount('#app')

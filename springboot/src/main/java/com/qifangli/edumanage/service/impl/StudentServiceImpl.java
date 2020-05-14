@@ -12,7 +12,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -76,5 +79,25 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> findStuByDpt(String dpt) {
         return studentMapper.findStuByDpt(dpt);
+    }
+
+    @Override
+    public Map<String, Object> addStu(List<Object> entityList) {
+        int success = 0;
+        List<Student> lis = new ArrayList<>();
+        Map<String,Object> map = new HashMap<>();
+        for (Object object: entityList){
+            Student student = (Student) object;
+            System.out.println(student.getSex()+student.getBirth());
+            int i = studentMapper.insertStu(student);
+            if(i>0){
+                success++;
+            }else {
+                lis.add(student);
+            }
+        }
+        map.put("success",success);
+        map.put("data",lis);
+        return map;
     }
 }

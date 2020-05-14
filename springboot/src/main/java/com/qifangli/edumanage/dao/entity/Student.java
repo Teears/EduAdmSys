@@ -3,7 +3,6 @@ package com.qifangli.edumanage.dao.entity;
 public class Student {
     private String id;
     private String name;
-    private String pass;
     private String sex;
     private String graduate;
     private String birth;
@@ -12,8 +11,8 @@ public class Student {
     private String political;
     private String department;
     private String classAndGrade;
-    private String jiguan;
     private String status;
+    private String pass;
 
 
     public void setId(String id) {
@@ -58,10 +57,6 @@ public class Student {
 
     public void setClassAndGrade(String classAndGrade) {
         this.classAndGrade = classAndGrade;
-    }
-
-    public void setJiguan(String jiguan) {
-        this.jiguan = jiguan;
     }
 
     public void setStatus(String status) {
@@ -110,10 +105,6 @@ public class Student {
 
     public String getClassAndGrade() {
         return classAndGrade;
-    }
-
-    public String getJiguan() {
-        return jiguan;
     }
 
     public String getStatus() {

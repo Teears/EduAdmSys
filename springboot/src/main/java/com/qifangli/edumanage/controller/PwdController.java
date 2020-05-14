@@ -50,7 +50,6 @@ public class PwdController {
                 return ResultUtils.success();
             }
         }
-
-        return ResultUtils.error(-2,"用户不存在");
+        return ResultUtils.error(-2,"登录密码错误");
     }
 }

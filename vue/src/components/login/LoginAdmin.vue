@@ -79,7 +79,10 @@ import md5 from "js-md5"
             })
             .then((result)=> {
               if (result.data.code === 1) {
-                alert("管理员登录成功")//测试返回数据
+                this.$message({
+                  type: 'success',
+                  message: '登录成功!'
+                });
                 setCookie("token",result.data.datas.token,1)
                 setCookie("perm",result.data.datas.perm,1)
                 this.$router.replace({ path: '/Adm1_1' })

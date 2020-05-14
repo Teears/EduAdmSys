@@ -6,19 +6,22 @@ import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.service.RoleService;
 import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.TeacherService;
+import com.qifangli.edumanage.util.ExcelUtils;
 import com.qifangli.edumanage.util.JWTUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.dao.DataAccessException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController()
 @RequestMapping("/admin")
@@ -39,6 +42,30 @@ public class AdminController {
         List<Student> students = studentService.findStuByDpt(dpt);
 
         return ResultUtils.success(students);
+    }
+    @RequiresPermissions("admin_stuAdmin")
+    @RequestMapping("/stuAdmin/upload")
+    public Result stuUpload(@RequestParam("file") MultipartFile file){
+        InputStream is = null;
+        Map<String,Object> map= new HashMap<>();
+        try{
+            is = file.getInputStream();
+            List<Object> studentList = ExcelUtils.importDataFromExcel(new Student(),is,file.getOriginalFilename());
+            System.out.println(studentList.size()+"*********");
+            if(studentList.size()==0){
+                return ResultUtils.error(-1,"导入数据不能为空");
+            }else{
+                Map<String,Object> resmap = studentService.addStu(studentList);
+                int totalNum = studentList.size();
+                int failed = totalNum - Integer.parseInt(resmap.get("success").toString());
+                map.put("success",resmap.get("success"));
+                map.put("totalNum",totalNum);
+                map.put("failed",failed);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultUtils.success(map);
     }
 
     @RequiresPermissions("admin_authorized")

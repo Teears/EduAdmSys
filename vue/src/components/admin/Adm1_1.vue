@@ -22,12 +22,12 @@
         </el-select>
     </el-col>
     <el-col :span="12">
-    <el-input v-model="search" placeholder="请输入搜索内容"  size="small">
+      <el-input v-model="search" placeholder="请输入搜索内容"  size="small">
         <el-button slot="append" icon="el-icon-search" @click="searchOk">搜索</el-button>
-    </el-input>
-  </el-col>
+      </el-input>
+    </el-col>
      <el-button type="primary" size="small" @click="dialogFormVisible = true" icon="el-icon-plus">添加学生</el-button>
-     <el-button type="primary" plain size="small" @click="exportExcel" icon="el-icon-folder-add">导入学生</el-button>
+     <el-button type="primary" plain size="small" @click="dialogUploadVisible = true" icon="el-icon-folder-add">导入学生</el-button>
   </el-row>
 
   <div style="background-color:#eff1f2;padding:5px;border-radius: 2px;">
@@ -85,11 +85,42 @@
   style="text-align:center">
   </el-pagination>
 
-  <el-dialog title="新开设课程" :visible.sync="dialogFormVisible" close-on-click-modal=false width="30%">
+  <el-dialog title="新开设课程" :visible.sync="dialogFormVisible" close-on-click-modal=false>
   <el-form :model="form">
-    <el-form-item label="课程名称" :label-width="formLabelWidth">
+    <el-form-item label="学号" :label-width="formLabelWidth">
       <el-input v-model="form.name" autocomplete="off"></el-input>
     </el-form-item>
+    <el-form-item label="姓名" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="状态" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="性别" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="班级" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="学院" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="身份证号" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="出生日期" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="政治面貌" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="毕业学校" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电话号码" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+
     <el-form-item label="开设院校" :label-width="formLabelWidth">
       <el-select v-model="form.dept" placeholder="请选择">
       <el-option
@@ -126,6 +157,27 @@
     <el-button type="primary" @click="addCourseData">提交</el-button>
   </div>
 </el-dialog>
+
+<el-dialog title="上传文件" :visible.sync="dialogUploadVisible" close-on-click-modal=false>
+  <el-upload
+  class="upload-demo"
+  ref="upload"
+  multiple="false"
+  accept=".csv,.xls,.xlsx"
+  action="http://localhost:8080/admin/stuAdmin/upload"
+  with-credentials="true" 
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :file-list="fileList"
+  :on-change="changeMe"
+  :auto-upload="false">
+  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+  <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+  <div slot="tip" class="el-upload__tip">上传表格文件</div>
+</el-upload>
+</el-dialog>
+
+
   </div>
 </template>
 
@@ -156,7 +208,10 @@ import XLSX from 'xlsx'
           hours: '',
           credit: '',
         },
-        formLabelWidth: '80px'
+        formLabelWidth: '80px',
+
+        dialogUploadVisible: false,
+        fileList:[]
       }
     },
     computed:{
@@ -190,6 +245,12 @@ import XLSX from 'xlsx'
       }
     },
     methods:{
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
+      changeMe(file,fileList){
+        this.fileList=fileList;
+      },
       getDptName(){
         this.$axios
         .post('/dpt/getDptName', {})

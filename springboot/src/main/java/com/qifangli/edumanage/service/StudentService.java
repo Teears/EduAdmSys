@@ -5,6 +5,7 @@ import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.StudentScore;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentService {
 
@@ -27,5 +28,7 @@ public interface StudentService {
     void updatePwdByStuId(String id,String newPwd);
 
     List<Student> findStuByDpt(String dpt);
+
+    Map<String,Object> addStu(List<Object> entityList);
 
 }

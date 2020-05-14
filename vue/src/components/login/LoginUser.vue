@@ -73,11 +73,17 @@ import md5 from "js-md5"
                   })
                   .then((result)=> {
                     if (result.data.code === 1) {
-                      alert("学生登录成功")//测试返回数据
+                      this.$message({
+                        type: 'success',
+                        message: '登录成功!'
+                      });
                       setCookie("token",result.data.datas.token,1)
                       this.$router.replace({ path: '/Stu1_1' }); //跳转到student组件中
                     } else if(result.data.code === 2){
-                      alert("老师登录成功")//测试返回数据
+                      this.$message({
+                        type: 'success',
+                        message: '登录成功!'
+                      });
                       setCookie("token",result.data.datas.token,1)
                       this.$router.replace({ path: '/Tea1_1' }); //跳转到teacher组件中   
                     }else{

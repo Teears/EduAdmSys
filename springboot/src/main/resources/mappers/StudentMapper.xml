@@ -7,14 +7,13 @@
         <result column="stu_sex" property="sex"/>
         <result column="stu_gdu" property="graduate"/>
         <result column="stu_bth" property="birth"/>
+        <result column="stu_id" property="idCard"/>
         <result column="stu_tel" property="telephone"/>
         <result column="stu_pol" property="political"/>
         <result column="stu_dpt" property="department"/>
         <result column="stu_class" property="classAndGrade"/>
-        <result column="stu_reg" property="jiguan"/>
         <result column="stu_sta" property="status"/>
         <result column="stu_pwd" property="pass"/>
-        <result column="stu_id" property="idCard"/>
     </resultMap>
 
     <resultMap id ="StudentInfoMapDpt" type="com.qifangli.edumanage.dao.entity.Student">
@@ -23,12 +22,12 @@
         <result column="stu_sex" property="sex"/>
         <result column="stu_gdu" property="graduate"/>
         <result column="stu_bth" property="birth"/>
+        <result column="stu_id" property="idCard"/>
         <result column="stu_tel" property="telephone"/>
         <result column="stu_pol" property="political"/>
         <result column="dpt_name" property="department"/>
         <result column="stu_class" property="classAndGrade"/>
         <result column="stu_sta" property="status"/>
-        <result column="stu_id" property="idCard"/>
     </resultMap>
 
     <select id="findStudentById" resultMap="StudentInfoMap">
@@ -41,4 +40,8 @@
         select * from tbl_student,tbl_department
         where tbl_student.stu_dpt=tbl_department.dpt_no and stu_dpt=#{dpt}
     </select>
+    <insert id="insertStu" parameterType="Student">
+        insert into tbl_student(stu_no,stu_name,stu_sex,stu_gdu,stu_bth,stu_id,stu_tel,stu_pol,stu_dpt,stu_class,stu_sta,stu_pwd)
+        values (#{id},#{name},#{sex},#{graduate},#{birth},#{idCard},#{telephone},#{political},#{department},#{classAndGrade},#{status},#{pass})
+    </insert>
 </mapper>

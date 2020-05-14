@@ -14,5 +14,6 @@ public interface StudentMapper {
 
    List<Student> findStuByDpt(@Param("dpt") String dpt);
 
+   int insertStu(Student student);
 }
 

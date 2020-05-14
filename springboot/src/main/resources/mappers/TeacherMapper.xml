@@ -11,7 +11,6 @@
         <result column="tea_pol" property="political"/>
         <result column="tea_dpt" property="department"/>
         <result column="tea_title" property="title"/>
-        <result column="tea_reg" property="jiguan"/>
         <result column="tea_wkt" property="workTime"/>
         <result column="tea_pwd" property="pass"/>
         <result column="tea_id" property="idCard"/>

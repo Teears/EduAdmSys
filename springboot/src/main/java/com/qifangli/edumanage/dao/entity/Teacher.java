@@ -12,7 +12,6 @@ public class Teacher {
     private String telephone;
     private String political;
     private String department;
-    private String jiguan;
     private String workTime;
 
     public void setId(String id) {
@@ -57,10 +56,6 @@ public class Teacher {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public void setJiguan(String jiguan) {
-        this.jiguan = jiguan;
     }
 
     public void setWorkTime(String workTime) {
@@ -109,10 +104,6 @@ public class Teacher {
 
     public String getDepartment() {
         return department;
-    }
-
-    public String getJiguan() {
-        return jiguan;
     }
 
     public String getWorkTime() {

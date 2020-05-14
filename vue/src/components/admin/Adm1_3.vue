@@ -98,7 +98,7 @@
         </el-form-item>
       </el-col>
     </el-form-item>
-    </el-form>
+  </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
     <el-button type="primary" @click="addCourseData">提交</el-button>
@@ -126,8 +126,8 @@ import XLSX from 'xlsx'
         totalCount:1,
         loading:false,
 
-         dialogFormVisible: false,
-          form: {
+        dialogFormVisible: false,
+        form: {
           name: '',
           dept:'',
           type: '',
@@ -143,10 +143,7 @@ import XLSX from 'xlsx'
         this.$axios
         .post('/api/getCrsTableData', { //search为空,dept为all查询全部课程，search为空dept不为all查询某学院课程，
         //search不为空dept为空在所有课程中搜索，search和dept都不为空在某学院里搜索
-            pageSize:size,
-            page:page,
-            dept:this.deptSelected,
-            search:this.search
+
         })
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
@@ -174,8 +171,8 @@ import XLSX from 'xlsx'
       //添加课程
       addCourseData(){
         this.$axios
-        .post('/api/addCourseData', { //提交成绩接口
-
+        .post('', { //提交成绩接口
+          hours:thia.form.hours
         })
         .then((result)=> {
             if (result.data.code === 1) {
