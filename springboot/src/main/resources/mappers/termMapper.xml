@@ -8,7 +8,13 @@
     <select id="findLatestTerm" resultType="java.lang.Integer">
         SELECT MAX(term_no) FROM tbl_term
     </select>
-    <select id="findActiveTerm" resultType="TermInfoMap" >
-        select term_no,term_name from tbl_active_term,tbl_term where active_term_no = term_no and dpt_no=#{dpt}
+    <select id="findActiveTerm" resultMap="TermInfoMap" >
+        select term_no,term_name from tbl_active,tbl_term where id="active_term_no" and name = term_no
     </select>
+    <insert id="insertTerm"  parameterType="Term">
+        insert into tbl_term(term_no, term_name) values (#{id},#{name})
+    </insert>
+    <update id="updateActiveTerm">
+        update tbl_active set name=#{name} where id="active_term_no"
+    </update>
 </mapper>

@@ -9,6 +9,7 @@ import com.qifangli.edumanage.dao.mapper.StudentMapper;
 import com.qifangli.edumanage.dao.mapper.StudentScoreMapper;
 import com.qifangli.edumanage.service.StudentService;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -88,13 +89,17 @@ public class StudentServiceImpl implements StudentService {
         Map<String,Object> map = new HashMap<>();
         for (Object object: entityList){
             Student student = (Student) object;
-            System.out.println(student.getSex()+student.getBirth());
-            int i = studentMapper.insertStu(student);
-            if(i>0){
-                success++;
-            }else {
-                lis.add(student);
+            try {
+                int i = studentMapper.insertStu(student);
+                if(i>0){
+                    success++;
+                }else {
+                    lis.add(student);
+                }
+            }catch (DuplicateKeyException e){
+                System.out.println("违反唯一性约束：学号存在重复");
             }
+
         }
         map.put("success",success);
         map.put("data",lis);

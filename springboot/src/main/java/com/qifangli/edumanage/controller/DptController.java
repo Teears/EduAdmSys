@@ -45,7 +45,9 @@ public class DptController {
             return ResultUtils.success(departments);
         }else if(subject.hasRole( "admin" )){
             Department department = departmentService.findDptByid(dpt);
-            return ResultUtils.success(department);
+            List<Department> departments = new LinkedList<>();
+            departments.add(department);
+            return ResultUtils.success(departments);
         }else {
             return ResultUtils.error(-1,"no authorized");
         }

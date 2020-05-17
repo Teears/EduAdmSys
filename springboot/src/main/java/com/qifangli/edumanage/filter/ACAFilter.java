@@ -36,11 +36,15 @@ public class ACAFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)servletResponse;
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8081");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", ":x-requested-with,content-type,token");
         response.setHeader("Access-Control-Allow-Credentials","true");
-//        response.addCookie(new Cookie("JSSESIONID",request.getSession().getId()));
+
+        if ("OPTIONS".equals(request.getMethod())) {
+            response.setStatus(200);
+            return;
+        }
 
         filterChain.doFilter(servletRequest,servletResponse);
         System.out.println("*********************************过滤器被使用**************************");    }

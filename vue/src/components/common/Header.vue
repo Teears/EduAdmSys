@@ -4,9 +4,9 @@
     <img id="markpng" src="../../assets/mark.png" width="80px" height="80px">
     <p id="header_p"><span id="header_span">{{schoolName}}</span>教务管理系统</p>
     <div id="topicon">
-      <el-button type="text" icon="el-icon-chat-dot-round"></el-button>
       <el-button type="text" icon="el-icon-s-claim"></el-button>
       <el-button type="text" icon="el-icon-info"></el-button>
+      <el-button type="text" icon="el-icon-switch-button" :style="{display: this.visible}" @click="logout"></el-button>
     </div>
   </div>
   </div>
@@ -17,6 +17,33 @@ export default {
     data(){
       return{
         schoolName: "XXX学校"
+      }
+    },
+    computed:{
+      visible(){
+        if(this.$route.path=="/login"|| this.$route.path=="/loginAdmin"){
+          return 'none'
+        }
+        return 'inline'
+      }
+    },
+    methods:{
+      logout(){
+        this.$axios
+        .post('/unauthorized/logout', {})
+        .then((result)=> {
+          if(result.data.code==302){
+            var r = (this.$route.path).substr(0.4)
+            if(r=='/Stu'||r=='/Tea'){
+              router.replace("/login")
+            }else{
+              router.replace("/loginAdmin")
+            }
+          }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
       }
     }
   }
@@ -59,11 +86,11 @@ export default {
   .el-icon-s-claim:hover{
     color: #a1c4db;
   }
-  .el-icon-chat-dot-round{
+  .el-icon-switch-button{
     font-size: 16px;
     color: #3c4850;
   }
-  .el-icon-chat-dot-round:hover{
+  .el-icon-switch-button:hover{
     color: #a1c4db;
   }
   .el-icon-info{

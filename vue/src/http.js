@@ -28,10 +28,20 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-    if(response.data.code == 0){
-      router.replace("/login")
-    }
     tryHideFullScreenLoading()
+    if(response.data.code == 0){
+      var str = (window.location.href).split('/')
+      var r = str[str.length-1]
+      if(r=='Stu3'){
+        return response
+      }
+      r = r.substr(0,3)
+      if(r=='Stu'||r=='Tea'){
+        router.replace("/login")
+      }else{
+        router.replace("/loginAdmin")
+      }
+    }
     return response;
   },
   error => {

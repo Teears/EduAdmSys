@@ -1,10 +1,10 @@
 package com.qifangli.edumanage.dao.mapper;
 
 import com.qifangli.edumanage.dao.entity.CourseArrange;
-import com.qifangli.edumanage.dao.entity.Score;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
@@ -23,4 +23,9 @@ public interface CourseArrangeMapper {
 
     void updateSelectedSub(@Param("id") String id) throws DataAccessException;
 
+    int insertArrange(CourseArrange courseArrange) throws DuplicateKeyException;
+
+    int deleteArrangeById(@Param("id") String id);
+
+    int updateArrange(CourseArrange courseArrange);
 }

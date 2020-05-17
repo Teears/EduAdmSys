@@ -1,23 +1,56 @@
 package com.qifangli.edumanage.dao.entity;
 
 public class CourseArrange {
+    private String teacherno;
+    private String courseno;
+    private String term;
+    private String area;
+    private String room;
+    private String time;
+    private String week;
+    private String total;
+    private String grade;
+
+    private String spot;
     private String id;
     private String teacherName;
     private String courseName;
-    private String term;
-    private String week;
-    private String time;
-    private String spot;
     private Integer selected;
-    private Integer total;
-
-    private String courseno;
-    private String teacherno;
     private String type;
     private String credit;
     private String hours;
-    private String area;
-    private String room;
+
+    public CourseArrange() {
+    }
+
+    public CourseArrange(String id,String teacherno, String courseno, String term, String area, String room, String time, String week, String total, String grade) {
+        this.teacherno = teacherno;
+        this.courseno = courseno;
+        this.term = term;
+        this.area = area;
+        this.room = room;
+        this.time = time;
+        this.week = week;
+        this.total = total;
+        this.grade = grade;
+        this.id = id;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
 
     public String getTeacherno() {
         return teacherno;
@@ -81,14 +114,6 @@ public class CourseArrange {
 
     public void setSelected(Integer selected) {
         this.selected = selected;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
     }
 
     public String getWeek() {

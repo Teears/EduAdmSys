@@ -5,5 +5,9 @@ import com.qifangli.edumanage.dao.entity.Term;
 public interface TermService {
     Integer findLatestTerm();
 
-    Term findActiveTermByDpt(String dpt);
+    Term findActiveTerm();
+
+    int insertTerm(Term term);
+
+    void updateActiveTerm(String name);
 }

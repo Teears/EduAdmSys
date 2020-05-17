@@ -3,6 +3,7 @@ package com.qifangli.edumanage.service.impl;
 import com.qifangli.edumanage.dao.entity.Term;
 import com.qifangli.edumanage.dao.mapper.TermMapper;
 import com.qifangli.edumanage.service.TermService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +20,17 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
-    public Term findActiveTermByDpt(String dpt) {
-        return termMapper.findActiveTermByDpt(dpt);
+    public Term findActiveTerm() {
+        return termMapper.findActiveTerm();
+    }
+
+    @Override
+    public int insertTerm(Term term) throws DataAccessException {
+        return termMapper.insertTerm(term);
+    }
+
+    @Override
+    public void updateActiveTerm(String name) {
+        termMapper.updateActiveTerm(name);
     }
 }

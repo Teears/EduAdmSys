@@ -2,11 +2,9 @@ package com.qifangli.edumanage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.CourseArrange;
-import com.qifangli.edumanage.dao.entity.Score;
 import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.StudentScore;
 import com.qifangli.edumanage.service.CourseArrangeService;
-import com.qifangli.edumanage.service.ScoreService;
 import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.TermService;
 import com.qifangli.edumanage.util.result.Result;
@@ -78,7 +76,7 @@ public class StudentController {
         Student student = studentService.findStudentById(id);
         String dpt = student.getDepartment();
         String grade = student.getClassAndGrade().substring(0,3);
-        String term = termService.findActiveTermByDpt(dpt).getId();
+        String term = termService.findActiveTerm().getId();
         List<CourseArrange> newArrange = courseArrangeService.findByTermDptGrade(term,dpt,grade);
 
         return ResultUtils.success(newArrange);

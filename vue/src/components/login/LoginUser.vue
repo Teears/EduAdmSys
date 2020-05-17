@@ -21,7 +21,7 @@
   </el-form-item>
   
   <el-form-item>
-    <el-button type="primary" @click="submitForm('loginForm')" style="width: 250px">登录</el-button>
+    <el-button v-on:keyup.enter.native="submitForm('loginForm')" type="primary" @click="submitForm('loginForm')" style="width: 250px">登录</el-button>
   </el-form-item>
 </el-form>
   <el-link type="primary" style="cursor: pointer;" @click="toForgot">忘记密码?</el-link>

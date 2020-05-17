@@ -113,8 +113,6 @@ public class LoginController {
         session.removeAttribute("codeTime");
         session.setAttribute("verCode", verifyCode.toLowerCase());		//生成session
         session.setAttribute("codeTime", LocalDateTime.now());
-        System.out.println("***************获取图片验证码****************");
-        System.out.println("sessionId="+session.getId());
         // 生成图片
         int w = 100, h = 40;
         OutputStream out = response.getOutputStream();

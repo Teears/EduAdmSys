@@ -1,15 +1,16 @@
 package com.qifangli.edumanage.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qifangli.edumanage.dao.entity.CourseArrange;
-import com.qifangli.edumanage.dao.entity.Role;
-import com.qifangli.edumanage.dao.entity.Student;
+import com.qifangli.edumanage.dao.entity.*;
 import com.qifangli.edumanage.service.*;
 import com.qifangli.edumanage.util.ExcelUtils;
 import com.qifangli.edumanage.util.JWTUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
+import org.apache.poi.ss.formula.functions.T;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,10 @@ public class AdminController {
     private RolePermissionService rolePermissionService;
     @Resource
     private CourseArrangeService courseArrangeService;
+    @Resource
+    private TermService termService;
+    @Resource
+    private SpotService spotService;
 
 
     /**
@@ -44,23 +49,35 @@ public class AdminController {
     @RequiresPermissions("admin_selectCrs")
     @PostMapping("/arrange/loadButton")
     public Result isStuSelect(){
-        if (rolePermissionService.findStuSelect() != null){
-            return ResultUtils.success();
-        }else{
-            return ResultUtils.error(-1,"权限未开启");
+        Map<String,Object> map= new HashMap<>();
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole( "super_admin")){
+            map.put("isSuper",1);
+        }else {
+            map.put("isSuper",0);
         }
+        if (rolePermissionService.findStuSelect() != null){
+            map.put("isOpen",1);
+        }else{
+            map.put("isOpen",0);
+        }
+        return ResultUtils.success(map);
     }
 
     /**
      * 开启或关闭xx某学期选课通道，只有superAdmin才能
-     * @param param term
      * @return
      */
     @RequiresPermissions("super_selectCrs")
     @PostMapping("/arrange/openOrCloseStuSelect")
-    public Result openOrCloseStuSelect(@RequestBody JSONObject param){
-
-        return ResultUtils.success();
+    public Result openOrCloseStuSelect(){
+        if (rolePermissionService.findStuSelect() == null){
+            rolePermissionService.addStuSelect();
+            return ResultUtils.success("选课通道已开启");
+        }else {
+            rolePermissionService.deleteStuSelect();
+            return ResultUtils.success("选课通道已关闭");
+        }
     }
 
     /**
@@ -86,8 +103,25 @@ public class AdminController {
     @RequiresPermissions("admin_selectCrs")
     @PostMapping("/arrange/uploadCrsArrange")
     public Result uploadCrsArrange(@RequestParam("file") MultipartFile file){
-
-        return ResultUtils.success();
+        InputStream is = null;
+        Map<String,Object> map= new HashMap<>();
+        try{
+            is = file.getInputStream();
+            List<Object> arrangeList = ExcelUtils.importDataFromExcel(new CourseArrange(),is,file.getOriginalFilename());
+            if(arrangeList.size()==0){
+                return ResultUtils.error(-1,"导入数据不能为空");
+            }else{
+                Map<String,Object> resmap = courseArrangeService.addArrange(arrangeList);
+                int totalNum = arrangeList.size();
+                int failed = totalNum - Integer.parseInt(resmap.get("success").toString());
+                map.put("success",resmap.get("success"));
+                map.put("totalNum",totalNum);
+                map.put("failed",failed);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultUtils.success(map);
     }
 
     /**
@@ -98,8 +132,24 @@ public class AdminController {
     @RequiresPermissions("admin_selectCrs")
     @PostMapping("/arrange/editCrsArrange")
     public Result editCrsArrange(@RequestBody JSONObject param){
-
-        return ResultUtils.success();
+        String id = param.getString("id");
+        String grade = param.getString("grade");
+        String term = param.getString("term");
+        String teacherno = param.getString("teacherno");
+        String courseno = param.getString("courseno");
+        String area = param.getString("area");
+        String room = param.getString("room");
+        String week = param.getString("week");
+        String time = param.getString("time");
+        String total = param.getString("total");
+        CourseArrange courseArrange = new CourseArrange(id,teacherno,courseno,term,area,room,time,week,total,grade);
+        String spot = spotService.findSpotByAreaAndRoom(area,room).getId();
+        courseArrange.setSpot(spot);
+        if(courseArrangeService.updateArrange(courseArrange)>0){
+            return ResultUtils.success();
+        }else {
+            return ResultUtils.error(-1,"数据不存在");
+        }
     }
 
     /**
@@ -110,7 +160,27 @@ public class AdminController {
     @RequiresPermissions("admin_selectCrs")
     @PostMapping("/arrange/deleteCrsArrange")
     public Result deleteCrsArrange(@RequestBody JSONObject param){
+        String id = param.getString("id");
+        if(courseArrangeService.deleteArrangeById(id)>0){
+            return ResultUtils.success();
+        }else {
+            return ResultUtils.error(-1,"错误");
+        }
+    }
 
+    @RequiresPermissions("super_selectCrs")
+    @PostMapping("/arrange/addTerm")
+    public Result addTerm(@RequestBody JSONObject param){
+        String id = param.getString("id");
+        String name = param.getString("name");
+        Term term = new Term(id,name);
+        try {
+            if(termService.insertTerm(term)>0){
+                termService.updateActiveTerm(name);
+            }
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
         return ResultUtils.success();
     }
 
@@ -138,7 +208,6 @@ public class AdminController {
         try{
             is = file.getInputStream();
             List<Object> studentList = ExcelUtils.importDataFromExcel(new Student(),is,file.getOriginalFilename());
-            System.out.println(studentList.size()+"*********");
             if(studentList.size()==0){
                 return ResultUtils.error(-1,"导入数据不能为空");
             }else{

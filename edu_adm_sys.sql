@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 15/05/2020 17:04:03
+ Date: 18/05/2020 01:32:31
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `permission`  (
   `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`pid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permission
@@ -35,12 +35,12 @@ CREATE TABLE `permission`  (
 INSERT INTO `permission` VALUES (1, '授权管理', 'admin_authorized', '/admin/authorized/**');
 INSERT INTO `permission` VALUES (2, '教师档案管理', 'admin_teaAdmin', '/admin/teacher/**');
 INSERT INTO `permission` VALUES (3, '课程档案管理', 'admin_crsAdmin', '/admin/course/**');
-INSERT INTO `permission` VALUES (4, '排课', 'admin_select', '/admin/select/**');
-INSERT INTO `permission` VALUES (5, '开启结束选课', 'admin_selectCrs', '/admin/openAndClose');
+INSERT INTO `permission` VALUES (4, '排课', 'admin_selectCrs', '/admin/select/**');
 INSERT INTO `permission` VALUES (6, '学生档案管理', 'admin_stuAdmin', '/admin/student/**');
 INSERT INTO `permission` VALUES (7, '教师普通操作', 'teacher_all', '/teacher/**');
 INSERT INTO `permission` VALUES (8, '普通学生操作', 'student_all', '/student/**');
 INSERT INTO `permission` VALUES (9, '学生选课通道', 'student_select', '/student/selectCrs');
+INSERT INTO `permission` VALUES (10, '开启或关闭选课通道', 'super_selectCrs', '/admin/arrange/openOrCloseStuSelect');
 
 -- ----------------------------
 -- Table structure for role
@@ -83,12 +83,28 @@ INSERT INTO `role_permission` VALUES ('admin', 3);
 INSERT INTO `role_permission` VALUES ('super_admin', 3);
 INSERT INTO `role_permission` VALUES ('admin', 4);
 INSERT INTO `role_permission` VALUES ('super_admin', 4);
-INSERT INTO `role_permission` VALUES ('admin', 5);
-INSERT INTO `role_permission` VALUES ('super_admin', 5);
 INSERT INTO `role_permission` VALUES ('admin', 6);
 INSERT INTO `role_permission` VALUES ('super_admin', 6);
 INSERT INTO `role_permission` VALUES ('teacher', 7);
 INSERT INTO `role_permission` VALUES ('student', 8);
+INSERT INTO `role_permission` VALUES ('super_admin', 10);
+
+-- ----------------------------
+-- Table structure for tbl_active
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_active`;
+CREATE TABLE `tbl_active`  (
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '当前排课学期',
+  `name` int(0) NULL DEFAULT NULL,
+  INDEX `fk_active_term`(`id`) USING BTREE,
+  INDEX `fk_active_term_1`(`name`) USING BTREE,
+  CONSTRAINT `fk_active_term_1` FOREIGN KEY (`name`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tbl_active
+-- ----------------------------
+INSERT INTO `tbl_active` VALUES ('active_term_no', 20202);
 
 -- ----------------------------
 -- Table structure for tbl_class
@@ -140,6 +156,12 @@ INSERT INTO `tbl_course` VALUES ('11003', '算法设计', 3, 54, '11', '专业�
 INSERT INTO `tbl_course` VALUES ('11004', '网络编程', 3, 54, '11', '专业选修');
 INSERT INTO `tbl_course` VALUES ('11005', '形式与政策', 1, 32, '11', '通识必修');
 INSERT INTO `tbl_course` VALUES ('11006', '编程艺术', 1, 32, '11', '通识选修');
+INSERT INTO `tbl_course` VALUES ('11007', '数据库原理', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES ('11008', 'C语言', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES ('11009', 'C++语言', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES ('11010', 'IOS程序开发', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES ('11011', '计算机组装与维护', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES ('11012', '体育教学', 4, 54, '08', '专业必修');
 
 -- ----------------------------
 -- Table structure for tbl_department
@@ -277,12 +299,12 @@ CREATE TABLE `tbl_tea_crs`  (
   INDEX `fk_tea_crs_spot`(`spot`) USING BTREE,
   INDEX `fk_tea_crs_teacher`(`tea_no`) USING BTREE,
   INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
-  INDEX `fk_rea_crs_term`(`term`) USING BTREE,
+  UNIQUE INDEX `constraint_unique`(`term`, `time`, `spot`, `week`) USING BTREE,
   CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_tea_crs
@@ -295,7 +317,9 @@ INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', '11003', 20201, '4', '0105', 'T
 INSERT INTO `tbl_tea_crs` VALUES (6, '20051106', '11003', 20201, '3', '0106', 'Wed', 3, 40, '2017');
 INSERT INTO `tbl_tea_crs` VALUES (7, '20061104', '11002', 20201, '4', '0201', 'Thur', 4, 30, '2017');
 INSERT INTO `tbl_tea_crs` VALUES (8, '20051106', '11006', 20201, '0', '0201', 'Tues', 1, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (9, NULL, '11004', 20201, NULL, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `tbl_tea_crs` VALUES (9, '20151107', '11004', 20201, '1', '0106', 'Wed', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (17, '20011103', '11004', 20202, '0', '0102', 'Mon', 0, 40, '2019');
+INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', '11001', 20202, '1', '0201', 'Mon', 0, 40, '2018');
 
 -- ----------------------------
 -- Table structure for tbl_teacher
@@ -353,6 +377,7 @@ INSERT INTO `tbl_term` VALUES (20182, '2018-2019第一学年');
 INSERT INTO `tbl_term` VALUES (20191, '2018-2019第二学年');
 INSERT INTO `tbl_term` VALUES (20192, '2019-2020第一学年');
 INSERT INTO `tbl_term` VALUES (20201, '2019-2020第二学年');
+INSERT INTO `tbl_term` VALUES (20202, '2020-2021第一学年');
 
 -- ----------------------------
 -- Table structure for user_role

@@ -28,6 +28,10 @@ public class ShiroUserFilter extends UserFilter {
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
+        if ("OPTIONS".equals(httpRequest.getMethod())) {
+            httpResponse.setStatus(200);
+            return false;
+        }
         return super.preHandle(request,response);
     }
 
@@ -42,6 +46,11 @@ public class ShiroUserFilter extends UserFilter {
         httpResp.setHeader("Access-Control-Allow-Credentials", "true");
         httpResp.setHeader("Access-Control-Max-Age", "3600");
         httpResp.setHeader("Access-Control-Allow-Headers", ":x-requested-with,content-type,token");
+
+        if ("OPTIONS".equals(httpReq.getMethod())) {
+            httpResp.setStatus(200);
+            return false;
+        }
 
         this.saveRequestAndRedirectToLogin(request, response);
         return false;

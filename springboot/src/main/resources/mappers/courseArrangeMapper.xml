@@ -18,6 +18,7 @@
         <result column="crs_hours" property="hours"/>
         <result column="selected" property="selected"/>
         <result column="total" property="total"/>
+        <result column="grade" property="grade"/>
 
     </resultMap>
     <select id="findByTermAndSpot" resultMap="CourseArrangeInfoMap">
@@ -56,4 +57,17 @@
     <select id="updateSelectedSub">
         UPDATE tbl_tea_crs set selected=selected-1 where tea_crs_no=#{id}
     </select>
+    <insert id="insertArrange" parameterType="CourseArrange">
+        insert into tbl_tea_crs(tea_no, crs_no, term, time, spot, week, total, grade)
+        values (#{teacherno},#{courseno},#{term},#{time},#{spot},#{week},#{total},#{grade})
+    </insert>
+    <delete id="deleteArrangeById">
+        delete from tbl_tea_crs where tea_crs_no=#{id}
+    </delete>
+    <update id="updateArrange" parameterType="CourseArrange">
+        update tbl_tea_crs set
+        tea_no=#{teacherno},crs_no=#{courseno},term=#{term},time=#{time},
+        spot=#{spot},week=#{week},total=#{total},grade=#{grade}
+        where tea_crs_no=#{id}
+    </update>
 </mapper>

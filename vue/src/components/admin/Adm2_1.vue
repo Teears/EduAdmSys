@@ -2,7 +2,7 @@
 <div style="width:1100px">
   <el-row type="flex" style="margin-bottom:5px">
     <el-col :span="4">
-      <el-select v-model="deptSelected" @change="getDeptSelected" placeholder="请选择学院" style="width:150px" size="small">
+      <el-select v-model="deptSelected" placeholder="请选择学院" style="width:150px" size="small">
             <el-option
             v-for="item in deptOptions"
             :key="item.id"
@@ -12,7 +12,7 @@
         </el-select>
     </el-col>
     <el-col :span="4">
-        <el-select v-model="gradeSelected" @change="getGradeSelected" placeholder="请选择年级" style="width:150px" size="small">
+        <el-select v-model="gradeSelected" placeholder="请选择年级" style="width:150px" size="small">
             <el-option
             v-for="item in gradeOptions"
             :key="item.grade"
@@ -22,7 +22,7 @@
         </el-select>
     </el-col>
     <el-col :span="4">
-      <el-select v-model="termSelected" @change="getTermSelected" placeholder="请选择学年" style="width:150px" size="small">
+      <el-select v-model="termSelected" placeholder="请选择学年" style="width:150px" size="small">
         <el-option
           v-for="item in termOptions"
           :key="item.term"
@@ -31,11 +31,14 @@
         </el-option>
       </el-select>
     </el-col>
-    <el-col :span="4">
+    <el-col :span="6">
       <el-button type="primary" plain size="small" @click="selectOk">查询</el-button>
-      <el-button type="primary" plain size="small" @click="dialogUploadVisible = true" icon="el-icon-folder-add">导入学生</el-button>
+      <el-button type="primary" plain size="small" @click="dialogUploadVisible = true" icon="el-icon-folder-add">导入课程安排</el-button>
     </el-col>
-      <el-button type="danger" size="small" @click="openOrClose">{{this.isOpen==true?"结束选课":"开启选课"}}</el-button>
+    <el-col :span="4">
+    </el-col>
+          <el-button type="danger" size="small"  :style="{display: this.visible}" @click="openOrClose">{{this.isOpen==true?"结束选课":"开启选课"}}</el-button>
+
   </el-row>
 
   <div style="background-color:#eff1f2;padding:5px;border-radius: 2px;">
@@ -49,13 +52,13 @@
     :header-cell-style="{padding:0+'px'}"
     :row-style="{height:'20px'}"
     :cell-style="{padding:'2px'}">
-    <el-table-column type="index" label="序号" width="59">
+    <el-table-column type="index" label="序号" width="49">
     </el-table-column>
-    <el-table-column prop="courseno" label="课程编号" width="100">
+    <el-table-column prop="courseno" label="课程编号" width="80">
     </el-table-column>
-    <el-table-column prop="type" label="课程类型" width="150">
+    <el-table-column prop="type" label="课程类型" width="100">
     </el-table-column>
-    <el-table-column prop="courseName" label="课程名称" width="200">
+    <el-table-column prop="courseName" label="课程名称" width="180">
     </el-table-column>
     <el-table-column prop="hours" label="学时" width="50">
     </el-table-column>
@@ -64,11 +67,11 @@
     <el-table-column prop="area,room" label="地点" width="200">
       <template slot-scope="scope"> {{scope.row.area}}{{scope.row.room}} </template>
     </el-table-column>
-    <el-table-column prop="teacherName" label="任课教师" width="150">
+    <el-table-column prop="teacherName" label="任课教师" width="130">
     </el-table-column>
-    <el-table-column prop="total" label="最大选课人数" width="130">
+    <el-table-column prop="total" label="人数" width="50">
     </el-table-column>
-    <el-table-column fixed="right" prop="operate" label="操作" width="100">
+    <el-table-column fixed="right" prop="operate" label="操作" width="200">
       <template slot-scope="scope">
           <el-button size="mini" plain type="primary"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -92,54 +95,48 @@
 
   <el-dialog title="课程安排" :visible.sync="dialogFormVisible" :close-on-click-modal="false" width="40%">
   <el-form :model="form">
-    <el-row type="flex" justify="space-between">
-      <el-col :span="12">
-        <el-form-item label="学院" label-width="80px">
-          <el-input v-model="form.dept" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="年级" label-width="80px">
-          <el-input v-model="form.grade" :disabled="true"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-  <el-row type="flex" justify="space-between">
-    <el-col :span="12">
-      <el-form-item label="课程编号" label-width="80px">
-        <el-input v-model="form.cnumber" :disabled="true"></el-input>
-      </el-form-item>
-    </el-col>
-    <el-col :span="12">
-      <el-form-item label="课程名称" label-width="80px">
-        <el-input v-model="form.crsname" :disabled="true"></el-input>
-      </el-form-item>
-    </el-col>
-  </el-row>
-  <el-form-item label="上课地点" label-width="80px">
-    <el-select v-model="form.areaSelected" placeholder="请选择区域" @change="getAreaSelected" style="width:180px">
-      <el-option v-for="item in areaOptions"
-      :key="item.area" :label="item.label" :value="item.area">
-      </el-option>
-    </el-select>
-    <el-select v-model="form.roomSelected" placeholder="请选择教室" @change="getRoomSelected" style="width:180px;margin-left:10px">
-      <el-option v-for="item in roomOptions"
-      :key="item.room" :label="item.label" :value="item.room">
-      </el-option>
-    </el-select>
-  </el-form-item>
-  <el-form-item>
-    <el-col :span="12">
-      <el-form-item label="教师编号" label-width="80px">
-        <el-input v-model="form.tnumber"></el-input>
-      </el-form-item>
-    </el-col>
-    <el-col :span="12">
-      <el-form-item label="教师姓名" label-width="80px">
-        <el-input v-model="form.teaname"></el-input>
-      </el-form-item>
-    </el-col>
-  </el-form-item>
+    <el-form-item label="年级学年" label-width="80px">
+      <el-select v-model="form.grade" placeholder="请选择年级" style="width:180px">
+        <el-option v-for="item in gradeOptions" :key="item.grade" :label="item.label" :value="item.grade"> </el-option>
+      </el-select>
+      <el-select v-model="form.term" placeholder="请选择学年" style="width:180px;margin-left:10px">
+        <el-option v-for="item in termOptions" :key="item.term" :label="item.label" :value="item.term"> </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="上课地点" label-width="80px">
+      <el-select v-model="form.area" placeholder="请选择区域" @change="getAreaSelected" style="width:180px">
+        <el-option v-for="item in areaOptions" :key="item.area" :label="item.label" :value="item.area"></el-option>
+      </el-select>
+      <el-select v-model="form.room" placeholder="请选择教室" style="width:180px;margin-left:10px">
+        <el-option v-for="item in roomOptions" :key="item.room" :label="item.label" :value="item.room"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="上课时间" label-width="80px">
+      <el-select v-model="form.week" placeholder="请选择星期" style="width:180px">
+          <el-option label="星期一" value="Mon"></el-option>
+          <el-option label="星期二" value="Tues"></el-option>
+          <el-option label="星期三" value="Wed"></el-option>
+          <el-option label="星期四" value="Thur"></el-option>
+          <el-option label="星期五" value="Fri"></el-option>
+      </el-select>
+      <el-select v-model="form.time" placeholder="请选择时间" style="width:180px;margin-left:10px">
+          <el-option label="第一节课（上午）" value="0"></el-option>
+          <el-option label="第二节课（上午）" value="1"></el-option>
+          <el-option label="第三节课（下午）" value="3"></el-option>
+          <el-option label="第四节课（下午）" value="4"></el-option>
+          <el-option label="第五节课（晚上）" value="6"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="任课教师" label-width="80px">
+      <el-input v-model="form.teacherno" style="width:180px"></el-input>
+    </el-form-item>
+    <el-form-item label="课程编号" label-width="80px">
+      <el-input v-model="form.courseno" style="width:180px"></el-input>
+    </el-form-item>
+    <el-form-item label="最大人数" label-width="80px" type="number">
+      <el-input v-model="form.total" style="width:180px"></el-input>
+    </el-form-item>
+
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -153,10 +150,9 @@
   ref="upload"
   multiple="false"
   accept=".xls,.xlsx"
-  action=""
+  action="http://localhost:8080/admin/arrange/uploadCrsArrange"
   with-credentials="true" 
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
+  :on-success="handleAvatarSuccess"
   :file-list="fileList"
   :on-change="changeMe"
   :auto-upload="false">
@@ -182,8 +178,13 @@ import {tryHideFullScreenLoading } from '../../loading.js'
         deptSelected: '',
         gradeSelected:'',
         termSelected:'',
+        roomOptions:'',
 
         tableData:[],
+        tableInfo:{
+          term:'',
+          grade:''
+        },
 
         pageSize:17,
         currentPage:1,
@@ -193,17 +194,21 @@ import {tryHideFullScreenLoading } from '../../loading.js'
         roomOptions:'',
 
         isOpen:false,
+        visible:'inline',
 
         dialogFormVisible:false,
+        editIndex:0,
         form:{
-          dept:'',
+          id:'',
           grade:'',
-          areaSelected:'',
-          roomSelected:'',
-          cnumber:'',
-          crsname:'',
-          tnumber:'',
-          teaname:''
+          term:'',
+          teacherno:'',
+          courseno:'',
+          area:'',
+          room:'',
+          week:'',
+          time:'',
+          total:''
         },
         dialogUploadVisible: false,
         fileList:[]
@@ -238,18 +243,10 @@ import {tryHideFullScreenLoading } from '../../loading.js'
             term:year1+"2",
             label:year1+'-'+(year1+1)+'第一学年'
           }
-          options[1] = {
-            term:year1+"1",
-            label:(year1-1)+'-'+year1+'第二学年'
-          }
         }else{
           options[0] = {
             term:(year1+1)+"1",
             label:year1+'-'+(year1+1)+'第二学年'
-          }
-          options[1] = {
-            term:year1+"2",
-            label:year1+'-'+(year1+1)+'第一学年'
           }
         }
         return options
@@ -271,6 +268,19 @@ import {tryHideFullScreenLoading } from '../../loading.js'
             alert(error)
         })
       },
+      getAreaSelected(){
+        this.$axios
+        .post('/spot/getRoomByArea', { 
+          area:this.areaSelected
+        })
+        .then((result)=> {
+          this.form.roomSelected = ""
+          this.roomOptions = result.data.datas
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
 
       selectOk(){
         if(this.deptSelected==""||this.gradeSelected==""||this.termSelected==""){
@@ -280,6 +290,8 @@ import {tryHideFullScreenLoading } from '../../loading.js'
           });
           return;
         }
+        this.tableInfo.term = this.termSelected
+        this.tableInfo.grade = this.gradeSelected
         this.$axios
         .post('/admin/arrange/getCrsArrangeData', {
           dpt: this.deptSelected,
@@ -306,18 +318,39 @@ import {tryHideFullScreenLoading } from '../../loading.js'
       changeMe(file,fileList){
         this.fileList=fileList;
       },
-
+      handleAvatarSuccess(response, file, fileList){
+        var success = response.datas.success
+        var total = response.datas.totalNum
+        var failed = response.datas.failed
+        alert("导入成功，共添加"+total+"条，成功"+success+"条，失败"+failed+"条");
+        this.selectOk()
+      },
+      
       openOrClose(){
-
+        this.$axios
+        .post('/admin/arrange/openOrCloseStuSelect', {})
+        .then((result)=> {
+          if (result.data.code === 1) {
+            this.$message({
+              type: 'success',
+              message: result.data.msg
+            });
+            this.isOpen = !this.isOpen
+          }else{
+            return false;
+          }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
       },
       loadButton(){
         this.$axios
         .post('/admin/arrange/loadButton', {})
         .then((result)=> {
           if (result.data.code === 1) {
-            this.isOpen = true
-          }else if(result.data.code === -1){
-            this.isOpen = false
+            this.isOpen = result.data.datas.isOpen==1? true: false
+            this.visible = result.data.datas.isSuper==1? 'inline':'none'
           }else{
             return false;
           }
@@ -327,18 +360,75 @@ import {tryHideFullScreenLoading } from '../../loading.js'
         })
       },
 
-      handleDelete(){
-
+      handleDelete(index,row){
+        this.$confirm('确定删除'+row.teacherName+'、'+row.courseName+'吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+          .post('/admin/arrange/deleteCrsArrange', {
+            id:row.id
+          })
+          .then((result)=> {
+            if (result.data.code === 1) {
+              this.tableData.splice(index, 1)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }
+          }).catch((error)=> {
+            alert(error)
+          })
+        }).catch(() => {});
       },
       handleEdit(index,row){
-        this.form.dept = this.tableInfo.dept
+        alert(index)
+        this.form.id = row.id
         this.form.grade = this.tableInfo.grade
-        this.form.cnumber = row.cnumber
-        this.form.crsname = row.crsname
+        this.form.term =this.tableInfo.term
+        this.form.courseno = row.courseno
+        this.form.teacherno = row.teacherno
+        this.form.area = row.area
+        this.form.room = row.room
+        this.form.week = row.week
+        this.form.time = row.time
+        this.form.total = row.total
+        this.editIndex = index
         this.dialogFormVisible = true
       },
       editOk(){
-
+        this.$axios
+        .post('/admin/arrange/editCrsArrange', this.form)
+        .then((result)=> {
+          if (result.data.code === 1) {
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+            var i = this.editIndex
+            if(this.form.grade!=this.tableInfo.grade||this.form.term!=this.tableInfo.term){
+              this.tableData.splice(i, 1)
+            }else{
+              this.tableData[i].grade = this.form.grade
+              this.tableData[i].term =this.form.term
+              this.tableData[i].courseno = this.form.courseno
+              this.tableData[i].teacherno = this.form.teacherno
+              this.tableData[i].area = this.form.area
+              this.tableData[i].room = this.form.room
+              this.tableData[i].week = this.form.week
+              this.tableData[i].time = this.form.time
+              this.tableData[i].total = this.form.total
+            }
+            this.dialogFormVisible = false
+          }else{
+            return false
+          }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
       },
      
       handleCurrentChange(val) {
@@ -346,7 +436,6 @@ import {tryHideFullScreenLoading } from '../../loading.js'
       },
   },
   created(){
-    this.selectOk()
     this.getDptName()
     this.loadButton()
   }

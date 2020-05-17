@@ -2,6 +2,7 @@ package com.qifangli.edumanage.dao.mapper;
 
 import com.qifangli.edumanage.dao.entity.Student;
 import org.apache.ibatis.annotations.*;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface StudentMapper {
 
    List<Student> findStuByDpt(@Param("dpt") String dpt);
 
-   int insertStu(Student student);
+   int insertStu(Student student) throws DuplicateKeyException;
 }
 

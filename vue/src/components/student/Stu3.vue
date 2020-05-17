@@ -112,12 +112,12 @@ export default {
                 this.totalCount = result.data.datas.length
             }else{
                 this.selectCrsData = []
+                alert("选课通道未开放")
                 return false;
             }
         })
         .catch((error)=> {
-            this.selectCrsData = []
-            alert("选课未开放")
+            alert(error)
         })
       }
     },

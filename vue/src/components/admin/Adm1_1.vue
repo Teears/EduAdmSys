@@ -166,8 +166,7 @@
   accept=".xls,.xlsx"
   action="http://localhost:8080/admin/stuAdmin/upload"
   with-credentials="true" 
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
+  :on-success="handleAvatarSuccess"
   :file-list="fileList"
   :on-change="changeMe"
   :auto-upload="false">
@@ -250,6 +249,12 @@ import XLSX from 'xlsx'
       },
       changeMe(file,fileList){
         this.fileList=fileList;
+      },
+      handleAvatarSuccess(response, file, fileList){
+        var success = response.datas.success
+        var total = response.datas.totalNum
+        var failed = response.datas.failed
+        alert("导入成功，共添加"+total+"条，成功"+success+"条，失败"+failed+"条");
       },
       getDptName(){
         this.$axios
