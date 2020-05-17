@@ -42,19 +42,22 @@ public class DptController {
 
         if(subject.hasRole( "super_admin" )){
             List<Department> departments = departmentService.findAllDpt();
-            for(Department item: departments){
-                Map<String,String> data = new HashMap<>();
-                data.put("dpt",item.getName());
-                datas.add(data);
-            }
+            return ResultUtils.success(departments);
         }else if(subject.hasRole( "admin" )){
             Department department = departmentService.findDptByid(dpt);
-            Map<String,String> data = new HashMap<>();
-            data.put("dpt",department.getName());
-            datas.add(data);
+            return ResultUtils.success(department);
         }else {
             return ResultUtils.error(-1,"no authorized");
         }
-        return ResultUtils.success(datas);
+    }
+    @PostMapping("/getOwnDpt")
+    public Result getOwnDpt(HttpServletRequest request){
+        String token = request.getHeader("token");
+        String id = JWTUtil.getUsername(token);
+        String dpt = teacherService.findTeacherById(id).getDepartment();
+        LinkedList<Map<String,String>> datas = new LinkedList<>();
+
+        Department department = departmentService.findDptByid(dpt);
+        return ResultUtils.success(department);
     }
 }

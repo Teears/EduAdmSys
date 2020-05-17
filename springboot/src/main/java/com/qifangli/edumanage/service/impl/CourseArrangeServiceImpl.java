@@ -29,7 +29,7 @@ public class CourseArrangeServiceImpl implements CourseArrangeService {
     }
 
     @Override
-    public List<CourseArrange> findByTermAndDpt(String term,String dpt) {
-        return courseArrangeMapper.findByTermAndDpt(term,dpt);
+    public List<CourseArrange> findByTermDptGrade(String term,String dpt,String grade) {
+        return courseArrangeMapper.findByTermDptGrade(term,dpt,grade);
     }
 }

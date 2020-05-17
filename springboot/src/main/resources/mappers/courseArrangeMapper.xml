@@ -42,12 +42,12 @@
         where tbl_course.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
     </select>
 
-    <select id="findByTermAndDpt" resultMap="CourseArrangeInfoMap">
+    <select id="findByTermDptGrade" resultMap="CourseArrangeInfoMap">
         select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
         from tbl_teacher,tbl_spot,
         (select * from tbl_course where crs_dpt=#{dpt})S,
         (SELECT * FROM tbl_tea_crs where term=#{term})T
-        where S.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
+        where S.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no and grade=#{grade}
     </select>
 
     <select id="updateSelectedAdd">

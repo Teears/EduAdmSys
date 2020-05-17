@@ -1,13 +1,13 @@
 <template>
 <div style="width:1100px">
-    <el-row type="flex" style="margin-bottom:5px">
+  <el-row type="flex" style="margin-bottom:5px">
     <el-col :span="4">
       <el-select v-model="deptSelected" @change="getDeptSelected" placeholder="请选择学院" style="width:150px" size="small">
             <el-option
             v-for="item in deptOptions"
-            :key="item.dept"
-            :label="item.label"
-            :value="item.dept">
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
             </el-option>
         </el-select>
     </el-col>
@@ -22,10 +22,21 @@
         </el-select>
     </el-col>
     <el-col :span="4">
-      <el-button type="danger" size="small" @click="release" icon="el-icon-check">发布</el-button>
-      <el-button type="danger" size="small" @click="stop">结束选课</el-button>
+      <el-select v-model="termSelected" @change="getTermSelected" placeholder="请选择学年" style="width:150px" size="small">
+        <el-option
+          v-for="item in termOptions"
+          :key="item.term"
+          :label="item.label"
+          :value="item.term">
+        </el-option>
+      </el-select>
     </el-col>
-    </el-row>
+    <el-col :span="4">
+      <el-button type="primary" plain size="small" @click="selectOk">查询</el-button>
+      <el-button type="primary" plain size="small" @click="dialogUploadVisible = true" icon="el-icon-folder-add">导入学生</el-button>
+    </el-col>
+      <el-button type="danger" size="small" @click="openOrClose">{{this.isOpen==true?"结束选课":"开启选课"}}</el-button>
+  </el-row>
 
   <div style="background-color:#eff1f2;padding:5px;border-radius: 2px;">
     <el-table
@@ -40,19 +51,20 @@
     :cell-style="{padding:'2px'}">
     <el-table-column type="index" label="序号" width="59">
     </el-table-column>
-    <el-table-column prop="cnumber" label="课程编号" width="100">
+    <el-table-column prop="courseno" label="课程编号" width="100">
     </el-table-column>
     <el-table-column prop="type" label="课程类型" width="150">
     </el-table-column>
-    <el-table-column prop="crsname" label="课程名称" width="200">
+    <el-table-column prop="courseName" label="课程名称" width="200">
     </el-table-column>
     <el-table-column prop="hours" label="学时" width="50">
     </el-table-column>
     <el-table-column prop="credit" label="学分" width="50">
     </el-table-column>
-    <el-table-column prop="port" label="上课地点" width="200">
+    <el-table-column prop="area,room" label="地点" width="200">
+      <template slot-scope="scope"> {{scope.row.area}}{{scope.row.room}} </template>
     </el-table-column>
-    <el-table-column prop="teaname" label="任课教师" width="150">
+    <el-table-column prop="teacherName" label="任课教师" width="150">
     </el-table-column>
     <el-table-column prop="total" label="最大选课人数" width="130">
     </el-table-column>
@@ -60,6 +72,8 @@
       <template slot-scope="scope">
           <el-button size="mini" plain type="primary"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" plain type="danger"
+            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
     </el-table-column>
     </el-table>
@@ -90,7 +104,6 @@
         </el-form-item>
       </el-col>
     </el-row>
-
   <el-row type="flex" justify="space-between">
     <el-col :span="12">
       <el-form-item label="课程编号" label-width="80px">
@@ -103,7 +116,6 @@
       </el-form-item>
     </el-col>
   </el-row>
-
   <el-form-item label="上课地点" label-width="80px">
     <el-select v-model="form.areaSelected" placeholder="请选择区域" @change="getAreaSelected" style="width:180px">
       <el-option v-for="item in areaOptions"
@@ -116,7 +128,6 @@
       </el-option>
     </el-select>
   </el-form-item>
-
   <el-form-item>
     <el-col :span="12">
       <el-form-item label="教师编号" label-width="80px">
@@ -129,40 +140,59 @@
       </el-form-item>
     </el-col>
   </el-form-item>
-
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogOk">提交</el-button>
+    <el-button type="primary" @click="editOk">提交</el-button>
   </div>
   </el-dialog>
+
+  <el-dialog title="上传文件" :visible.sync="dialogUploadVisible" close-on-click-modal=false>
+  <el-upload
+  class="upload-demo"
+  ref="upload"
+  multiple="false"
+  accept=".xls,.xlsx"
+  action=""
+  with-credentials="true" 
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :file-list="fileList"
+  :on-change="changeMe"
+  :auto-upload="false">
+  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+  <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+  <div slot="tip" class="el-upload__tip">上传表格文件</div>
+  </el-upload>
+  </el-dialog>
+
 </div>
 </template>
 
 <script>
 import {getCookie} from '../global/cookie'
-import deptOptions from '../global/deptOptions'
 import areaOptions from '../global/areaOptions.js'
 import roomOptions from '../global/roomOptions.js'
+import {tryHideFullScreenLoading } from '../../loading.js'
+
   export default {
     data() {
       return {
-        deptOptions:deptOptions,
+        deptOptions:[],
         deptSelected: '',
-        //computed-gradeOptions
         gradeSelected:'',
+        termSelected:'',
 
         tableData:[],
-        tableInfo:{},
 
         pageSize:17,
         currentPage:1,
         totalCount:1,
-        loading:false,
 
         areaOptions:areaOptions,
-        allRoomOptions:roomOptions,
         roomOptions:'',
+
+        isOpen:false,
 
         dialogFormVisible:false,
         form:{
@@ -174,7 +204,9 @@ import roomOptions from '../global/roomOptions.js'
           crsname:'',
           tnumber:'',
           teaname:''
-        }
+        },
+        dialogUploadVisible: false,
+        fileList:[]
       }
     },
     computed:{
@@ -182,11 +214,12 @@ import roomOptions from '../global/roomOptions.js'
         let myData = new Date()
         var year1 = myData.getFullYear()
         let month1 = myData.getMonth()
+        var n = 4
         var options = []
           if(month1<8){
-            year1--
+            n=5
           }
-          for(var i=0;i<4;i++){
+          for(var i=0;i<n;i++){
             options[i] = {
               grade:year1,
               label:year1+'级'
@@ -194,49 +227,42 @@ import roomOptions from '../global/roomOptions.js'
               year1--
           }
         return options
+      },
+      termOptions(){
+        let myData = new Date()
+        var year1 = myData.getFullYear()
+        let month1 = myData.getMonth()
+        var options = []
+        if(month1<8){
+          options[0] = {
+            term:year1+"2",
+            label:year1+'-'+(year1+1)+'第一学年'
+          }
+          options[1] = {
+            term:year1+"1",
+            label:(year1-1)+'-'+year1+'第二学年'
+          }
+        }else{
+          options[0] = {
+            term:(year1+1)+"1",
+            label:year1+'-'+(year1+1)+'第二学年'
+          }
+          options[1] = {
+            term:year1+"2",
+            label:year1+'-'+(year1+1)+'第一学年'
+          }
+        }
+        return options
       }
     },
+
     methods:{
-      getDeptSelected(){
-        if(tihs.deptSelected===''){
-          return
-        }
-        this.getTableData()
-      },
-      getGradeSelected(){
-        if(this.gradeSelected===''){
-          return
-        }
-        this.getTableData()
-      },
-      handleEdit(index,row){
-        this.form.dept = this.tableInfo.dept
-        this.form.grade = this.tableInfo.grade
-        this.form.cnumber = row.cnumber
-        this.form.crsname = row.crsname
-        this.dialogFormVisible = true
-      },
-      release(){
-
-      },
-      dialogOk(){
-
-      },
-      getTableData(){
-        var tableInfo = {
-          dept:this.deptSelected,
-          grade:this.gradeSelected
-        }
+      getDptName(){
         this.$axios
-        .post('/api/getPKTableData', {
-         tableInfo
-        })
+        .post('/dpt/getDptName', {})
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
-              this.tableData = result.data.datas
-              this.totalCount = result.data.datas.length
-              this.currentPage = 1
-              this.tableInfo = tableInfo
+              this.deptOptions = result.data.datas
             }else{
               return false;
             }
@@ -245,20 +271,84 @@ import roomOptions from '../global/roomOptions.js'
             alert(error)
         })
       },
+
+      selectOk(){
+        if(this.deptSelected==""||this.gradeSelected==""||this.termSelected==""){
+          this.$message({
+            type: 'error',
+            message: '请检查输入!'
+          });
+          return;
+        }
+        this.$axios
+        .post('/admin/arrange/getCrsArrangeData', {
+          dpt: this.deptSelected,
+          grade: this.gradeSelected,
+          term: this.termSelected
+        })
+        .then((result)=> {
+            if (result.data.code === 1) {//返回第一页数据，和
+              this.tableData = result.data.datas
+              this.totalCount = result.data.datas.length
+              this.currentPage = 1
+            }else{
+              return false;
+            }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
+
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
+      changeMe(file,fileList){
+        this.fileList=fileList;
+      },
+
+      openOrClose(){
+
+      },
+      loadButton(){
+        this.$axios
+        .post('/admin/arrange/loadButton', {})
+        .then((result)=> {
+          if (result.data.code === 1) {
+            this.isOpen = true
+          }else if(result.data.code === -1){
+            this.isOpen = false
+          }else{
+            return false;
+          }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
+
+      handleDelete(){
+
+      },
+      handleEdit(index,row){
+        this.form.dept = this.tableInfo.dept
+        this.form.grade = this.tableInfo.grade
+        this.form.cnumber = row.cnumber
+        this.form.crsname = row.crsname
+        this.dialogFormVisible = true
+      },
+      editOk(){
+
+      },
+     
       handleCurrentChange(val) {
         this.currentPage=val
       },
-      getAreaSelected(){
-        for(var key in this.allRoomOptions){
-          if(key == this.form.areaSelected){
-            this.roomOptions = this.allRoomOptions[key]
-            return
-          }
-        }
-      }
-    },
-    created(){
-      this.getTableData()
-    }
+  },
+  created(){
+    this.selectOk()
+    this.getDptName()
+    this.loadButton()
   }
+}
 </script>

@@ -17,7 +17,7 @@ public interface CourseArrangeMapper {
 
     List<CourseArrange> findByTermAndTeaId(@Param("term") String term, @Param("id") String id);
 
-    List<CourseArrange> findByTermAndDpt(@Param("term") String term, @Param("dpt") String dpt);
+    List<CourseArrange> findByTermDptGrade(@Param("term") String term, @Param("dpt") String dpt,@Param("grade") String grade);
 
     void updateSelectedAdd(@Param("id") String id) throws DataAccessException;
 

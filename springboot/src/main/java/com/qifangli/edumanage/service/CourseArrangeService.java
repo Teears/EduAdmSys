@@ -10,6 +10,6 @@ public interface CourseArrangeService {
     List<CourseArrange> findByTermAndSpot(String term, String spot);
     List<CourseArrange> findByTermAndStuId(String term,String id);
     List<CourseArrange> findByTermAndTeaId(String term,String id);
-    List<CourseArrange> findByTermAndDpt(String term,String dpt);
+    List<CourseArrange> findByTermDptGrade(String term,String dpt,String grade);
 
 }

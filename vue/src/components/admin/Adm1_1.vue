@@ -5,9 +5,9 @@
       <el-select v-model="deptSelected" placeholder="请选择学院" style="width:150px" size="small">
             <el-option
             v-for="item in deptOptions"
-            :key="item.dpt"
-            :label="item.dpt"
-            :value="item.dpt">
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
             </el-option>
         </el-select>
     </el-col>
@@ -163,7 +163,7 @@
   class="upload-demo"
   ref="upload"
   multiple="false"
-  accept=".csv,.xls,.xlsx"
+  accept=".xls,.xlsx"
   action="http://localhost:8080/admin/stuAdmin/upload"
   with-credentials="true" 
   :on-preview="handlePreview"
@@ -258,7 +258,6 @@ import XLSX from 'xlsx'
             if (result.data.code === 1) {//返回第一页数据，和
               this.deptOptions = result.data.datas
             }else{
-              alert(result.data.msg)
               return false;
             }
         })

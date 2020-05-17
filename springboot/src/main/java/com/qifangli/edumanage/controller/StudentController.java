@@ -74,9 +74,12 @@ public class StudentController {
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
 
-        String term = termService.findLatestTerm().toString();
-        String dpt = studentService.findStudentById(id).getDepartment();
-        List<CourseArrange> newArrange = courseArrangeService.findByTermAndDpt(term,dpt);
+
+        Student student = studentService.findStudentById(id);
+        String dpt = student.getDepartment();
+        String grade = student.getClassAndGrade().substring(0,3);
+        String term = termService.findActiveTermByDpt(dpt).getId();
+        List<CourseArrange> newArrange = courseArrangeService.findByTermDptGrade(term,dpt,grade);
 
         return ResultUtils.success(newArrange);
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.RolePermissionMapper">
+    <resultMap id ="RolePermissionInfoMap" type="com.qifangli.edumanage.dao.entity.RolePermission">
+        <result column="rid" property="rid"/>
+        <result column="pid" property="pid"/>
+        <result column="code" property="pcode"/>
+    </resultMap>
+
+    <select id="findStuSelect" resultMap="RolePermissionInfoMap">
+        SELECT rid,T.pid,code from role_permission,
+        (SELECT pid,code FROM `permission` where code="student_select")T
+        WHERE T.pid=role_permission.pid
+    </select>
+    <insert id="addStuSelect">
+        INSERT INTO role_permission(rid,pid) VALUES("student","9")
+    </insert>
+    <delete id="deleteStuSelect">
+        DELETE from role_permission where rid="student" and pid="9"
+    </delete>
+</mapper>
