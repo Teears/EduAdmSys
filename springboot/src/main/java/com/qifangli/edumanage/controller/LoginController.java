@@ -2,6 +2,7 @@ package com.qifangli.edumanage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.util.JWTUtil;
+import com.qifangli.edumanage.util.LoggerUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.util.yzm.VerifyCodeUtils;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class LoginController {
 
     @PostMapping(value = "user")
-    public Result login(@RequestBody JSONObject param,HttpSession session){
+    public Result login(@RequestBody JSONObject param){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
@@ -57,7 +58,7 @@ public class LoginController {
             }
         }catch (AuthenticationException e){
             e.printStackTrace();
-            System.out.println("登录失败");
+            LoggerUtil.info("- 登录失败");
             return ResultUtils.error(-1,"用户名或密码错误");
         }
     }
