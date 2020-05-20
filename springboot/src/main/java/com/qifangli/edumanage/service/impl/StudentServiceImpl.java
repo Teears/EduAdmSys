@@ -78,8 +78,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findStuByDpt(String dpt) {
-        return studentMapper.findStuByDpt(dpt);
+    public List<Student> findStuByDptAndGrade(String dpt, String grade) {
+        return studentMapper.findStuByDptAndGrade(dpt,grade);
     }
 
     @Override
@@ -104,5 +104,10 @@ public class StudentServiceImpl implements StudentService {
         map.put("success",success);
         map.put("data",lis);
         return map;
+    }
+
+    @Override
+    public int insertStu(Student student) {
+        return studentMapper.insertStu(student);
     }
 }

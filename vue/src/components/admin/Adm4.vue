@@ -118,7 +118,7 @@ import {getCookie} from '../global/cookie'
     methods:{
       addData(){
         this.$axios
-        .post('/admin/authorize/addAdmin', {
+        .post('/adminAuthorize/authorize/addAdmin', {
           uid:this.form.uid,
           name:this.form.name
         })
@@ -146,7 +146,7 @@ import {getCookie} from '../global/cookie'
           type: 'warning'
         }).then(() => {
           this.$axios
-          .post('/admin/authorize/deleteByUid', {
+          .post('/adminAuthorize/authorize/deleteByUid', {
             id:row.uid
           })
           .then((result)=> {
@@ -173,7 +173,7 @@ import {getCookie} from '../global/cookie'
       },
       handleUp(index,row){
         this.$axios
-        .post('/admin/authorize/upToSuperAdmin', {
+        .post('/adminAuthorize/authorize/upToSuperAdmin', {
           id:row.uid
         })
         .then((result)=> {
@@ -190,7 +190,7 @@ import {getCookie} from '../global/cookie'
       },
       handleDown(index,row){
         this.$axios
-        .post('/admin/authorize/upToAdmin', {
+        .post('/adminAuthorize/authorize/upToAdmin', {
           id:row.uid
         })
         .then((result)=> {
@@ -207,7 +207,7 @@ import {getCookie} from '../global/cookie'
       },
       getTableData(){
         this.$axios
-        .post('/admin/authorize', {})
+        .post('/adminAuthorize/authorize', {})
         .then((result)=> {
             if (result.data.code === 1) {
               this.totalCount=result.data.datas.length

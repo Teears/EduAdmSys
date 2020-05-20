@@ -16,7 +16,7 @@
         <result column="stu_pwd" property="pass"/>
     </resultMap>
 
-    <resultMap id ="StudentInfoMapDpt" type="com.qifangli.edumanage.dao.entity.Student">
+    <resultMap id ="StudentInfoMapDptAndGrade" type="com.qifangli.edumanage.dao.entity.Student">
         <result column="stu_no" property="id"/>
         <result column="stu_name" property="name"/>
         <result column="stu_sex" property="sex"/>
@@ -36,12 +36,17 @@
     <update id="updatePwdByStuId">
         update tbl_student set stu_pwd=#{newPwd} where stu_no=#{id}
     </update>
-    <select id="findStuByDpt" resultMap="StudentInfoMapDpt">
-        select * from tbl_student,tbl_department
-        where tbl_student.stu_dpt=tbl_department.dpt_no and stu_dpt=#{dpt}
+    <select id="findStuByDptAndGrade" resultMap="StudentInfoMapDptAndGrade">
+        select stu_no,stu_name,stu_sex,stu_gdu,stu_bth,stu_id,stu_tel,stu_pol,dpt_name,stu_class,stu_sta
+        from tbl_student,tbl_department,tbl_class
+        where class_grade=#{grade} and stu_dpt=#{dpt} and class_no=stu_class and stu_dpt=dpt_no
     </select>
     <insert id="insertStu" parameterType="Student">
         insert into tbl_student(stu_no,stu_name,stu_sex,stu_gdu,stu_bth,stu_id,stu_tel,stu_pol,stu_dpt,stu_class,stu_sta,stu_pwd)
         values (#{id},#{name},#{sex},#{graduate},#{birth},#{idCard},#{telephone},#{political},#{department},#{classAndGrade},#{status},#{pass})
     </insert>
+    <update id="updateStu" parameterType="Student">
+        
+    </update>
+
 </mapper>

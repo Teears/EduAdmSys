@@ -73,45 +73,109 @@
   style="text-align:center">
   </el-pagination>
 
-  <el-dialog title="新开设课程" :visible.sync="dialogFormVisible" close-on-click-modal=false width="30%">
+  <el-dialog title="新增教师档案" :visible.sync="dialogFormVisible" close-on-click-modal=false width="60%">
   <el-form :model="form">
-    <el-form-item label="课程名称" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="开设院校" :label-width="formLabelWidth">
-      <el-select v-model="form.dept" placeholder="请选择">
-      <el-option
-          v-for="item in deptOptions"
-          :key="item.dept"
-          :label="item.label"
-          :value="item.dept">
-          </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="课程类别" :label-width="formLabelWidth">
-      <el-select v-model="form.type" placeholder="请选择">
-        <el-option label="专业必修" value="pro_com"></el-option>
-        <el-option label="专业选修" value="pro_ele"></el-option>
-        <el-option label="通识必修" value="gen_com"></el-option>
-        <el-option label="通识选修" value="gen_ele"></el-option>
-      </el-select>
-    </el-form-item>
     <el-form-item>
       <el-col :span="12">
-        <el-form-item label="学时" :label-width="formLabelWidth">
-          <el-input v-model="form.hours" type="number" autocomplete="off"></el-input>
+        <el-form-item label="职工号" :label-width="formLabelWidth">
+          <el-input v-model="form.id" autocomplete="off"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="学分" :label-width="formLabelWidth" >
-          <el-input v-model="form.credit" type="number" autocomplete="off"></el-input>
+        <el-form-item label="姓名" :label-width="formLabelWidth" >
+          <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-form-item>
-    </el-form>
+    <el-form-item>
+      <el-col :span="8">
+        <el-form-item label="性别" :label-width="formLabelWidth">
+          <el-select v-model="form.sex" placeholder="请选择">
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="出生日期" :label-width="formLabelWidth" >
+          <el-date-picker v-model="form.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+          </el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="学历" :label-width="formLabelWidth">
+          <el-select v-model="form.degree" placeholder="请选择">
+            <el-option label="本科" value="本科"></el-option>
+            <el-option label="硕士" value="硕士"></el-option>
+            <el-option label="博士" value="博士"></el-option>
+            <el-option label="其他" value="其他"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+    <el-form-item>
+      <el-col :span="8">
+        <el-form-item label="身份证号" :label-width="formLabelWidth" >
+          <el-input v-model="form.idCard" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="电话号码" :label-width="formLabelWidth" >
+          <el-input v-model="form.telephone" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="政治面貌" :label-width="formLabelWidth">
+          <el-select v-model="form.political" placeholder="请选择">
+            <el-option label="群众" value="群众"></el-option>
+            <el-option label="共青团员" value="共青团员"></el-option>
+            <el-option label="入党积极分子" value="入党积极分子"></el-option>
+            <el-option label="共产党员" value="共产党员"></el-option>
+            <el-option label="其他党派" value="其他党派"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+    
+    <el-form-item>
+        <el-form-item label="工作时间" :label-width="formLabelWidth" >
+          <el-date-picker
+            v-model="form.workTime"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期" 
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
+        </el-form-item>
+    </el-form-item>
+    
+    <el-form-item>
+      <el-col :span="12">
+        <el-form-item label="学院" :label-width="formLabelWidth">
+          <el-select v-model="form.department" placeholder="请选择">
+          <el-option
+              v-for="item in deptOptions" :key="item.dpt" :label="item.dpt" :value="item.dpt">
+              </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="职称" :label-width="formLabelWidth">
+          <el-select v-model="form.title" placeholder="请选择">
+            <el-option label="助教" value="助教"></el-option>
+            <el-option label="讲师" value="讲师"></el-option>
+            <el-option label="副教授" value="副教授"></el-option>
+            <el-option label="教授" value="教授"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+    
+  </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addCourseData">提交</el-button>
+    <el-button type="primary" @click="addTeacherData">提交</el-button>
   </div>
 </el-dialog>
   </div>
@@ -138,11 +202,17 @@ import XLSX from 'xlsx'
 
          dialogFormVisible: false,
           form: {
+          id: '',
           name: '',
-          dept:'',
-          type: '',
-          hours: '',
-          credit: '',
+          sex:'',
+          birth: '',
+          degree: '',
+          idCard: '',
+          telephone: '',
+          political: '',
+          workTime: '',
+          department: '',
+          title: '',
         },
         formLabelWidth: '80px'
       }

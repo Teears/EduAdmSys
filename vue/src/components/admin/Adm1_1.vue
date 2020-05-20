@@ -2,7 +2,7 @@
   <div style="width:1100px">
   <el-row type="flex" justify="space-between" style="margin-bottom:5px">
   <el-col :span="3">
-      <el-select v-model="deptSelected" placeholder="请选择学院" style="width:150px" size="small">
+      <el-select v-model="deptSelected" @change="deptSelect" placeholder="请选择学院" style="width:150px" size="small">
             <el-option
             v-for="item in deptOptions"
             :key="item.id"
@@ -12,11 +12,11 @@
         </el-select>
     </el-col>
     <el-col :span="3">
-        <el-select v-model="gradeSelected" placeholder="请选择年级" style="width:150px" size="small">
+        <el-select v-model="gradeSelected" @change="gradeSelect" placeholder="请选择年级" style="width:150px" size="small">
             <el-option
             v-for="item in gradeOptions"
             :key="item.grade"
-            :label="item.grade"
+            :label="item.label"
             :value="item.grade">
             </el-option>
         </el-select>
@@ -85,76 +85,100 @@
   style="text-align:center">
   </el-pagination>
 
-  <el-dialog title="新开设课程" :visible.sync="dialogFormVisible" close-on-click-modal=false>
+   <el-dialog title="新增学生档案" :visible.sync="dialogFormVisible" close-on-click-modal=false width="50%">
   <el-form :model="form">
-    <el-form-item label="学号" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="姓名" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="状态" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="性别" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="班级" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="学院" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="身份证号" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="出生日期" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="政治面貌" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="毕业学校" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="电话号码" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
-    </el-form-item>
-
-    <el-form-item label="开设院校" :label-width="formLabelWidth">
-      <el-select v-model="form.dept" placeholder="请选择">
-      <el-option
-          v-for="item in deptOptions"
-          :key="item.dept"
-          :label="item.label"
-          :value="item.dept">
-          </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="课程类别" :label-width="formLabelWidth">
-      <el-select v-model="form.type" placeholder="请选择">
-        <el-option label="专业必修" value="pro_com"></el-option>
-        <el-option label="专业选修" value="pro_ele"></el-option>
-        <el-option label="通识必修" value="gen_com"></el-option>
-        <el-option label="通识选修" value="gen_ele"></el-option>
-      </el-select>
+    <el-form-item>
+      <el-col :span="10">
+        <el-form-item label="学号" :label-width="formLabelWidth">
+          <el-input v-model="form.id" autocomplete="off"  maxlength="10" show-word-limit></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="14">
+        <el-form-item label="姓名" :label-width="formLabelWidth" >
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-col>
     </el-form-item>
     <el-form-item>
-      <el-col :span="12">
-        <el-form-item label="学时" :label-width="formLabelWidth">
-          <el-input v-model="form.hours" type="number" autocomplete="off"></el-input>
+      <el-col :span="10">
+        <el-form-item label="性别" :label-width="formLabelWidth">
+          <el-select v-model="form.sex" placeholder="请选择">
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
-        <el-form-item label="学分" :label-width="formLabelWidth" >
-          <el-input v-model="form.credit" type="number" autocomplete="off"></el-input>
+      <el-col :span="14">
+        <el-form-item label="毕业院校" :label-width="formLabelWidth" >
+          <el-input v-model="form.graduate" autocomplete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-form-item>
-    </el-form>
+    <el-form-item>
+      <el-col :span="10">
+        <el-form-item label="出生日期" :label-width="formLabelWidth" >
+          <el-date-picker v-model="form.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+          </el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="14">
+        <el-form-item label="身份证号" :label-width="formLabelWidth" >
+          <el-input v-model="form.idCard" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+    <el-form-item>
+      <el-col :span="10">
+        <el-form-item label="政治面貌" :label-width="formLabelWidth">
+          <el-select v-model="form.political" placeholder="请选择">
+            <el-option value="群众"></el-option>
+            <el-option value="共青团员"></el-option>
+            <el-option value="入党积极分子"></el-option>
+            <el-option value="共产党员"></el-option>
+            <el-option value="其他党派"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="14">
+        <el-form-item label="电话号码" :label-width="formLabelWidth" >
+          <el-input v-model="form.telephone" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+    <el-form-item>
+      <el-col :span="8">
+        <el-form-item label="学院" :label-width="formLabelWidth">
+          <el-select v-model="form.department" placeholder="请选择">
+          <el-option
+            v-for="item in deptOptions" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="班级" :label-width="formLabelWidth">
+          <el-select v-model="form.classAndGrade" placeholder="请选择">
+          <el-option
+              v-for="item in classOptions" :key="item.classId" :label="item.classId" :value="item.classId">
+              </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="状态" :label-width="formLabelWidth" >
+          <el-select v-model="form.status" placeholder="请选择">
+            <el-option value="毕业"></el-option>
+            <el-option value="在校"></el-option>
+            <el-option value="休学"></el-option>
+            <el-option value="退学"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+  </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addCourseData">提交</el-button>
+    <el-button type="primary" @click="addStudentData">提交</el-button>
   </div>
 </el-dialog>
 
@@ -190,6 +214,7 @@ import XLSX from 'xlsx'
         deptOptions:[],
         deptSelected: '',
         gradeSelected:'',
+        classOptions:'',
         search: '',
 
         tableData:[],//目前前端所拥有的所有课程信息
@@ -201,11 +226,17 @@ import XLSX from 'xlsx'
 
         dialogFormVisible: false,
         form: {
+          id:'',
           name: '',
-          dept:'',
-          type: '',
-          hours: '',
-          credit: '',
+          sex:'',
+          graduate:'',
+          birth:'',
+          idCard: '',
+          political:'',
+          telephone:'',
+          department:'',
+          classAndGrade:'',
+          status:''
         },
         formLabelWidth: '80px',
 
@@ -256,12 +287,14 @@ import XLSX from 'xlsx'
         var failed = response.datas.failed
         alert("导入成功，共添加"+total+"条，成功"+success+"条，失败"+failed+"条");
       },
+
       getDptName(){
         this.$axios
         .post('/dpt/getDptName', {})
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
               this.deptOptions = result.data.datas
+              this.deptSelected = result.data.datas[0].id
             }else{
               return false;
             }
@@ -271,12 +304,26 @@ import XLSX from 'xlsx'
         })
       },
 
-      //根据条件请求某一页数据
+      deptSelect(){
+        if(this.gradeSelected == ""){
+          return
+        }
+        this.getTableData()
+      },
+      gradeSelect(){
+        if(this.deptSelected == ""){
+          return
+        }
+        this.getTableData()
+      },
       getTableData(){
+        if(this.deptSelected == ""||this.gradeSelected == ""){
+          return
+        }
         this.$axios
-        .post('/admin/stuAdmin', { //search为空,dept为all查询全部课程，search为空dept不为all查询某学院课程，
-        //search不为空dept为空在所有课程中搜索，search和dept都不为空在某学院里搜索
-
+        .post('/admin/stuAdmin/getStuData', { 
+          dpt:this.deptSelected,
+          grade:this.gradeSelected,
         })
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
@@ -292,27 +339,14 @@ import XLSX from 'xlsx'
         })
       },
 
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.getTableData(this.pageSize,val)
-      },
 
-      searchOk(){
-        this.currentPage = 1
-        this.getTableData(this.pageSize,1)
-      },
-
-      //添加课程
-      addCourseData(){
+      getAllClass(){
         this.$axios
-        .post('/api/addCourseData', { //提交成绩接口
-
-        })
+        .post('/admin/stuAdmin/getAllClass', {})
         .then((result)=> {
-            if (result.data.code === 1) {
-              alert("成绩更新成功！")
+            if (result.data.code === 1) {//返回第一页数据，和
+              this.classOptions = result.data.datas
             }else{
-              alert("成绩更新失败！")
               return false;
             }
         })
@@ -320,11 +354,39 @@ import XLSX from 'xlsx'
             alert(error)
         })
       },
+      addStudentData(){
+        alert(JSON.stringify(this.form))
+        this.$axios
+        .post('/admin/stuAdmin/insertStudent', this.form)
+        .then((result)=> {
+            if (result.data.code === 1) {//返回第一页数据，和
+              this.$message({
+                type: 'success',
+                message: '修改成功!'
+              });
+            }else{
+              this.$message({
+                type: 'error',
+                message: result.data.msg
+              });
+            }
+            this.dialogFormVisible = false
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
+      
 
+      handleCurrentChange(val) {
+        this.currentPage = val
+      }
     },
     created(){
-      this.getTableData()
       this.getDptName()
+      this.getAllClass()
+      this.gradeSelected = this.gradeOptions[2].grade
+      this.getTableData()
     }
   }
 </script>

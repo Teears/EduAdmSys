@@ -27,8 +27,10 @@ public interface StudentService {
 
     void updatePwdByStuId(String id,String newPwd);
 
-    List<Student> findStuByDpt(String dpt);
+    List<Student> findStuByDptAndGrade(String dpt,String grade);
 
     Map<String,Object> addStu(List<Object> entityList);
+
+    int insertStu(Student student);
 
 }

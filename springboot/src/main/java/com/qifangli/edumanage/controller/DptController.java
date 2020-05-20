@@ -57,7 +57,6 @@ public class DptController {
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
         String dpt = teacherService.findTeacherById(id).getDepartment();
-        LinkedList<Map<String,String>> datas = new LinkedList<>();
 
         Department department = departmentService.findDptByid(dpt);
         return ResultUtils.success(department);

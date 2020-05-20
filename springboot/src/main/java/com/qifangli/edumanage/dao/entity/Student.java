@@ -14,6 +14,22 @@ public class Student {
     private String status;
     private String pass;
 
+    public Student() {
+    }
+
+    public Student(String id, String name, String sex, String graduate, String birth, String idCard, String telephone, String political, String department, String classAndGrade, String status) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.graduate = graduate;
+        this.birth = birth;
+        this.idCard = idCard;
+        this.telephone = telephone;
+        this.political = political;
+        this.department = department;
+        this.classAndGrade = classAndGrade;
+        this.status = status;
+    }
 
     public void setId(String id) {
         this.id = id;

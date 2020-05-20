@@ -29,11 +29,12 @@ import java.util.Map;
 public class LoginController {
 
     @PostMapping(value = "user")
-    public Result login(@RequestBody JSONObject param){
+    public Result login(@RequestBody JSONObject param,HttpSession session){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
 //        if(!vcode.equals(session.getAttribute("verCode"))){
+//            LoggerUtil.error("- 验证码错误");
 //            return ResultUtils.error(-1,"验证码错误");
 //        }
         Result result = new Result();
@@ -48,27 +49,32 @@ public class LoginController {
                 result.setMsg("登录成功");
                 data.put("token",JWTUtil.sign(id,pwd));
                 result.setDatas(data);
+                String msg = "- 登录成功id:"+id;
+                LoggerUtil.info(msg);
                 return result;
             }else {
                 result.setCode(2);
                 result.setMsg("登录成功");
                 data.put("token",JWTUtil.sign(id,pwd));
                 result.setDatas(data);
+                String msg = "- 登录成功id:"+id;
+                LoggerUtil.info(msg);
                 return result;
             }
         }catch (AuthenticationException e){
-            e.printStackTrace();
-            LoggerUtil.info("- 登录失败");
+            String msg = "- 登录失败id:"+id;
+            LoggerUtil.error(msg);
             return ResultUtils.error(-1,"用户名或密码错误");
         }
     }
 
     @PostMapping(value = "admin")
-    public Result loginAdmin(@RequestBody JSONObject param){
+    public Result loginAdmin(@RequestBody JSONObject param,HttpSession session){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
 //        if(!vcode.equals(session.getAttribute("verCode"))){
+//            LoggerUtil.error("- 验证码错误");
 //            return ResultUtils.error(-1,"验证码错误");
 //        }
         Result result = new Result();
@@ -77,26 +83,28 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(id,pwd);
         try{
             subject.login(token);
-            System.out.println("登录成功");
             if(subject.hasRole( "admin" )){
                 data.put("perm","1");
             }else if(subject.hasRole( "super_admin" )){
                 data.put("perm","2");
             }else {
                 subject.hasRole( "super_admin" );
+                String msg = "- 登录失败id:"+id;
+                LoggerUtil.error(msg);
                 return ResultUtils.error(-1,"用户名或密码错误");
             }
             result.setCode(1);
             result.setMsg("登录成功");
             data.put("token",JWTUtil.sign(id,pwd));
             result.setDatas(data);
+            String msg = "- 登录成功id:"+id;
+            LoggerUtil.info(msg);
             return result;
         }catch (AuthenticationException e){
-            e.printStackTrace();
-            System.out.println("登录失败");
+            String msg = "- 登录失败id:"+id;
+            LoggerUtil.error(msg);
             return ResultUtils.error(-1,"用户名或密码错误");
         }
-
     }
 
     @RequestMapping(value = "yzm")

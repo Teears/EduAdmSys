@@ -150,7 +150,7 @@
   ref="upload"
   multiple="false"
   accept=".xls,.xlsx"
-  action="http://localhost:8080/admin/arrange/uploadCrsArrange"
+  action="http://localhost:8080/adminArrange/arrange/uploadCrsArrange"
   with-credentials="true" 
   :on-success="handleAvatarSuccess"
   :file-list="fileList"
@@ -293,7 +293,7 @@ import {tryHideFullScreenLoading } from '../../loading.js'
         this.tableInfo.term = this.termSelected
         this.tableInfo.grade = this.gradeSelected
         this.$axios
-        .post('/admin/arrange/getCrsArrangeData', {
+        .post('/adminArrange/arrange/getCrsArrangeData', {
           dpt: this.deptSelected,
           grade: this.gradeSelected,
           term: this.termSelected
@@ -328,7 +328,7 @@ import {tryHideFullScreenLoading } from '../../loading.js'
       
       openOrClose(){
         this.$axios
-        .post('/admin/arrange/openOrCloseStuSelect', {})
+        .post('/adminArrange/arrange/openOrCloseStuSelect', {})
         .then((result)=> {
           if (result.data.code === 1) {
             this.$message({
@@ -346,7 +346,7 @@ import {tryHideFullScreenLoading } from '../../loading.js'
       },
       loadButton(){
         this.$axios
-        .post('/admin/arrange/loadButton', {})
+        .post('/adminArrange/arrange/loadButton', {})
         .then((result)=> {
           if (result.data.code === 1) {
             this.isOpen = result.data.datas.isOpen==1? true: false
@@ -367,7 +367,7 @@ import {tryHideFullScreenLoading } from '../../loading.js'
           type: 'warning'
         }).then(() => {
           this.$axios
-          .post('/admin/arrange/deleteCrsArrange', {
+          .post('/adminArrange/arrange/deleteCrsArrange', {
             id:row.id
           })
           .then((result)=> {
@@ -384,7 +384,6 @@ import {tryHideFullScreenLoading } from '../../loading.js'
         }).catch(() => {});
       },
       handleEdit(index,row){
-        alert(index)
         this.form.id = row.id
         this.form.grade = this.tableInfo.grade
         this.form.term =this.tableInfo.term
@@ -400,7 +399,7 @@ import {tryHideFullScreenLoading } from '../../loading.js'
       },
       editOk(){
         this.$axios
-        .post('/admin/arrange/editCrsArrange', this.form)
+        .post('/adminArrange/arrange/editCrsArrange', this.form)
         .then((result)=> {
           if (result.data.code === 1) {
             this.$message({

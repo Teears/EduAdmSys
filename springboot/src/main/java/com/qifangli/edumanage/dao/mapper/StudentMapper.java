@@ -13,8 +13,10 @@ public interface StudentMapper {
 
    void updatePwdByStuId(@Param("id") String id,@Param("newPwd") String newPwd);
 
-   List<Student> findStuByDpt(@Param("dpt") String dpt);
+   List<Student> findStuByDptAndGrade(@Param("dpt") String dpt,@Param("grade") String grade);
 
    int insertStu(Student student) throws DuplicateKeyException;
+
+   int updateStu(Student student);
 }
 
