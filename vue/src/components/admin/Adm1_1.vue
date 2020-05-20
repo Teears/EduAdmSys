@@ -358,6 +358,17 @@ import XLSX from 'xlsx'
       },
 
       addStuBtn(){
+        this.form.id = ""
+        this.form.name = ""
+        this.form.sex = ""
+        this.form.graduate = ""
+        this.form.birth = ""
+        this.form.idCard = ""
+        this.form.political = ""
+        this.form.telephone = ""
+        this.form.department = ""
+        this.form.classAndGrade = ""
+        this.form.status = ""
         this.dialogFormVisible = true 
         this.visible2 = 'none'
         this.visible1 = 'inline'
@@ -373,6 +384,7 @@ import XLSX from 'xlsx'
                 type: 'success',
                 message: '修改成功!'
               });
+              this.getTableData()
             }else{
               this.$message({
                 type: 'error',

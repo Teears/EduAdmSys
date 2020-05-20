@@ -1,8 +1,6 @@
 package com.qifangli.edumanage.service.impl;
 
-import com.qifangli.edumanage.dao.entity.CourseArrange;
 import com.qifangli.edumanage.dao.entity.Spot;
-import com.qifangli.edumanage.dao.mapper.CourseArrangeMapper;
 import com.qifangli.edumanage.dao.mapper.SpotMapper;
 import com.qifangli.edumanage.service.SpotService;
 import org.springframework.stereotype.Service;

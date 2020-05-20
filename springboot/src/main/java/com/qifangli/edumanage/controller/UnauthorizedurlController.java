@@ -1,7 +1,7 @@
 package com.qifangli.edumanage.controller;
 
-import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
+import com.qifangli.edumanage.util.result.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.RequestMapping;

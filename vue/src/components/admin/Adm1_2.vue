@@ -12,7 +12,7 @@
         <el-button slot="append" icon="el-icon-search" @click="searchOk">搜索</el-button>
     </el-input>
   </el-col>
-     <el-button type="primary" size="small" @click="addStuBtn" icon="el-icon-plus">添加教师</el-button>
+     <el-button type="primary" size="small" @click="addTeaBtn" icon="el-icon-plus">添加教师</el-button>
      <el-button type="primary" plain size="small" @click="dialogUploadVisible = true" icon="el-icon-folder-add">导入教师</el-button>
   </el-row>
 
@@ -304,7 +304,18 @@ import XLSX from 'xlsx'
         })
       },
 
-      addStuBtn(){
+      addTeaBtn(){
+        this.form.id = ""
+        this.form.name = ""
+        this.form.sex = ""
+        this.form.birth = ""
+        this.form.degree = ""
+        this.form.idCard = ""
+        this.form.telephone = ""
+        this.form.political = ""
+        this.form.workTime = ""
+        this.form.department = ""
+        this.form.title = ""
         this.dialogFormVisible = true 
         this.visible2 = 'none'
         this.visible1 = 'inline'
@@ -325,6 +336,7 @@ import XLSX from 'xlsx'
                 type: 'success',
                 message: '添加成功!'
               });
+              this.getTableData()
             }else{
               this.$message({
                 type: 'error',
@@ -356,7 +368,6 @@ import XLSX from 'xlsx'
           this.form.idCard = row.idCard
           this.form.telephone = row.telephone
           this.form.political = row.political
-          alert(wkt)
           this.form.workTime = wkt
           this.form.department = this.deptSelected
           this.form.title = row.title

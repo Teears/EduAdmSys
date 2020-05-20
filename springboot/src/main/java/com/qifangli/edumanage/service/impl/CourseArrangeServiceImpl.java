@@ -1,16 +1,14 @@
 package com.qifangli.edumanage.service.impl;
 
 import com.qifangli.edumanage.dao.entity.CourseArrange;
-import com.qifangli.edumanage.dao.entity.Spot;
 import com.qifangli.edumanage.dao.mapper.CourseArrangeMapper;
 import com.qifangli.edumanage.service.CourseArrangeService;
+import com.qifangli.edumanage.dao.entity.Spot;
 import com.qifangli.edumanage.service.SpotService;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

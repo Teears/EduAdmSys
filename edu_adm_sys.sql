@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 20/05/2020 19:33:55
+ Date: 20/05/2020 22:32:27
 */
 
 SET NAMES utf8mb4;
@@ -177,7 +177,7 @@ INSERT INTO `tbl_class` VALUES ('20181103', '网路工程', '11', '2018');
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_course`;
 CREATE TABLE `tbl_course`  (
-  `crs_no` char(5) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '2位学院3位编号',
+  `crs_no` int(5) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT '2位学院3位编号',
   `crs_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '课程名称',
   `crs_cdt` tinyint(1) NOT NULL COMMENT '学分',
   `crs_hours` tinyint(1) NOT NULL COMMENT '学时',
@@ -191,18 +191,20 @@ CREATE TABLE `tbl_course`  (
 -- ----------------------------
 -- Records of tbl_course
 -- ----------------------------
-INSERT INTO `tbl_course` VALUES ('11001', '数据结构', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES ('11002', '计算机组成原理', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES ('11003', '算法设计', 3, 54, '11', '专业选修');
-INSERT INTO `tbl_course` VALUES ('11004', '网络编程', 3, 54, '11', '专业选修');
-INSERT INTO `tbl_course` VALUES ('11005', '形式与政策', 1, 32, '11', '通识必修');
-INSERT INTO `tbl_course` VALUES ('11006', '编程艺术', 1, 32, '11', '通识选修');
-INSERT INTO `tbl_course` VALUES ('11007', '数据库原理', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES ('11008', 'C语言', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES ('11009', 'C++语言', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES ('11010', 'IOS程序开发', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES ('11011', '计算机组装与维护', 3, 54, '11', '专业选修');
-INSERT INTO `tbl_course` VALUES ('11012', '体育教学', 4, 54, '08', '专业必修');
+INSERT INTO `tbl_course` VALUES (00001, '数据结构', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00002, '计算机组成原理', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00003, '算法设计', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES (00004, '网络编程', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES (00005, '形式与政策', 1, 32, '11', '通识必修');
+INSERT INTO `tbl_course` VALUES (00006, '编程艺术', 1, 32, '11', '通识选修');
+INSERT INTO `tbl_course` VALUES (00007, '数据库原理', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00008, 'C语言', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00009, 'C++语言', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00010, 'IOS程序开发', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00011, '计算机组装与维护', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES (00012, '体育教学', 4, 54, '08', '专业必修');
+INSERT INTO `tbl_course` VALUES (00013, '网络工程', 4, 54, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (00014, '信息安全', 4, 54, '11', '专业必修');
 
 -- ----------------------------
 -- Table structure for tbl_department
@@ -326,7 +328,7 @@ DROP TABLE IF EXISTS `tbl_tea_crs`;
 CREATE TABLE `tbl_tea_crs`  (
   `tea_crs_no` int(0) NOT NULL AUTO_INCREMENT COMMENT '某次授课的唯一编号',
   `tea_no` char(8) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '教师编号',
-  `crs_no` char(5) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '课程编号',
+  `crs_no` int(5) UNSIGNED ZEROFILL NULL DEFAULT NULL COMMENT '课程编号',
   `term` int(0) NULL DEFAULT NULL COMMENT '上课学年',
   `time` enum('0','1','3','4','6') CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '上课时间',
   `spot` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '上课地点',
@@ -340,25 +342,25 @@ CREATE TABLE `tbl_tea_crs`  (
   INDEX `fk_tea_crs_teacher`(`tea_no`) USING BTREE,
   INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
   CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_tea_crs
 -- ----------------------------
-INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', '11001', 20191, '0', '0102', 'Tues', 1, 30, '2018');
-INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', '11002', 20191, '3', '0103', 'Wed', 0, 30, '2018');
-INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', '11003', 20191, '4', '0102', 'Mon', 0, 40, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', '11005', 20192, '3', '0101', 'Thur', 0, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', '11003', 20201, '4', '0105', 'Tues', 1, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (6, '20051106', '11003', 20201, '3', '0106', 'Wed', 3, 40, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (7, '20061104', '11002', 20201, '4', '0201', 'Thur', 4, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (8, '20051106', '11006', 20201, '0', '0201', 'Tues', 1, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (9, '20151107', '11004', 20201, '1', '0106', 'Wed', 0, 30, '2018');
-INSERT INTO `tbl_tea_crs` VALUES (17, '20011103', '11004', 20202, '0', '0102', 'Mon', 0, 40, '2019');
-INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', '11001', 20202, '1', '0201', 'Mon', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', 00001, 20191, '0', '0102', 'Tues', 1, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', 00002, 20191, '3', '0103', 'Wed', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', 00003, 20191, '4', '0102', 'Mon', 0, 40, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', 00005, 20192, '3', '0101', 'Thur', 0, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', 00003, 20201, '4', '0105', 'Tues', 1, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (6, '20051106', 00003, 20201, '3', '0106', 'Wed', 3, 40, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (7, '20061104', 00002, 20201, '4', '0201', 'Thur', 4, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (8, '20051106', 00006, 20201, '0', '0201', 'Tues', 1, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (9, '20151107', 00004, 20201, '1', '0106', 'Wed', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (17, '20011103', 00004, 20202, '0', '0102', 'Mon', 0, 40, '2019');
+INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', 00001, 20202, '1', '0201', 'Mon', 0, 30, '2018');
 
 -- ----------------------------
 -- Table structure for tbl_teacher

@@ -1,13 +1,12 @@
 package com.qifangli.edumanage.service.impl;
 
-import com.qifangli.edumanage.dao.entity.Score;
-import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.StudentScore;
 import com.qifangli.edumanage.dao.mapper.CourseArrangeMapper;
-import com.qifangli.edumanage.dao.mapper.ScoreMapper;
 import com.qifangli.edumanage.dao.mapper.StudentMapper;
 import com.qifangli.edumanage.dao.mapper.StudentScoreMapper;
 import com.qifangli.edumanage.service.StudentService;
+import com.qifangli.edumanage.dao.entity.Student;
+import com.qifangli.edumanage.dao.mapper.ScoreMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;

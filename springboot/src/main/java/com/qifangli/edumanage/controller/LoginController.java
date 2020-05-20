@@ -29,7 +29,7 @@ import java.util.Map;
 public class LoginController {
 
     @PostMapping(value = "user")
-    public Result login(@RequestBody JSONObject param,HttpSession session){
+    public Result login(@RequestBody JSONObject param, HttpSession session){
         String id = param.getString("user");
         String pwd = param.getString("pass");
         String vcode = param.getString("vcode").toLowerCase();
@@ -47,7 +47,7 @@ public class LoginController {
             if(subject.hasRole( "student" )){
                 result.setCode(1);
                 result.setMsg("登录成功");
-                data.put("token",JWTUtil.sign(id,pwd));
+                data.put("token", JWTUtil.sign(id,pwd));
                 result.setDatas(data);
                 String msg = "- 登录成功id:"+id;
                 LoggerUtil.info(msg);

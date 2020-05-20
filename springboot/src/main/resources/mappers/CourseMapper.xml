@@ -12,4 +12,19 @@
     <select id="findCourseById" resultMap="CourseInfoMap">
         SELECT * FROM tbl_course WHERE crs_no = #{id}
     </select>
+    <select id="findCourseByDpt" resultMap="CourseInfoMap">
+        SELECT crs_no,crs_cdt,dpt_name crs_dpt,crs_name,crs_type,crs_hours
+        FROM `tbl_course`,tbl_department where crs_dpt=#{dpt} and dpt_no=crs_dpt
+    </select>
+    <delete id="deleteCrsById">
+        delete from tbl_course where crs_no=#{id}
+    </delete>
+    <update id="updateCrs" parameterType="Course">
+        update tbl_course set crs_name=#{name}, crs_cdt=#{credit}, crs_hours=#{hours},crs_dpt=#{department}
+        where crs_no=#{id}
+    </update>
+    <insert id="insertCrs" parameterType="Course">
+        insert into tbl_course(crs_name, crs_cdt, crs_hours, crs_dpt, crs_type)
+        values (#{name},#{credit},#{hours},#{department},#{type})
+    </insert>
 </mapper>

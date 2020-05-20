@@ -1,7 +1,6 @@
 package com.qifangli.edumanage.service;
 
 import com.qifangli.edumanage.dao.entity.CourseArrange;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

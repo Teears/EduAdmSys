@@ -1,12 +1,32 @@
 package com.qifangli.edumanage.dao.entity;
 
 public class Course {
-    private String id;
     private String name;
     private String credit;
     private String hours;
     private String department;
     private String type;
+    private String id;
+
+    public Course() {
+    }
+
+    public Course(String name, String credit, String hours, String department, String type, String id) {
+        this.name = name;
+        this.credit = credit;
+        this.hours = hours;
+        this.department = department;
+        this.type = type;
+        this.id = id;
+    }
+
+    public Course(String name, String credit, String hours, String department, String type) {
+        this.name = name;
+        this.credit = credit;
+        this.hours = hours;
+        this.department = department;
+        this.type = type;
+    }
 
     public void setId(String id) {
         this.id = id;
