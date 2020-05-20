@@ -58,7 +58,7 @@
   style="text-align:center">
   </el-pagination>
 
-  <el-dialog title="新增管理员" :visible.sync="dialogFormVisible" close-on-click-modal=false width="30%">
+  <el-dialog title="新增管理员" :visible.sync="dialogFormVisible" :close-on-click-modal=false width="30%">
     <el-form :model="form">
         <el-form-item label="工号" :label-width="formLabelWidth">
           <el-input v-model="form.uid" autocomplete="off"></el-input>

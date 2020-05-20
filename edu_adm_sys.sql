@@ -11,11 +11,52 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 18/05/2020 01:32:31
+ Date: 20/05/2020 19:33:55
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for logging
+-- ----------------------------
+DROP TABLE IF EXISTS `logging`;
+CREATE TABLE `logging`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `message` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `level_string` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '级别',
+  `created_time` datetime(0) NOT NULL COMMENT '时间',
+  `logger_name` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '全类名',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '自定义日志记录表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of logging
+-- ----------------------------
+INSERT INTO `logging` VALUES (1, '- 登录失败', 'INFO', '2020-05-19 15:21:54', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (2, '- 有减号', 'INFO', '2020-05-19 15:31:22', 'com.qifangli.edumanage.EdumanageApplicationTests');
+INSERT INTO `logging` VALUES (3, '- 登录失败id:123', 'INFO', '2020-05-19 17:47:54', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (4, '- 登录失败id:', 'INFO', '2020-05-19 19:53:35', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (5, '- 验证码错误', 'ERROR', '2020-05-19 22:06:52', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (6, '- 登录成功id:20011103', 'INFO', '2020-05-19 22:07:04', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (7, '- 登录成功id:20011103', 'INFO', '2020-05-19 22:51:53', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (8, '- 验证码错误', 'ERROR', '2020-05-19 22:53:28', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (9, '- 验证码错误', 'ERROR', '2020-05-19 22:53:35', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (10, '- 登录成功id:20011103', 'INFO', '2020-05-19 22:53:44', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (11, '- 登录成功id:20011103', 'INFO', '2020-05-20 00:39:19', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (12, '- 验证码错误', 'ERROR', '2020-05-20 00:57:03', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (13, '- 登录成功id:20011103', 'INFO', '2020-05-20 00:57:47', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (14, '- 登录成功id:20011103', 'INFO', '2020-05-20 10:05:14', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (15, '- 登录成功id:20011103', 'INFO', '2020-05-20 11:13:15', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (16, '- 登录成功id:20011103', 'INFO', '2020-05-20 12:42:47', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (17, '- 登录成功id:20011103', 'INFO', '2020-05-20 15:32:47', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (18, '- 登录成功id:20011103', 'INFO', '2020-05-20 16:19:03', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (19, '- 登录成功id:20011103', 'INFO', '2020-05-20 16:25:34', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (20, '- 登录成功id:20011103', 'INFO', '2020-05-20 16:40:56', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (21, '- 登录成功id:20011103', 'INFO', '2020-05-20 16:41:29', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (22, '- 登录成功id:20011103', 'INFO', '2020-05-20 17:51:39', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (23, '- 登录成功id:2017110323', 'INFO', '2020-05-20 19:19:24', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (24, '- 登录成功id:20011103', 'INFO', '2020-05-20 19:24:46', 'com.qifangli.edumanage.controller.LoginController');
 
 -- ----------------------------
 -- Table structure for permission
@@ -252,11 +293,11 @@ CREATE TABLE `tbl_student`  (
   `stu_gdu` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '毕业学校',
   `stu_bth` date NOT NULL COMMENT '出生日期',
   `stu_id` char(18) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '身份证号',
-  `stu_tel` char(11) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '手机号',
+  `stu_tel` char(11) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '手机号',
   `stu_pol` enum('共青团员','共产党员','入党积极分子','其他党派','群众') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '群众' COMMENT '政治面貌',
-  `stu_dpt` char(2) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '所属学院',
-  `stu_class` char(8) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '4位年级2位学院2位班级',
-  `stu_sta` enum('毕业','在校','休学','退学') CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '在校' COMMENT '状态',
+  `stu_dpt` char(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '所属学院',
+  `stu_class` char(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '4位年级2位学院2位班级',
+  `stu_sta` enum('毕业','在校','休学','退学') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '在校' COMMENT '状态',
   `stu_pwd` blob NOT NULL COMMENT '密码',
   PRIMARY KEY (`stu_no`) USING BTREE,
   INDEX `fk_student_department`(`stu_dpt`) USING BTREE,
@@ -268,15 +309,13 @@ CREATE TABLE `tbl_student`  (
 -- ----------------------------
 -- Records of tbl_student
 -- ----------------------------
-INSERT INTO `tbl_student` VALUES ('2016110312', '候同学', '男', '第三中学', '1998-12-14', '510722199812147564', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2016110312', '候同学', '女', '第三中学', '1998-12-14', '510722199812147564', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017080323', '好同学', '男', '第九中学', '1998-01-01', '510722199810242388', '18971034682', '入党积极分子', '08', '20170803', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_student` VALUES ('2017110301', '刘同学', '女', '第五中学', '1998-12-14', '510722199812147561', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_student` VALUES ('2017110302', '赵同学', '女', '第六中学', '1998-12-14', '51072219981214146X', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110302', '赵同学', '男', '第六中学', '1998-12-14', '51072219981214146X', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110305', '李同学', '女', '实验中学', '1998-12-14', '510722199812111111', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_student` VALUES ('2017110314', '黄同学', '男', '第二中学', '1998-12-14', '510722199812149632', '18011122222', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110318', '雷同学', '女', '第一中学', '1998-12-14', '510722199812147894', '19982031936', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110323', '李同学', '女', '实验中学', '1998-12-14', '510722199812142384', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '男', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '女', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '01', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2018090301', '小王同学', '男', '第一中学', '1999-12-01', '527133199912018453', '18011108917', '共青团员', '08', '20180803', '在校', 0x6664323238306164663539393535326431653965643934316662356564303739);
 INSERT INTO `tbl_student` VALUES ('2018090323', '小李同学', '女', '第一中学', '2000-10-11', '51104620010117546', '18011108917', '共青团员', '08', '20180803', '在校', 0x3033653532353566653733343830356264303332353165303433643433383330);
 
@@ -296,10 +335,10 @@ CREATE TABLE `tbl_tea_crs`  (
   `total` int(0) NULL DEFAULT NULL COMMENT '最大上课人数',
   `grade` char(4) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '开课年级',
   PRIMARY KEY (`tea_crs_no`) USING BTREE,
+  UNIQUE INDEX `constraint_unique`(`term`, `time`, `spot`, `week`) USING BTREE,
   INDEX `fk_tea_crs_spot`(`spot`) USING BTREE,
   INDEX `fk_tea_crs_teacher`(`tea_no`) USING BTREE,
   INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
-  UNIQUE INDEX `constraint_unique`(`term`, `time`, `spot`, `week`) USING BTREE,
   CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -319,7 +358,7 @@ INSERT INTO `tbl_tea_crs` VALUES (7, '20061104', '11002', 20201, '4', '0201', 'T
 INSERT INTO `tbl_tea_crs` VALUES (8, '20051106', '11006', 20201, '0', '0201', 'Tues', 1, 30, '2017');
 INSERT INTO `tbl_tea_crs` VALUES (9, '20151107', '11004', 20201, '1', '0106', 'Wed', 0, 30, '2018');
 INSERT INTO `tbl_tea_crs` VALUES (17, '20011103', '11004', 20202, '0', '0102', 'Mon', 0, 40, '2019');
-INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', '11001', 20202, '1', '0201', 'Mon', 0, 40, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', '11001', 20202, '1', '0201', 'Mon', 0, 30, '2018');
 
 -- ----------------------------
 -- Table structure for tbl_teacher
@@ -336,7 +375,7 @@ CREATE TABLE `tbl_teacher`  (
   `tea_tel` char(11) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '手机号',
   `tea_pol` enum('共产党员','共青团员','其他党派','入党积极分子','群众') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '群众' COMMENT '政治面貌',
   `tea_dpt` char(2) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '所属学院',
-  `tea_wkt` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '离职时间',
+  `tea_wkt` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '在职时间',
   `tea_pwd` blob NOT NULL COMMENT '密码',
   PRIMARY KEY (`tea_no`) USING BTREE,
   INDEX `fk_teacher_department`(`tea_dpt`) USING BTREE,
@@ -346,12 +385,14 @@ CREATE TABLE `tbl_teacher`  (
 -- ----------------------------
 -- Records of tbl_teacher
 -- ----------------------------
-INSERT INTO `tbl_teacher` VALUES ('20011103', '李老师', '女', '博士', '教授', '1976-04-14', '510722197604147894', '13811104563', '共产党员', '11', '2001-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20011103', '李老师', '男', '博士', '教授', '1976-04-14', '510722197604147894', '13811104563', '共产党员', '11', '2001-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_teacher` VALUES ('20051106', '刘老师', '男', '硕士', '助教', '1976-04-14', '510722197604147894', '13511163563', '共产党员', '11', '2005-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_teacher` VALUES ('20061101', '张老师', '男', '硕士', '讲师', '1976-04-14', '510722197604147894', '15811104563', '群众', '11', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20061101', '张老师', '女', '硕士', '讲师', '1976-04-14', '510722197604147894', '15811104563', '群众', '11', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_teacher` VALUES ('20061102', '张老师', '女', '硕士', '讲师', '1976-03-14', '510722197603147894', '15814504563', '群众', '11', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_teacher` VALUES ('20061104', '王老师', '男', '博士', '副教授', '1976-04-14', '510722197604147894', '15811185563', '共产党员', '11', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_teacher` VALUES ('20061105', '赵老师', '女', '硕士', '讲师', '1976-04-14', '510722197604147894', '18717894563', '共产党员', '11', '2006-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_teacher` VALUES ('20070101', '文老师', '女', '硕士', '讲师', '1990-01-01', '546795199001016551', '17865466635', '共产党员', '01', '2008-06至今', 0x6436653632396661373530373738333165316134623831643831343965396466);
+INSERT INTO `tbl_teacher` VALUES ('20081101', '81老师', '女', '硕士', '讲师', '1976-10-10', '510722197610109874', '13498745632', '共产党员', '11', '2008-06至今', 0x3833353663666437303638303062363232616632616534643462353763303335);
 INSERT INTO `tbl_teacher` VALUES ('20151107', '周老师', '男', '本科', '讲师', '1976-04-14', '510722197604147894', '18011244563', '共产党员', '11', '2015-09至今', 0x6531306164633339343962613539616262653536653035376632306638383365);
 
 -- ----------------------------
@@ -398,10 +439,10 @@ CREATE TABLE `user_role`  (
 INSERT INTO `user_role` VALUES ('20051106', 'admin');
 INSERT INTO `user_role` VALUES ('20061104', 'admin');
 INSERT INTO `user_role` VALUES ('20061105', 'admin');
-INSERT INTO `user_role` VALUES ('20151107', 'admin');
 INSERT INTO `user_role` VALUES ('20011103', 'super_admin');
 INSERT INTO `user_role` VALUES ('20061101', 'super_admin');
 INSERT INTO `user_role` VALUES ('20061102', 'super_admin');
+INSERT INTO `user_role` VALUES ('20151107', 'super_admin');
 
 -- ----------------------------
 -- Triggers structure for table tbl_student
@@ -420,6 +461,15 @@ delimiter ;;
 CREATE TRIGGER `tg_insert` BEFORE UPDATE ON `tbl_tea_crs` FOR EACH ROW if (new.selected>old.total or new.selected<0) then
 	signal sqlstate 'HY000' set message_text = '退选课已到最大人数' ;
 end if
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table tbl_teacher
+-- ----------------------------
+DROP TRIGGER IF EXISTS `tr_pwd_tea_inset`;
+delimiter ;;
+CREATE TRIGGER `tr_pwd_tea_inset` BEFORE INSERT ON `tbl_teacher` FOR EACH ROW set new.tea_pwd = md5(RIGHT(new.tea_id,6))
 ;;
 delimiter ;
 

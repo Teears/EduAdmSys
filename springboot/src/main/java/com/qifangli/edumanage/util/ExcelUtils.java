@@ -68,7 +68,6 @@ public class ExcelUtils {
 
     /**
      * 文件输出
-     * @author LiuYang
      * @param workbook 填充好的workbook
      * @param path 存放的位置
      */
@@ -102,7 +101,6 @@ public class ExcelUtils {
 
     /**
      * 设置字体样式
-     * @author LiuYang
      * @param workbook 工作簿
      * @param name 字体类型
      * @param height 字体大小
@@ -117,7 +115,6 @@ public class ExcelUtils {
 
     /**
      * 设置单元格样式
-     * @author LiuYang
      * @param cellStyle 工作簿
      * @param border border样式
      */

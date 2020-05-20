@@ -144,7 +144,7 @@
   </div>
   </el-dialog>
 
-  <el-dialog title="上传文件" :visible.sync="dialogUploadVisible" close-on-click-modal=false>
+  <el-dialog title="上传文件" :visible.sync="dialogUploadVisible" :close-on-click-modal=false>
   <el-upload
   class="upload-demo"
   ref="upload"

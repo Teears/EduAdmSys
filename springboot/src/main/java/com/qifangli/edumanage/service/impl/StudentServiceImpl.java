@@ -98,6 +98,8 @@ public class StudentServiceImpl implements StudentService {
                 }
             }catch (DuplicateKeyException e){
                 System.out.println("违反唯一性约束：学号存在重复");
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
         }

@@ -33,11 +33,11 @@ export default {
         .post('/unauthorized/logout', {})
         .then((result)=> {
           if(result.data.code==302){
-            var r = (this.$route.path).substr(0.4)
+            var r = (this.$route.path).substr(0,4)
             if(r=='/Stu'||r=='/Tea'){
-              router.replace("/login")
+              this.$router.replace({ path: '/login' });
             }else{
-              router.replace("/loginAdmin")
+              this.$router.replace({ path: '/loginAdmin' });
             }
           }
         })

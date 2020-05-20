@@ -3,16 +3,33 @@ package com.qifangli.edumanage.dao.entity;
 public class Teacher {
     private String id;
     private String name;
-    private String pass;
     private String sex;
-    private String degree;
-    private String title;
     private String birth;
     private String idCard;
     private String telephone;
     private String political;
     private String department;
+    private String degree;
+    private String title;
     private String workTime;
+    private String pass;
+
+    public Teacher() {
+    }
+
+    public Teacher(String id, String name, String sex, String degree, String title, String birth, String idCard, String telephone, String political, String department, String workTime) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.degree = degree;
+        this.title = title;
+        this.birth = birth;
+        this.idCard = idCard;
+        this.telephone = telephone;
+        this.political = political;
+        this.department = department;
+        this.workTime = workTime;
+    }
 
     public void setId(String id) {
         this.id = id;

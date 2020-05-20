@@ -83,7 +83,7 @@
   style="text-align:center">
   </el-pagination>
 
-   <el-dialog title="新增学生档案" :visible.sync="dialogFormVisible" close-on-click-modal=false width="50%">
+   <el-dialog title="新增学生档案" :visible.sync="dialogFormVisible" :close-on-click-modal=false width="50%">
   <el-form :model="form">
     <el-form-item>
       <el-col :span="10">
@@ -181,13 +181,13 @@
   </div>
 </el-dialog>
 
-<el-dialog title="上传文件" :visible.sync="dialogUploadVisible" close-on-click-modal=false>
+<el-dialog title="上传文件" :visible.sync="dialogUploadVisible" :close-on-click-modal=false>
   <el-upload
   class="upload-demo"
   ref="upload"
   multiple="false"
   accept=".xls,.xlsx"
-  action="http://localhost:8080/admin/stuAdmin/upload"
+  action="http://localhost:8080/stuAdmin/upload"
   with-credentials="true" 
   :on-success="handleAvatarSuccess"
   :file-list="fileList"
@@ -264,7 +264,7 @@ import XLSX from 'xlsx'
             }
             return options
         },
-        tables () {
+      tables () {
         const search = this.search
         if (search) {
           return this.tableData.filter(data => {
@@ -290,7 +290,7 @@ import XLSX from 'xlsx'
         alert("导入成功，共添加"+total+"条，成功"+success+"条，失败"+failed+"条");
       },
 
-      async getDptName(){
+      getDptName(){
         this.$axios
         .post('/dpt/getDptName', {})
         .then((result)=> {
@@ -323,7 +323,7 @@ import XLSX from 'xlsx'
           return
         }
         this.$axios
-        .post('/admin/stuAdmin/getStuData', { 
+        .post('/stuAdmin/getStuData', { 
           dpt:this.deptSelected,
           grade:this.gradeSelected,
         })
@@ -344,7 +344,7 @@ import XLSX from 'xlsx'
 
       getAllClass(){
         this.$axios
-        .post('/admin/stuAdmin/getAllClass', {})
+        .post('/stuAdmin/getAllClass', {})
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
               this.classOptions = result.data.datas
@@ -363,9 +363,10 @@ import XLSX from 'xlsx'
         this.visible1 = 'inline'
         this.isDisabled=false
       },
+
       addStudentData(){
         this.$axios
-        .post('/admin/stuAdmin/insertStudent', this.form)
+        .post('/stuAdmin/insertStudent', this.form)
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
               this.$message({
@@ -404,7 +405,7 @@ import XLSX from 'xlsx'
       },
       editOk(){
         this.$axios
-        .post('/admin/stuAdmin/editStu', this.form)
+        .post('/stuAdmin/editStu', this.form)
         .then((result)=> {
             if (result.data.code === 1) {//返回第一页数据，和
               this.$message({
@@ -432,7 +433,7 @@ import XLSX from 'xlsx'
           type: 'warning'
         }).then(() => {
           this.$axios
-          .post('/admin/stuAdmin/deleteStu', {
+          .post('/stuAdmin/deleteStu', {
             id:row.id
           })
           .then((result)=> {
@@ -441,6 +442,11 @@ import XLSX from 'xlsx'
               this.$message({
                 type: 'success',
                 message: '删除成功!'
+              });
+            }else{
+              this.$message({
+                type: 'error',
+                message: result.data.msg
               });
             }
           }).catch((error)=> {

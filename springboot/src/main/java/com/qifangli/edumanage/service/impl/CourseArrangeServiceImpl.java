@@ -65,6 +65,8 @@ public class CourseArrangeServiceImpl implements CourseArrangeService {
             }catch (DuplicateKeyException e){
                 e.printStackTrace();
                 System.out.println("违反唯一性约束：教室被占用");
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
         map.put("success",success);

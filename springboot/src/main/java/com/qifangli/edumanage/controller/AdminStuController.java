@@ -19,10 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController()
-@RequestMapping("/admin")
-public class AdminController {
-    @Resource
-    private TeacherService teacherService;
+@RequestMapping("/stuAdmin")
+public class AdminStuController {
     @Resource
     private StudentService studentService;
     @Resource
@@ -34,7 +32,7 @@ public class AdminController {
      * @return
      */
     @RequiresPermissions("admin_stuAdmin")
-    @PostMapping("/stuAdmin/getStuData")
+    @PostMapping("/getStuData")
     public Result getStuInfo(@RequestBody JSONObject param){
         String dpt = param.getString("dpt");
         String grade = param.getString("grade");
@@ -48,7 +46,7 @@ public class AdminController {
      * @return
      */
     @RequiresPermissions("admin_stuAdmin")
-    @PostMapping("/stuAdmin/getAllClass")
+    @PostMapping("/getAllClass")
     public Result getAllClass(){
         List<String > allClass = classAndGradeService.findAllClass();
         List<Map<String,String>> maps = new LinkedList<>();
@@ -66,7 +64,7 @@ public class AdminController {
      * @return
      */
     @RequiresPermissions("admin_stuAdmin")
-    @PostMapping("/stuAdmin/insertStudent")
+    @PostMapping("/insertStudent")
     public Result insertStu(@RequestBody JSONObject param){
         String id = param.getString("id");
         String name = param.getString("name");
@@ -95,7 +93,7 @@ public class AdminController {
      * @return
      */
     @RequiresPermissions("admin_stuAdmin")
-    @PostMapping("/stuAdmin/editStu")
+    @PostMapping("/editStu")
     public Result editStu(@RequestBody JSONObject param){
         String id = param.getString("id");
         String name = param.getString("name");
@@ -109,10 +107,14 @@ public class AdminController {
         String classAndGrade = param.getString("classAndGrade");
         String status = param.getString("status");
         Student student = new Student(id,name,sex,graduate,birth,idCard,telephone,political,department,classAndGrade,status);
-        if(studentService.updateStu(student)>0){
-            return ResultUtils.success();
-        }else {
-            return ResultUtils.error(-1,"数据不存在");
+        try {
+            if(studentService.updateStu(student)>0){
+                return ResultUtils.success();
+            }else {
+                return ResultUtils.error(-1,"数据不存在");
+            }
+        }catch (Exception e){
+            return ResultUtils.error(-1,"添加的数据有误，请检查！");
         }
     }
 
@@ -122,7 +124,7 @@ public class AdminController {
      * @return
      */
     @RequiresPermissions("admin_stuAdmin")
-    @PostMapping("/stuAdmin/deleteStu")
+    @PostMapping("/deleteStu")
     public Result deleteStu(@RequestBody JSONObject param){
         String id = param.getString("id");
         try {
@@ -134,7 +136,6 @@ public class AdminController {
         }catch (Exception e){
             return ResultUtils.error(-1,"不能删除该学生");
         }
-
     }
 
     /**
@@ -143,7 +144,7 @@ public class AdminController {
      * @return
      */
     @RequiresPermissions("admin_stuAdmin")
-    @RequestMapping("/stuAdmin/upload")
+    @RequestMapping("/upload")
     public Result stuUpload(@RequestParam("file") MultipartFile file){
         InputStream is = null;
         Map<String,Object> map= new HashMap<>();
