@@ -37,8 +37,6 @@ public class DptController {
         LinkedList<Map<String,String>> datas = new LinkedList<>();
 
         Subject subject = SecurityUtils.getSubject();
-        System.out.println(subject.hasRole( "super_admin" ));
-        System.out.println(subject.hasRole( "admin" ));
 
         if(subject.hasRole( "super_admin" )){
             List<Department> departments = departmentService.findAllDpt();

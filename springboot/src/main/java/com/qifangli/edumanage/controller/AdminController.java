@@ -89,6 +89,11 @@ public class AdminController {
         }
     }
 
+    /**
+     * 编辑学生信息
+     * @param param
+     * @return
+     */
     @RequiresPermissions("admin_stuAdmin")
     @PostMapping("/stuAdmin/editStu")
     public Result editStu(@RequestBody JSONObject param){
@@ -103,8 +108,33 @@ public class AdminController {
         String department = param.getString("department");
         String classAndGrade = param.getString("classAndGrade");
         String status = param.getString("status");
+        Student student = new Student(id,name,sex,graduate,birth,idCard,telephone,political,department,classAndGrade,status);
+        if(studentService.updateStu(student)>0){
+            return ResultUtils.success();
+        }else {
+            return ResultUtils.error(-1,"数据不存在");
+        }
+    }
 
-        return ResultUtils.success();
+    /**
+     * 按学号删除学生
+     * @param param
+     * @return
+     */
+    @RequiresPermissions("admin_stuAdmin")
+    @PostMapping("/stuAdmin/deleteStu")
+    public Result deleteStu(@RequestBody JSONObject param){
+        String id = param.getString("id");
+        try {
+            if(studentService.deleteStuById(id)>0){
+                return ResultUtils.success();
+            }else {
+                return ResultUtils.error(-1,"要删除的数据不存在");
+            }
+        }catch (Exception e){
+            return ResultUtils.error(-1,"不能删除该学生");
+        }
+
     }
 
     /**

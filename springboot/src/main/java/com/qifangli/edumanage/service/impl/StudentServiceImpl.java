@@ -110,4 +110,14 @@ public class StudentServiceImpl implements StudentService {
     public int insertStu(Student student) {
         return studentMapper.insertStu(student);
     }
+
+    @Override
+    public int updateStu(Student student) {
+        return studentMapper.updateStu(student);
+    }
+
+    @Override
+    public int deleteStuById(String id) {
+        return studentMapper.deleteStuById(id);
+    }
 }

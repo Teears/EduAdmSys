@@ -1,15 +1,13 @@
 <template>
   <div style="width:1100px">
   <el-row type="flex" justify="space-between" style="margin-bottom:5px">
-  <el-col :span="3">
+    <el-col :span="3">
       <el-select v-model="deptSelected" @change="deptSelect" placeholder="请选择学院" style="width:150px" size="small">
-            <el-option
-            v-for="item in deptOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-            </el-option>
-        </el-select>
+        <el-option
+          v-for="item in deptOptions"
+          :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
     </el-col>
     <el-col :span="3">
         <el-select v-model="gradeSelected" @change="gradeSelect" placeholder="请选择年级" style="width:150px" size="small">
@@ -26,7 +24,7 @@
         <el-button slot="append" icon="el-icon-search" @click="searchOk">搜索</el-button>
       </el-input>
     </el-col>
-     <el-button type="primary" size="small" @click="dialogFormVisible = true" icon="el-icon-plus">添加学生</el-button>
+     <el-button type="primary" size="small" @click="addStuBtn" icon="el-icon-plus">添加学生</el-button>
      <el-button type="primary" plain size="small" @click="dialogUploadVisible = true" icon="el-icon-folder-add">导入学生</el-button>
   </el-row>
 
@@ -68,7 +66,7 @@
     <el-table-column fixed="right" prop="operate" label="操作" width="150">
       <template slot-scope="scope">
           <el-button size="mini" plain type="primary"
-            @click="handleAdd(scope.$index, scope.row)">编辑</el-button>
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" plain type="danger"
             @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
@@ -90,7 +88,7 @@
     <el-form-item>
       <el-col :span="10">
         <el-form-item label="学号" :label-width="formLabelWidth">
-          <el-input v-model="form.id" autocomplete="off"  maxlength="10" show-word-limit></el-input>
+          <el-input v-model="form.id" autocomplete="off" :disabled="isDisabled" maxlength="10" show-word-limit></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="14">
@@ -178,7 +176,8 @@
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addStudentData">提交</el-button>
+    <el-button type="primary" @click="addStudentData" :style="{display: this.visible1}">提交</el-button>
+    <el-button type="primary" @click="editOk" :style="{display: this.visible2}">修改</el-button>
   </div>
 </el-dialog>
 
@@ -222,7 +221,6 @@ import XLSX from 'xlsx'
         pageSize:17,
         currentPage:1,
         totalCount:1,
-        loading:false,
 
         dialogFormVisible: false,
         form: {
@@ -239,6 +237,10 @@ import XLSX from 'xlsx'
           status:''
         },
         formLabelWidth: '80px',
+        visible2:'none',
+        visible1:'inline',
+        isDisabled:false,
+        editIndex:0,
 
         dialogUploadVisible: false,
         fileList:[]
@@ -288,7 +290,7 @@ import XLSX from 'xlsx'
         alert("导入成功，共添加"+total+"条，成功"+success+"条，失败"+failed+"条");
       },
 
-      getDptName(){
+      async getDptName(){
         this.$axios
         .post('/dpt/getDptName', {})
         .then((result)=> {
@@ -354,8 +356,14 @@ import XLSX from 'xlsx'
             alert(error)
         })
       },
+
+      addStuBtn(){
+        this.dialogFormVisible = true 
+        this.visible2 = 'none'
+        this.visible1 = 'inline'
+        this.isDisabled=false
+      },
       addStudentData(){
-        alert(JSON.stringify(this.form))
         this.$axios
         .post('/admin/stuAdmin/insertStudent', this.form)
         .then((result)=> {
@@ -376,17 +384,87 @@ import XLSX from 'xlsx'
             alert(error)
         })
       },
+
+      handleEdit(index,row){
+          this.form.id = row.id
+          this.form.name = row.name
+          this.form.sex = row.sex
+          this.form.graduate = row.graduate
+          this.form.birth = row.birth
+          this.form.idCard = row.idCard
+          this.form.political = row.political
+          this.form.telephone = row.telephone
+          this.form.department = this.deptSelected
+          this.form.classAndGrade = row.classAndGrade
+          this.form.status = row.status
+          this.visible1 = 'none'
+          this.visible2 = 'inline'
+          this.isDisabled=true
+          this.dialogFormVisible = true
+      },
+      editOk(){
+        this.$axios
+        .post('/admin/stuAdmin/editStu', this.form)
+        .then((result)=> {
+            if (result.data.code === 1) {//返回第一页数据，和
+              this.$message({
+                type: 'success',
+                message: '修改成功!'
+              });
+              this.getTableData()
+            }else{
+              this.$message({
+                type: 'error',
+                message: result.data.msg
+              });
+            }
+            this.dialogFormVisible = false
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
+
+      handleDelete(index,row){
+        this.$confirm('确定删除'+row.name+'吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+          .post('/admin/stuAdmin/deleteStu', {
+            id:row.id
+          })
+          .then((result)=> {
+            if (result.data.code === 1) {
+              this.getTableData()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }
+          }).catch((error)=> {
+            alert(error)
+          })
+        }).catch(() => {});
+      },
       
 
       handleCurrentChange(val) {
         this.currentPage = val
       }
     },
+    watch: {
+      deptSelected: function () {
+        this.$nextTick(function () {
+          this.getTableData()
+        })
+      }
+    },
     created(){
-      this.getDptName()
       this.getAllClass()
       this.gradeSelected = this.gradeOptions[2].grade
-      this.getTableData()
+      this.getDptName()
     }
   }
 </script>

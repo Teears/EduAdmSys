@@ -18,5 +18,7 @@ public interface StudentMapper {
    int insertStu(Student student) throws DuplicateKeyException;
 
    int updateStu(Student student);
+
+   int deleteStuById(@Param("id") String id);
 }
 

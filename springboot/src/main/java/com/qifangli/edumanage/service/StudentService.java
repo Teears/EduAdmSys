@@ -33,4 +33,7 @@ public interface StudentService {
 
     int insertStu(Student student);
 
+    int updateStu(Student student);
+
+    int deleteStuById(String id);
 }

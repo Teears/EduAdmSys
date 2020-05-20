@@ -46,7 +46,12 @@
         values (#{id},#{name},#{sex},#{graduate},#{birth},#{idCard},#{telephone},#{political},#{department},#{classAndGrade},#{status},#{pass})
     </insert>
     <update id="updateStu" parameterType="Student">
-        
+        update tbl_student set stu_name=#{name},stu_sex=#{sex},stu_gdu=#{graduate},stu_bth=#{birth},stu_id=#{idCard},
+        stu_tel=#{telephone},stu_pol=#{political},stu_dpt=#{department},stu_class=#{classAndGrade},stu_sta=#{status}
+        where stu_no=#{id}
     </update>
+    <delete id="deleteStuById">
+        delete from tbl_student where stu_no = #{id}
+    </delete>
 
 </mapper>
