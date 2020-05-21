@@ -1,9 +1,12 @@
 package com.qifangli.edumanage.dao.mapper;
 
 import com.qifangli.edumanage.dao.entity.Score;
+import com.qifangli.edumanage.dao.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
+
+import java.util.List;
 
 @Mapper
 public interface ScoreMapper {
@@ -17,4 +20,8 @@ public interface ScoreMapper {
     Double findAvgScore(@Param("id") String id);
 
     Integer findSumCredit(@Param("id") String id);
+
+    List<Score> findScoreByTC(@Param("tcno") String tcno);
+
+    int updateScore(Score score);
 }

@@ -13,28 +13,16 @@
     </el-select>
   </el-col>
   <el-col :span="7">
-    <label>班级：</label>
-    <el-select v-model="classSelected" placeholder="请选择班级" @change="getClassSelected" style="width:180px" size="small">
-    <el-option
-      v-for="item in classOptions"
-      :key="item.class"
-      :label="item.label"
-      :value="item.class">
-    </el-option>
-    </el-select>
-  </el-col>
-  <el-col :span="7">
     <label>课程：</label>
     <el-select v-model="crsSelected" placeholder="请选择课程" @change="getCrsSelected" style="width:180px" size="small">
     <el-option
       v-for="item in crsOptions"
-      :key="item.crs"
-      :label="item.label"
-      :value="item.crs">
+      :key="item.id"
+      :label="item.name"
+      :value="item.id">
     </el-option>
     </el-select>
   </el-col>
-     <el-button type="primary" size="small" @click="selectOk">查询</el-button>
      <el-button type="primary" plain size="small" @click="exportExcel">导出</el-button>
   </el-row>
 
@@ -54,7 +42,6 @@
   
   <el-table id="classListTable"
     :data="tables.slice((currentPage-1)*pageSize,currentPage*pageSize)"
-    v-loading="loading"
     border
     stripe
     style="width: 100%"
@@ -64,23 +51,23 @@
     :cell-style="{padding:'2px'}">
     <el-table-column type="index" label="序号" width="59">
     </el-table-column>
-    <el-table-column prop="number" label="学号" width="200">
+    <el-table-column prop="stuId" label="学号" width="200">
     </el-table-column>
-    <el-table-column prop="class" label="班级" width="150">
+    <el-table-column prop="classAndGrade" label="班级" width="150">
     </el-table-column>
-    <el-table-column prop="name" label="姓名" width="300">
+    <el-table-column prop="stuName" label="姓名" width="300">
     </el-table-column>
-    <el-table-column prop="grade" label="成绩" width="200">
+    <el-table-column prop="score" label="成绩" width="200">
       <template slot-scope="scope">
-        <el-input size="mini" type="number" v-show="show" v-model="scope.row.grade"></el-input>
-        <span v-show="!show">{{scope.row.grade}}</span>
+        <el-input size="mini" type="number" v-show="show" v-model="scope.row.score"></el-input>
+        <span v-show="!show">{{scope.row.score}}</span>
       </template>
     </el-table-column>
     <el-table-column prop="tag" label="标签" width="170">
         <template slot-scope="scope">
           <el-tag size="mini"
-          :type="(scope.row.grade==='')? 'info':(scope.row.grade >= 60) ? 'success' : 'danger'"
-          disable-transitions>{{(scope.row.grade==='')? '未录入':(scope.row.grade >= 60)?'合格':'不合格'}}</el-tag>
+          :type="(scope.row.score==null)? 'info':(scope.row.score >= 60) ? 'success' : 'danger'"
+          disable-transitions>{{(scope.row.score==null)? '未录入':(scope.row.score >= 60)?'合格':'不合格'}}</el-tag>
         </template>
     </el-table-column>
   </el-table>
@@ -107,13 +94,10 @@ import XLSX from 'xlsx'
       return {
         termOptions:termOptions,
         termSelected: '',
-        classOptions:'',
-        classSelected:'',
         crsOptions:'',
         crsSelected:'',
 
         classListTableData:[],
-        tableInfo:{},
         search: '',
         show: false,
 
@@ -139,94 +123,73 @@ import XLSX from 'xlsx'
     methods:{
       getTermSelected(){
         this.$axios
-        .post('/api/getClassOptions', { //查询该老师某学期所教的班级
-            userid: getCookie("userid"),
-            identify: getCookie("identify"),
+        .post('/teacher/getCourse', {
             term: this.termSelected
         })
         .then((result)=> {
             if (result.data.code === 1) {
-              this.classOptions=result.data.datas
-              this.classSelected = ''
-            }else{
-                return false;
+              this.crsOptions=result.data.datas
+              this.crsSelected = ''
             }
         })
         .catch((error)=> {
             alert(error)
         })
       },
-      getClassSelected(){
-        this.crsOptions = this.classOptions[this.classSelected].crs
-        this.crsSelected = ''
-      },
-      postListData(){
-        this.$axios
-        .post('/api/postStuGrade', { //提交成绩接口
-          dataInfo:this.tableInfo,
-          datas:this.classListTableData
-        })
-        .then((result)=> {
-            if (result.data.code === 1) {
-              alert("成绩更新成功！")
-            }else{
-              alert("成绩更新失败！")
-              return false;
-            }
-        })
-        .catch((error)=> {
-            alert(error)
-        })
+
+      getCrsSelected(){
+        this.selectOk()
       },
       selectOk(){
-        if(this.termSelected===''||this.classSelected===''||this.crsSelected===''){
+        if(this.termSelected===''||this.crsSelected===''){
           alert("请检查查询条件")
           return
         }
-        var tableInfo = {
-            userid: getCookie("userid"),
-            identify: getCookie("identify"),
-            term: this.termSelected,
-            class: this.classOptions[this.classSelected].label,
-            crs: this.crsSelected
-        }
         this.$axios
-        .post('/api/getClassListTableData', { //获取查询学生名单接口
-            tableInfo
+        .post('/teacher/getScoreData', { //获取查询学生名单接口
+            id:this.crsSelected
         })
         .then((result)=> {
-            // result.data = JSON.stringify(result.data)
-            // result.data = JSON.parse(result.data)
             if (result.data.code === 1) {
               this.totalCount=result.data.datas.length
               this.classListTableData = result.data.datas
-              this.tableInfo = tableInfo
-            }else{
-              return false;
             }
         })
         .catch((error)=> {
             alert(error)
         })
       },
-      // exportExcel () {
-      //    /* generate workbook object from table */
-      //   this.pageSize = this.totalCount
-      //   this.currentPage = 1
-      //   var wb = XLSX.utils.table_to_book(document.querySelector('#classListTable'))
-      //    /* get binary string as output */
-      //   var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
-      //   try {
-      //       FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'studentlist.xlsx')
-      //   } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
-      //   this.pageSize = 20
-      //   return wbout
-      // },
+
+      postListData(){
+        if(this.show==true){
+          this.$message({
+            type: 'info',
+            message: '编辑状态不能提交'
+          });
+          return
+        }
+        this.$axios
+        .post('/teacher/postScoreList', {
+          scoreList:this.classListTableData
+        })
+        .then((result)=> {
+            if (result.data.code === 1) {
+              this.$message({
+                type: 'success',
+                message: '成绩更新成功'
+              });
+            }
+        })
+        .catch((error)=> {
+            alert(error)
+        })
+      },
+
       exportExcel(){
         require.ensure([], () => {
           const { export_json_to_excel } = require('../../excel/Export2Excel');
           const tHeader = [ '学号', '班级', '姓名','成绩'];
-          const filterVal = ['number', 'class', 'name','grade'];
+          const filterVal = ['stuId', 'classAndGrade', 'stuName','score'];
           const list = this.classListTableData;
           const data = this.formatJson(filterVal, list);
           export_json_to_excel(tHeader, data, 'studentlist');

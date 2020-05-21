@@ -6,7 +6,7 @@
     style="width: 100%">
     <el-table-column label="个人信息">
     <el-table-column
-      prop="tid"
+      prop="id"
       label="工号"
       width="100">
     </el-table-column>
@@ -26,7 +26,7 @@
       width="150">
     </el-table-column>
     <el-table-column
-      prop="politic"
+      prop="pol"
       label="政治面貌"
       width="150">
     </el-table-column>
@@ -36,7 +36,7 @@
       width="100">
     </el-table-column>
     <el-table-column
-      prop="dept"
+      prop="dpt"
       label="系别"
       width="150">
     </el-table-column>
@@ -46,7 +46,7 @@
       width="100">
     </el-table-column>
     <el-table-column
-      prop="work_range"
+      prop="workTime"
       label="工作时间"
       width="150">
     </el-table-column>
@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import {getCookie} from '../global/cookie'
   export default {
     data() {
       return {
@@ -66,17 +65,10 @@ import {getCookie} from '../global/cookie'
     methods:{
       getInfoTable(){
         this.$axios
-        .post('/api/getTeaInfoTable', { //获取查询学期课表接口
-            userid: getCookie("userid")
-        })
+        .post('/teacher/getInfoTable', {})
         .then((result)=> {
-            result.data = JSON.stringify(result.data)
-            result.data = JSON.parse(result.data)
             if (result.data.code === 1) {
                 this.infoTableData = result.data.datas
-            }else{
-                console.log("查询失败");
-                return false;
             }
         })
         .catch((error)=> {
@@ -84,7 +76,7 @@ import {getCookie} from '../global/cookie'
         })
       }
     },
-    created:function(){
+    created(){
       this.getInfoTable()
     }
   }

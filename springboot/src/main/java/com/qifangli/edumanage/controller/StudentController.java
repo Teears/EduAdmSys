@@ -33,6 +33,12 @@ public class StudentController {
     @Autowired
     private TermService termService;
 
+    /**
+     * 获取学生某学期的成绩表
+     * @param param
+     * @param request
+     * @return
+     */
     @RequiresPermissions("student_all")
     @PostMapping("getScoreTable")
     public Result getScoreTable(@RequestBody JSONObject param, HttpServletRequest request){
@@ -45,6 +51,11 @@ public class StudentController {
         return ResultUtils.success(studentScore);
     }
 
+    /**
+     * 获取学生的基本信息
+     * @param request
+     * @return
+     */
     @RequiresPermissions("student_all")
     @PostMapping("getInfoTable")
     public Result getInfoTable(HttpServletRequest request){
@@ -66,12 +77,16 @@ public class StudentController {
         return ResultUtils.success(datas);
     }
 
+    /**
+     * 获取当前可选课信息
+     * @param request
+     * @return
+     */
     @RequiresPermissions("student_select")
     @PostMapping("getNewCourseArrange")
     public Result getNewCourseArrange (HttpServletRequest request){
         String token = request.getHeader("token");
         String id = JWTUtil.getUsername(token);
-
 
         Student student = studentService.findStudentById(id);
         String dpt = student.getDepartment();
@@ -82,6 +97,12 @@ public class StudentController {
         return ResultUtils.success(newArrange);
     }
 
+    /**
+     * 学生选课
+     * @param param
+     * @param request
+     * @return
+     */
     @RequiresPermissions("student_select")
     @PostMapping("getNewCourseArrange/addSelect")
     public Result addSelect (@RequestBody JSONObject param,HttpServletRequest request){
@@ -101,6 +122,12 @@ public class StudentController {
         return ResultUtils.success();
     }
 
+    /**
+     * 学生退课
+     * @param param
+     * @param request
+     * @return
+     */
     @RequiresPermissions("student_select")
     @PostMapping("getNewCourseArrange/deleteSelect")
     public Result deleteSelect (@RequestBody JSONObject param,HttpServletRequest request){

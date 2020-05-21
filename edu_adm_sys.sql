@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 20/05/2020 22:32:27
+ Date: 21/05/2020 15:18:36
 */
 
 SET NAMES utf8mb4;
@@ -57,6 +57,13 @@ INSERT INTO `logging` VALUES (21, '- 登录成功id:20011103', 'INFO', '2020-05-
 INSERT INTO `logging` VALUES (22, '- 登录成功id:20011103', 'INFO', '2020-05-20 17:51:39', 'com.qifangli.edumanage.controller.LoginController');
 INSERT INTO `logging` VALUES (23, '- 登录成功id:2017110323', 'INFO', '2020-05-20 19:19:24', 'com.qifangli.edumanage.controller.LoginController');
 INSERT INTO `logging` VALUES (24, '- 登录成功id:20011103', 'INFO', '2020-05-20 19:24:46', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (25, '- 登录成功id:20011103', 'INFO', '2020-05-20 22:48:53', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (26, '- 登录成功id:20011103', 'INFO', '2020-05-21 10:06:52', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (27, '- 登录成功id:20011103', 'INFO', '2020-05-21 11:46:14', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (28, '- 登录成功id:20011103', 'INFO', '2020-05-21 11:48:45', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (29, '- 登录成功id:20011103', 'INFO', '2020-05-21 11:51:48', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (30, '- 登录成功id:20011103', 'INFO', '2020-05-21 13:57:25', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (31, '- 登录成功id:20011103', 'INFO', '2020-05-21 15:11:22', 'com.qifangli.edumanage.controller.LoginController');
 
 -- ----------------------------
 -- Table structure for permission
@@ -126,6 +133,8 @@ INSERT INTO `role_permission` VALUES ('admin', 4);
 INSERT INTO `role_permission` VALUES ('super_admin', 4);
 INSERT INTO `role_permission` VALUES ('admin', 6);
 INSERT INTO `role_permission` VALUES ('super_admin', 6);
+INSERT INTO `role_permission` VALUES ('admin', 7);
+INSERT INTO `role_permission` VALUES ('super_admin', 7);
 INSERT INTO `role_permission` VALUES ('teacher', 7);
 INSERT INTO `role_permission` VALUES ('student', 8);
 INSERT INTO `role_permission` VALUES ('super_admin', 10);
@@ -191,20 +200,22 @@ CREATE TABLE `tbl_course`  (
 -- ----------------------------
 -- Records of tbl_course
 -- ----------------------------
-INSERT INTO `tbl_course` VALUES (00001, '数据结构', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00002, '计算机组成原理', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00003, '算法设计', 3, 54, '11', '专业选修');
-INSERT INTO `tbl_course` VALUES (00004, '网络编程', 3, 54, '11', '专业选修');
-INSERT INTO `tbl_course` VALUES (00005, '形式与政策', 1, 32, '11', '通识必修');
-INSERT INTO `tbl_course` VALUES (00006, '编程艺术', 1, 32, '11', '通识选修');
-INSERT INTO `tbl_course` VALUES (00007, '数据库原理', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00008, 'C语言', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00009, 'C++语言', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00010, 'IOS程序开发', 4, 64, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00011, '计算机组装与维护', 3, 54, '11', '专业选修');
-INSERT INTO `tbl_course` VALUES (00012, '体育教学', 4, 54, '08', '专业必修');
-INSERT INTO `tbl_course` VALUES (00013, '网络工程', 4, 54, '11', '专业必修');
-INSERT INTO `tbl_course` VALUES (00014, '信息安全', 4, 54, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10001, '数据结构', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10002, '计算机组成原理', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10003, '算法设计', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES (10004, '网络编程', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES (10005, '形式与政策', 1, 32, '11', '通识必修');
+INSERT INTO `tbl_course` VALUES (10006, '编程艺术', 1, 32, '11', '通识选修');
+INSERT INTO `tbl_course` VALUES (10007, '数据库原理', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10008, 'C语言', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10009, 'C++语言', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10010, 'IOS程序开发', 4, 64, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10011, '计算机组装与维护', 3, 54, '11', '专业选修');
+INSERT INTO `tbl_course` VALUES (10012, '体育教学', 4, 54, '08', '专业必修');
+INSERT INTO `tbl_course` VALUES (10013, '网络工程', 4, 54, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10014, '信息安全', 4, 54, '11', '专业必修');
+INSERT INTO `tbl_course` VALUES (10016, '文学院课程1', 2, 42, '01', '专业必修');
+INSERT INTO `tbl_course` VALUES (10018, 'Java高级程序设计', 4, 54, '11', '专业必修');
 
 -- ----------------------------
 -- Table structure for tbl_department
@@ -243,6 +254,7 @@ CREATE TABLE `tbl_score`  (
   `score` int(0) NULL DEFAULT NULL COMMENT '综合成绩',
   PRIMARY KEY (`stu_no`, `tea_crs_no`) USING BTREE,
   INDEX `fk_score_tea_crs`(`tea_crs_no`) USING BTREE,
+  UNIQUE INDEX `unique_stu_tea_crs`(`stu_no`, `tea_crs_no`) USING BTREE,
   CONSTRAINT `fk_score_student` FOREIGN KEY (`stu_no`) REFERENCES `tbl_student` (`stu_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_score_tea_crs` FOREIGN KEY (`tea_crs_no`) REFERENCES `tbl_tea_crs` (`tea_crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
@@ -250,6 +262,10 @@ CREATE TABLE `tbl_score`  (
 -- ----------------------------
 -- Records of tbl_score
 -- ----------------------------
+INSERT INTO `tbl_score` VALUES ('2017110302', 7, NULL, NULL, NULL);
+INSERT INTO `tbl_score` VALUES ('2017110305', 7, NULL, NULL, 90);
+INSERT INTO `tbl_score` VALUES ('2017110318', 7, NULL, NULL, 88);
+INSERT INTO `tbl_score` VALUES ('2017110318', 17, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 1, NULL, NULL, 80);
 INSERT INTO `tbl_score` VALUES ('2017110323', 2, NULL, NULL, 81);
 INSERT INTO `tbl_score` VALUES ('2017110323', 4, NULL, NULL, NULL);
@@ -257,6 +273,7 @@ INSERT INTO `tbl_score` VALUES ('2017110323', 5, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 6, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 7, NULL, NULL, NULL);
 INSERT INTO `tbl_score` VALUES ('2017110323', 8, NULL, NULL, NULL);
+INSERT INTO `tbl_score` VALUES ('2017110401', 26, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tbl_spot
@@ -317,7 +334,7 @@ INSERT INTO `tbl_student` VALUES ('2017110302', '赵同学', '男', '第六中�
 INSERT INTO `tbl_student` VALUES ('2017110305', '李同学', '女', '实验中学', '1998-12-14', '510722199812111111', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110318', '雷同学', '女', '第一中学', '1998-12-14', '510722199812147894', '19982031936', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2017110323', '李同学', '女', '实验中学', '1998-12-14', '510722199812142384', '18011108917', '共青团员', '11', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
-INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '女', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '01', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
+INSERT INTO `tbl_student` VALUES ('2017110401', '张同学', '男', '第四中学', '1998-12-14', '510722199812141234', '18011108917', '共青团员', '01', '20171103', '在校', 0x6531306164633339343962613539616262653536653035376632306638383365);
 INSERT INTO `tbl_student` VALUES ('2018090301', '小王同学', '男', '第一中学', '1999-12-01', '527133199912018453', '18011108917', '共青团员', '08', '20180803', '在校', 0x6664323238306164663539393535326431653965643934316662356564303739);
 INSERT INTO `tbl_student` VALUES ('2018090323', '小李同学', '女', '第一中学', '2000-10-11', '51104620010117546', '18011108917', '共青团员', '08', '20180803', '在校', 0x3033653532353566653733343830356264303332353165303433643433383330);
 
@@ -342,25 +359,26 @@ CREATE TABLE `tbl_tea_crs`  (
   INDEX `fk_tea_crs_teacher`(`tea_no`) USING BTREE,
   INDEX `fk_tea_crs_course`(`crs_no`) USING BTREE,
   CONSTRAINT `fk_rea_crs_term` FOREIGN KEY (`term`) REFERENCES `tbl_term` (`term_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_tea_crs_spot` FOREIGN KEY (`spot`) REFERENCES `tbl_spot` (`spt_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_tea_crs_course` FOREIGN KEY (`crs_no`) REFERENCES `tbl_course` (`crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `fk_tea_crs_teacher` FOREIGN KEY (`tea_no`) REFERENCES `tbl_teacher` (`tea_no`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_tea_crs
 -- ----------------------------
-INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', 00001, 20191, '0', '0102', 'Tues', 1, 30, '2018');
-INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', 00002, 20191, '3', '0103', 'Wed', 0, 30, '2018');
-INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', 00003, 20191, '4', '0102', 'Mon', 0, 40, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', 00005, 20192, '3', '0101', 'Thur', 0, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', 00003, 20201, '4', '0105', 'Tues', 1, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (6, '20051106', 00003, 20201, '3', '0106', 'Wed', 3, 40, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (7, '20061104', 00002, 20201, '4', '0201', 'Thur', 4, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (8, '20051106', 00006, 20201, '0', '0201', 'Tues', 1, 30, '2017');
-INSERT INTO `tbl_tea_crs` VALUES (9, '20151107', 00004, 20201, '1', '0106', 'Wed', 0, 30, '2018');
-INSERT INTO `tbl_tea_crs` VALUES (17, '20011103', 00004, 20202, '0', '0102', 'Mon', 0, 40, '2019');
-INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', 00001, 20202, '1', '0201', 'Mon', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (1, '20011103', 10001, 20191, '0', '0102', 'Tues', 1, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (2, '20051106', 10002, 20191, '3', '0103', 'Wed', 1, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (3, '20061104', 10003, 20191, '4', '0102', 'Mon', 0, 40, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (4, '20061105', 10005, 20192, '3', '0101', 'Thur', 1, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (5, '20061102', 10003, 20201, '4', '0105', 'Tues', 1, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (6, '20051106', 10003, 20201, '3', '0106', 'Wed', 1, 40, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (7, '20011103', 10002, 20201, '4', '0201', 'Thur', 4, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (8, '20011103', 10006, 20201, '0', '0201', 'Tues', 1, 30, '2017');
+INSERT INTO `tbl_tea_crs` VALUES (9, '20151107', 10004, 20201, '1', '0106', 'Wed', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (17, '20011103', 10004, 20202, '0', '0102', 'Mon', 1, 40, '2019');
+INSERT INTO `tbl_tea_crs` VALUES (23, '20061101', 10001, 20202, '1', '0201', 'Mon', 0, 30, '2018');
+INSERT INTO `tbl_tea_crs` VALUES (26, '20011103', 10002, 20201, '3', '0201', 'Tues', 1, 30, '2017');
 
 -- ----------------------------
 -- Table structure for tbl_teacher

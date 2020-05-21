@@ -6,6 +6,24 @@ public class Score {
     private Integer scorePro;
     private Integer scoreEnd;
     private Integer score;
+    private String classAndGrade;
+    private String stuName;
+
+    public String getClassAndGrade() {
+        return classAndGrade;
+    }
+
+    public void setClassAndGrade(String classAndGrade) {
+        this.classAndGrade = classAndGrade;
+    }
+
+    public String getStuName() {
+        return stuName;
+    }
+
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
+    }
 
     public String getStuId() {
         return stuId;
