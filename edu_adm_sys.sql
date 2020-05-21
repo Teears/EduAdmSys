@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 21/05/2020 15:18:36
+ Date: 21/05/2020 18:52:50
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `logging`  (
   `created_time` datetime(0) NOT NULL COMMENT '时间',
   `logger_name` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '全类名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '自定义日志记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '自定义日志记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of logging
@@ -64,6 +64,13 @@ INSERT INTO `logging` VALUES (28, '- 登录成功id:20011103', 'INFO', '2020-05-
 INSERT INTO `logging` VALUES (29, '- 登录成功id:20011103', 'INFO', '2020-05-21 11:51:48', 'com.qifangli.edumanage.controller.LoginController');
 INSERT INTO `logging` VALUES (30, '- 登录成功id:20011103', 'INFO', '2020-05-21 13:57:25', 'com.qifangli.edumanage.controller.LoginController');
 INSERT INTO `logging` VALUES (31, '- 登录成功id:20011103', 'INFO', '2020-05-21 15:11:22', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (32, '- 登录成功id:20011103', 'INFO', '2020-05-21 15:25:03', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (33, '- 登录成功id:20011103', 'INFO', '2020-05-21 15:43:41', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (34, '- 登录成功id:20011103', 'INFO', '2020-05-21 16:19:59', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (35, '- 登录成功id:2017110323', 'INFO', '2020-05-21 17:04:15', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (36, '- 登录成功id:20011103', 'INFO', '2020-05-21 17:44:32', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (37, '- 登录成功id:2017110323', 'INFO', '2020-05-21 17:49:08', 'com.qifangli.edumanage.controller.LoginController');
+INSERT INTO `logging` VALUES (38, '- 登录成功id:20011103', 'INFO', '2020-05-21 17:49:38', 'com.qifangli.edumanage.controller.LoginController');
 
 -- ----------------------------
 -- Table structure for permission
@@ -253,8 +260,8 @@ CREATE TABLE `tbl_score`  (
   `score_end` int(0) NULL DEFAULT NULL COMMENT '期末成绩',
   `score` int(0) NULL DEFAULT NULL COMMENT '综合成绩',
   PRIMARY KEY (`stu_no`, `tea_crs_no`) USING BTREE,
-  INDEX `fk_score_tea_crs`(`tea_crs_no`) USING BTREE,
   UNIQUE INDEX `unique_stu_tea_crs`(`stu_no`, `tea_crs_no`) USING BTREE,
+  INDEX `fk_score_tea_crs`(`tea_crs_no`) USING BTREE,
   CONSTRAINT `fk_score_student` FOREIGN KEY (`stu_no`) REFERENCES `tbl_student` (`stu_no`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_score_tea_crs` FOREIGN KEY (`tea_crs_no`) REFERENCES `tbl_tea_crs` (`tea_crs_no`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;

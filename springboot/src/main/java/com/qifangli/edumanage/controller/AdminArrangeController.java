@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.CourseArrange;
 import com.qifangli.edumanage.dao.entity.Term;
 import com.qifangli.edumanage.util.ExcelUtils;
+import com.qifangli.edumanage.util.JWTUtil;
+import com.qifangli.edumanage.util.LoggerUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.service.CourseArrangeService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -99,7 +102,9 @@ public class AdminArrangeController {
      */
     @RequiresPermissions("admin_selectCrs")
     @PostMapping("/arrange/uploadCrsArrange")
-    public Result uploadCrsArrange(@RequestParam("file") MultipartFile file){
+    public Result uploadCrsArrange(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+        String token = request.getHeader("token");
+        String operator = JWTUtil.getUsername(token);
         InputStream is = null;
         Map<String,Object> map= new HashMap<>();
         try{
@@ -118,6 +123,8 @@ public class AdminArrangeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String msg = "- 导入排课Excel表operator:"+operator;
+        LoggerUtil.info(msg);
         return ResultUtils.success(map);
     }
 

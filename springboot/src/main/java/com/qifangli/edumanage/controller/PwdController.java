@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.Student;
 import com.qifangli.edumanage.dao.entity.Teacher;
 import com.qifangli.edumanage.service.StudentService;
+import com.qifangli.edumanage.util.LoggerUtil;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import com.qifangli.edumanage.service.TeacherService;
 import com.qifangli.edumanage.util.JWTUtil;
@@ -36,6 +37,8 @@ public class PwdController {
         if(!newPass.equals(checkPass)){
             return ResultUtils.error(-1,"两次密码输入不相同");
         }
+        String msg = "- 修改密码operator:"+id;
+        LoggerUtil.info(msg);
         Subject subject = SecurityUtils.getSubject();
         if(subject.hasRole( "student" )){
             Student student = studentService.findStudentById(id);

@@ -8,6 +8,7 @@ import com.qifangli.edumanage.service.CourseArrangeService;
 import com.qifangli.edumanage.service.StudentService;
 import com.qifangli.edumanage.service.TermService;
 import com.qifangli.edumanage.util.JWTUtil;
+import com.qifangli.edumanage.util.LoggerUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -119,6 +120,8 @@ public class StudentController {
         }catch (DataAccessException e){
             return ResultUtils.error(-2,"选课人数已满");
         }
+        String msg = "- 学生选课tcno:"+teaCrsId+"operator:"+id;
+        LoggerUtil.info(msg);
         return ResultUtils.success();
     }
 
@@ -144,6 +147,8 @@ public class StudentController {
         }catch (DataAccessException e){
             return ResultUtils.error(-2,"已到最大退课人数");
         }
+        String msg = "- 学生退课tcno:"+teaCrsId+"operator:"+id;
+        LoggerUtil.info(msg);
         return ResultUtils.success();
     }
 }

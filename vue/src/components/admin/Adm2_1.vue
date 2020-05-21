@@ -241,12 +241,12 @@ import {tryHideFullScreenLoading } from '../../loading.js'
         if(month1<8){
           options[0] = {
             term:year1+"2",
-            label:year1+'-'+(year1+1)+'第一学年'
+            label:year1+'-'+(year1+1)+'第一学期'
           }
         }else{
           options[0] = {
             term:(year1+1)+"1",
-            label:year1+'-'+(year1+1)+'第二学年'
+            label:year1+'-'+(year1+1)+'第二学期'
           }
         }
         return options
@@ -327,22 +327,25 @@ import {tryHideFullScreenLoading } from '../../loading.js'
       },
       
       openOrClose(){
-        this.$axios
-        .post('/adminArrange/arrange/openOrCloseStuSelect', {})
-        .then((result)=> {
-          if (result.data.code === 1) {
-            this.$message({
-              type: 'success',
-              message: result.data.msg
-            });
-            this.isOpen = !this.isOpen
-          }else{
-            return false;
-          }
-        })
-        .catch((error)=> {
-            alert(error)
-        })
+        this.$confirm('确定'+(this.isOpen==true?"结束选课":"开启选课")+'吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+          .post('/adminArrange/arrange/openOrCloseStuSelect', {})
+          .then((result)=> {
+            if (result.data.code === 1) {
+              this.$message({
+                type: 'success',
+               message: result.data.msg
+              });
+              this.isOpen = !this.isOpen
+            }else{
+              return false;
+            }
+          })
+        }).catch(() => {});
       },
       loadButton(){
         this.$axios

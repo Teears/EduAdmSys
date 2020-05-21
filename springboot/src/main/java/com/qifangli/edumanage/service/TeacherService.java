@@ -13,8 +13,18 @@ public interface TeacherService {
 
     List<Teacher> findTeacherByDpt(String dpt);
 
+    /**
+     * admin,导入表格，批量添加教师信息
+     * @param entityList
+     * @return
+     */
     Map<String,Object> addTea(List<Object> entityList);
 
+    /**
+     * admin,单个添加教师信息
+     * @param teacher
+     * @return
+     */
     int insertTea(Teacher teacher);
 
     int updateTea(Teacher teacher);

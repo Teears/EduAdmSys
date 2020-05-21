@@ -120,7 +120,8 @@ public class LoginController {
         // 删除以前的
         session.removeAttribute("verCode");
         session.removeAttribute("codeTime");
-        session.setAttribute("verCode", verifyCode.toLowerCase());		//生成session
+        //生成session
+        session.setAttribute("verCode", verifyCode.toLowerCase());
         session.setAttribute("codeTime", LocalDateTime.now());
         // 生成图片
         int w = 100, h = 40;

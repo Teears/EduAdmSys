@@ -9,6 +9,7 @@ import com.qifangli.edumanage.service.CourseArrangeService;
 import com.qifangli.edumanage.service.ScoreService;
 import com.qifangli.edumanage.service.TeacherService;
 import com.qifangli.edumanage.util.JWTUtil;
+import com.qifangli.edumanage.util.LoggerUtil;
 import com.qifangli.edumanage.util.WeekTimeUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
@@ -32,7 +33,6 @@ public class TeacherController {
     private CourseArrangeService courseArrangeService;
     @Resource
     private ScoreService scoreService;
-
 
     /**
      * 获取某门选课的所有学生列表
@@ -72,11 +72,20 @@ public class TeacherController {
         return ResultUtils.success(datas);
     }
 
+    /**
+     * 提交成绩
+     * @param param
+     * @return
+     */
     @RequiresPermissions("teacher_all")
     @PostMapping("postScoreList")
-    public Result postScoreList(@RequestBody JSONObject param){
+    public Result postScoreList(@RequestBody JSONObject param, HttpServletRequest request){
+        String token = request.getHeader("token");
+        String id = JWTUtil.getUsername(token);
         List<Score> scoreList = JSONArray.parseArray(param.getString("scoreList"),Score.class);
         int success = scoreService.updateScoreList(scoreList);
+        String msg = "- 更新成绩id:"+id;
+        LoggerUtil.info(msg);
         return ResultUtils.success(success);
     }
 

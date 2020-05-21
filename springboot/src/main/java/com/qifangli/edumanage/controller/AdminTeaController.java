@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.qifangli.edumanage.dao.entity.Teacher;
 import com.qifangli.edumanage.service.TeacherService;
 import com.qifangli.edumanage.util.ExcelUtils;
+import com.qifangli.edumanage.util.JWTUtil;
+import com.qifangli.edumanage.util.LoggerUtil;
 import com.qifangli.edumanage.util.result.Result;
 import com.qifangli.edumanage.util.result.ResultUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -126,7 +129,9 @@ public class AdminTeaController {
      */
     @RequiresPermissions("admin_teaAdmin")
     @RequestMapping("/upload")
-    public Result teaUpload(@RequestParam("file") MultipartFile file){
+    public Result teaUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+        String token = request.getHeader("token");
+        String operator = JWTUtil.getUsername(token);
         InputStream is = null;
         Map<String,Object> map= new HashMap<>();
         try{
@@ -145,6 +150,8 @@ public class AdminTeaController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String msg = "- 导入教师Excel表operator:"+operator;
+        LoggerUtil.info(msg);
         return ResultUtils.success(map);
     }
 
