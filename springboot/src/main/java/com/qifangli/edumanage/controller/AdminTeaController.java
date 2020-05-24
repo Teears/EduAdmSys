@@ -129,9 +129,7 @@ public class AdminTeaController {
      */
     @RequiresPermissions("admin_teaAdmin")
     @RequestMapping("/upload")
-    public Result teaUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request){
-        String token = request.getHeader("token");
-        String operator = JWTUtil.getUsername(token);
+    public Result teaUpload(@RequestParam("file") MultipartFile file){
         InputStream is = null;
         Map<String,Object> map= new HashMap<>();
         try{
@@ -150,8 +148,7 @@ public class AdminTeaController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String msg = "- 导入教师Excel表operator:"+operator;
-        LoggerUtil.info(msg);
+        LoggerUtil.info("- 导入教师Excel表operator");
         return ResultUtils.success(map);
     }
 

@@ -121,9 +121,7 @@ public class AdminCrsController {
      */
     @RequiresPermissions("admin_crsAdmin")
     @RequestMapping("/upload")
-    public Result crsUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request){
-        String token = request.getHeader("token");
-        String operator = JWTUtil.getUsername(token);
+    public Result crsUpload(@RequestParam("file") MultipartFile file){
         InputStream is = null;
         Map<String,Object> map= new HashMap<>();
         try{
@@ -142,8 +140,7 @@ public class AdminCrsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String msg = "- 导入课程Excel表operator:"+operator;
-        LoggerUtil.info(msg);
+        LoggerUtil.info("- 导入课程Excel表");
         return ResultUtils.success(map);
     }
 

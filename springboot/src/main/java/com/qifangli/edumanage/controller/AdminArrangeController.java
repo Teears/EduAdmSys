@@ -102,9 +102,7 @@ public class AdminArrangeController {
      */
     @RequiresPermissions("admin_selectCrs")
     @PostMapping("/arrange/uploadCrsArrange")
-    public Result uploadCrsArrange(@RequestParam("file") MultipartFile file, HttpServletRequest request){
-        String token = request.getHeader("token");
-        String operator = JWTUtil.getUsername(token);
+    public Result uploadCrsArrange(@RequestParam("file") MultipartFile file){
         InputStream is = null;
         Map<String,Object> map= new HashMap<>();
         try{
@@ -123,8 +121,7 @@ public class AdminArrangeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String msg = "- 导入排课Excel表operator:"+operator;
-        LoggerUtil.info(msg);
+        LoggerUtil.info("- 导入排课Excel表");
         return ResultUtils.success(map);
     }
 

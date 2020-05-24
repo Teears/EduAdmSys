@@ -29,21 +29,27 @@ export default {
     },
     methods:{
       logout(){
-        this.$axios
-        .post('/unauthorized/logout', {})
-        .then((result)=> {
-          if(result.data.code==302){
-            var r = (this.$route.path).substr(0,4)
-            if(r=='/Stu'||r=='/Tea'){
-              this.$router.replace({ path: '/login' });
-            }else{
-              this.$router.replace({ path: '/loginAdmin' });
+        this.$confirm('确定退出登录?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+          .post('/unauthorized/logout', {})
+          .then((result)=> {
+            if(result.data.code==302){
+              var r = (this.$route.path).substr(0,4)
+              if(r=='/Stu'||r=='/Tea'){
+                this.$router.replace({ path: '/login' });
+              }else{
+                this.$router.replace({ path: '/loginAdmin' });
+              }
             }
-          }
-        })
-        .catch((error)=> {
+          })
+          .catch((error)=> {
             alert(error)
-        })
+          })
+        }).catch(() => {});
       }
     }
   }

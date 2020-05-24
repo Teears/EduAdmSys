@@ -131,8 +131,10 @@ import {getCookie} from '../global/cookie'
                 message: '添加成功!'
               });
             }else{
-              alert(result.data.msg)
-              return false;
+              this.$message({
+                type: 'info',
+                message: '该教师不存在或已经是管理员!'
+              });
             }
         })
         .catch((error)=> {
