@@ -9,7 +9,7 @@ public interface TeacherService {
 
     Teacher findTeacherById(String id);
 
-    void updatePwdByTeaId(String id,String newPwd);
+    int updatePwdByTeaId(String id,String newPwd);
 
     List<Teacher> findTeacherByDpt(String dpt);
 
@@ -30,5 +30,7 @@ public interface TeacherService {
     int updateTea(Teacher teacher);
 
     int deleteTeaById(String id);
+
+    int updateTeaTel(String id, String telephone);
 
 }

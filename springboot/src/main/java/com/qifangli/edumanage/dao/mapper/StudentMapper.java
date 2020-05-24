@@ -11,7 +11,7 @@ public interface StudentMapper {
 
    Student findStudentById(@Param("id") String id);
 
-   void updatePwdByStuId(@Param("id") String id,@Param("newPwd") String newPwd);
+   int updatePwdByStuId(@Param("id") String id,@Param("newPwd") String newPwd);
 
    List<Student> findStuByDptAndGrade(@Param("dpt") String dpt,@Param("grade") String grade);
 
@@ -20,5 +20,7 @@ public interface StudentMapper {
    int updateStu(Student student);
 
    int deleteStuById(@Param("id") String id);
+
+   int updateStuTel(@Param("id") String id,@Param("telephone") String telephone);
 }
 

@@ -50,5 +50,8 @@
     <delete id="deleteTeaById">
         delete from tbl_teacher where tea_no = #{id}
     </delete>
+    <update id="updateTeaTel">
+        update tbl_teacher set tea_tel=#{telephone} where tea_no=#{id}
+    </update>
 
 </mapper>

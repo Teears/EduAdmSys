@@ -53,5 +53,8 @@
     <delete id="deleteStuById">
         delete from tbl_student where stu_no = #{id}
     </delete>
+    <update id="updateStuTel">
+        update tbl_student set stu_tel=#{telephone} where stu_no=#{id}
+    </update>
 
 </mapper>

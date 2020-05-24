@@ -24,7 +24,7 @@ public interface StudentService {
 
     Integer findSumCredit(String id);
 
-    void updatePwdByStuId(String id,String newPwd);
+    int updatePwdByStuId(String id,String newPwd);
 
     List<Student> findStuByDptAndGrade(String dpt,String grade);
 
@@ -35,4 +35,6 @@ public interface StudentService {
     int updateStu(Student student);
 
     int deleteStuById(String id);
+
+    int updateStuTel(String id, String telephone);
 }

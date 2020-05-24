@@ -23,8 +23,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void updatePwdByTeaId(String id, String newPwd) {
-        teacherMapper.updatePwdByTeaId(id,newPwd);
+    public int updatePwdByTeaId(String id, String newPwd) {
+        return teacherMapper.updatePwdByTeaId(id,newPwd);
     }
 
     @Override
@@ -72,5 +72,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int deleteTeaById(String id) {
         return teacherMapper.deleteTeaById(id);
+    }
+
+    @Override
+    public int updateTeaTel(String id, String telephone) {
+        return teacherMapper.updateTeaTel(id,telephone);
     }
 }

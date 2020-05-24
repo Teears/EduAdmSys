@@ -22,7 +22,7 @@ public interface TeacherMapper {
      * @param id
      * @param newPwd
      */
-    void updatePwdByTeaId(@Param("id") String id,@Param("newPwd") String newPwd);
+    int updatePwdByTeaId(@Param("id") String id,@Param("newPwd") String newPwd);
 
     /**
      * 查询这个学院的所有教师
@@ -52,4 +52,6 @@ public interface TeacherMapper {
      * @return
      */
     int deleteTeaById(@Param("id") String id);
+
+    int updateTeaTel(@Param("id") String is, @Param("telephone") String telephone);
 }

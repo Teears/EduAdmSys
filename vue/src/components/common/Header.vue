@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {delCookie} from '../global/cookie'
 export default {
     data(){
       return{

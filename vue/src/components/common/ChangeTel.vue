@@ -64,22 +64,22 @@ import {getCookie} from '../global/cookie'
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid) {
-                //提交表单
-                var data = JSON.stringify(this.userForm)
-                alert(data)//测试提交的数据
                 this.$axios
-                .post('/api/changePwd', { //忘记密码表单提交接口,后台根据from判断是admin还是stuTea
-                    userid: getCookie("userid"),
-                    data
+                .post('/pwd/changePhoneCode', {
+                    telephone:this.userForm.tel,
+                    phoneCode:this.userForm.vcode
                 })
                 .then((result)=> {
                 if (result.data.code === 1) {
-                    alert("手机号换绑成功")//测试返回数据
-                }else if(result.data.code === -1){
-                    alert("验证码错误")
+                    this.$message({
+                        type: 'success',
+                        message: '手机号已更换'
+                    });
                 }else{
-                    console.log("换绑失败");
-                    return false;
+                    this.$message({
+                        type: 'info',
+                        message: result.data.msg
+                    });
                 }
                 })
                 .catch((error)=> {
@@ -92,23 +92,21 @@ import {getCookie} from '../global/cookie'
         })
       },
       getCode(){
-        var data = JSON.stringify(this.userForm)
-        data = JSON.parse(data)
         this.$axios
-        .post('/api/getTelCode', { //获取验证码接口
-            user:getCookie("userid"),
-            tel:data.tel,
-            identify:getCookie("identify")
+        .post('/phone/sendChangePhoneCode', { //获取验证码接口
+            phoneNumber:this.userForm.tel
         })
         .then((result)=> {
             if (result.data.code === 1) {
-            alert("验证码已发送")//测试返回数据
-            }else if(result.data.code === -1){
-                alert("用户名或手机号不正确")
-                return false;
+                this.$message({
+                    type: 'success',
+                    message: '验证码已发送,10分钟内有效!'
+                });
             }else{
-                console.log("验证码发送失败");
-                return false;
+                this.$message({
+                    type: 'info',
+                    message: result.data.msg
+                });
             }
         })
         .catch((error)=> {

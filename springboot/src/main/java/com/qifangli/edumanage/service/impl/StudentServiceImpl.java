@@ -72,8 +72,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void updatePwdByStuId(String id, String newPwd) {
-        studentMapper.updatePwdByStuId(id,newPwd);
+    public int updatePwdByStuId(String id, String newPwd) {
+        return studentMapper.updatePwdByStuId(id,newPwd);
     }
 
     @Override
@@ -120,5 +120,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public int deleteStuById(String id) {
         return studentMapper.deleteStuById(id);
+    }
+
+    @Override
+    public int updateStuTel(String id, String telephone) {
+        return studentMapper.updateStuTel(id,telephone);
     }
 }

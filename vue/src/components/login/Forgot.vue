@@ -13,7 +13,7 @@
 
   <el-form-item>
     <el-input v-model="userForm.vcode" maxlength="6" placeholder="验证码" style="width: 125px"></el-input> 
-    <el-button type="primary" round style="margin-left:10px;width:145px" @click="getCode()" :disabled="getCodeBtnDisable">{{codeBtnWord}}</el-button>
+    <el-button type="primary" round style="margin-left:10px;width:145px" @click="getCode" :disabled="getCodeBtnDisable">{{codeBtnWord}}</el-button>
   </el-form-item>
   
    <el-form-item label="新密码" prop="pass">
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import md5 from "js-md5"
   export default {
     data() {
       var validateUser = (rule, value, callback) => {
@@ -43,19 +44,27 @@
         }
       };
       var validateTel = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('手机号不能为空'));
-            } else {
-                callback();
-            }
-        };
+        if (value === '') {
+          callback(new Error('手机号不能为空'));
+        } else {
+          callback();
+        }
+      };
+      var validateVcode = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('验证码不能为空'));
+        } else {
+          callback();
+        }
+      };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('密码不能为空'));
         } else {
           callback();
         }
-      };var validatePass2 = (rule, value, callback) => {
+      };
+      var validatePass2 = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('请再次输入密码'));
             } else if (value !== this.userForm.pass) {
@@ -71,13 +80,13 @@
             vcode:'',
             pass:'',
             checkPass:'',
-            from:this.$route.query.identify
         },
         codeBtnWord:'获取验证码',
         waitTime:61,
         rules: {
           user:[{ validator: validateUser, trigger: 'blur'}],
           tel: [{ validator: validateTel, trigger: 'blur'}],
+          vcode: [{ validator: validateVcode, trigger: 'blur'}],
           pass:[{ validator: validatePass, trigger: 'blur'}],
           checkPass: [{ validator: validatePass2, trigger: 'blur'}]
         }
@@ -107,59 +116,55 @@
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-            if (valid) {
-                //提交表单
-                var data = JSON.stringify(this.userForm)
-                alert(data)//测试提交的数据
-                this.$axios
-                  .post('/api/forgot', { //忘记密码表单提交接口,后台根据from判断是admin还是stuTea
-                      data
-                  })
-                  .then((result)=> {
-                    if (result.data.code === 1) {
-                      alert("密码重置成功，请重新登录")//测试返回数据
-                      if(result.data.data.from == 'user'){
-                        this.$router.replace({ path: '/' }); //密码重置成功跳转到loginUser组件中
-                      }else if(result.data.data.from == 'admin'){
-                        this.$router.replace({ path: '/loginAdmin' }); //跳转到loginAdmin组件中
-                      }
-                    }else if(result.data.code === -2){
-                      alert("验证码错误")
-                    }else if(result.data.code === -1){
-                      alert("用户名或手机号不正确")
-                    }else{
-                      console.log("密码重置失败");
-                      return false;
-                    }
-                  })
-                  .catch((error)=> {
-                    alert(error)
-                  })
-            } else {
-                alert('请检查输入');
-                return false;
-            }
+          if (valid) {
+            this.userForm.pass = md5(this.userForm.pass)
+            this.userForm.checkPass = md5(this.userForm.checkPass)
+            this.$axios
+            .post('/pwd/resetPwd',this.userForm)
+            .then((result)=> {
+              if (result.data.code === 1) {
+                this.$message({
+                  type: 'success',
+                  message: '密码重置成功，请重新登录'
+                });
+                this.$router.back(-1)
+              }else{
+                this.$message({
+                  type: 'error',
+                  message: result.data.msg
+                });
+              }
+            })
+            .catch((error)=> {
+              alert(error)
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: '请检查输入！'
+            });
+          }
         })
       },
+      
       getCode(){
-        var data = JSON.stringify(this.userForm)
-        data = JSON.parse(data)
         this.$axios
-        .post('/api/getTelCode', { //获取验证码接口
-            user:data.user,
-            tel:data.tel,
-            identify:data.identify
+        .post('/phone/sendCode', { //获取验证码接口
+            id:this.userForm.user,
+            phoneNumber:this.userForm.tel
         })
         .then((result)=> {
-            if (result.data.code === 1) {
-            alert("验证码已发送")//测试返回数据
-            }else if(result.data.code === -1){
-                alert("用户名或手机号不正确")
-                return false;
-            }else{
-                console.log("验证码发送失败");
-                return false;
-            }
+          if (result.data.code === 1) {
+            this.$message({
+              type: 'success',
+              message: '验证码已发送，10分钟内有效！'
+            });
+          }else{
+            this.$message({
+              type: 'info',
+              message: result.data.msg
+            });
+          }
         })
         .catch((error)=> {
             alert(error)
