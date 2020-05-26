@@ -108,7 +108,7 @@
   multiple="false"
   show-file-list="false"
   accept=".xls,.xlsx"
-  action="http://localhost:8080/crsAdmin/upload"
+  action="http://47.93.85.24:8080/crsAdmin/upload"
   with-credentials="true" 
   :on-success="handleAvatarSuccess"
   :file-list="fileList"

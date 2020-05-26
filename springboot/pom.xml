@@ -58,8 +58,10 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>8.0.19</scope>
+            <scope>runtime</scope>
+            <version>8.0.19</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -102,12 +104,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-        </dependency>
-
-        <!--Slf4j 依赖-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
         <dependency>
@@ -157,4 +154,6 @@
             </plugin>
         </plugins>
     </build>
+    <!-- 打包成jar包 -->
+    <packaging>jar</packaging>
 </project>

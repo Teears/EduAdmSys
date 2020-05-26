@@ -60,7 +60,7 @@
                 <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
                 <url>jdbc:mysql://127.0.0.1:3306/edu_adm_sys?serverTimezone=Asia/Shanghai</url>
                 <username>root</username>
-                <password>123456</password>
+                <password>Lqf@1234</password>
             </dataSource>
         </connectionSource>
     </appender>

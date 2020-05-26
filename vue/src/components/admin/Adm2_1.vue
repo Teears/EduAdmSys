@@ -150,7 +150,7 @@
   ref="upload"
   multiple="false"
   accept=".xls,.xlsx"
-  action="http://localhost:8080/adminArrange/arrange/uploadCrsArrange"
+  action="http://47.93.85.24:8080/adminArrange/arrange/uploadCrsArrange"
   with-credentials="true" 
   :on-success="handleAvatarSuccess"
   :file-list="fileList"

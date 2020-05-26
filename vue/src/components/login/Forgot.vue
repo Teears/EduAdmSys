@@ -10,10 +10,14 @@
   <el-form-item prop="tel" label="手机号">
       <el-input v-model="userForm.tel" > </el-input>
   </el-form-item>
-
+ 
   <el-form-item>
-    <el-input v-model="userForm.vcode" maxlength="6" placeholder="验证码" style="width: 125px"></el-input> 
-    <el-button type="primary" round style="margin-left:10px;width:145px" @click="getCode" :disabled="getCodeBtnDisable">{{codeBtnWord}}</el-button>
+    <el-col :span="10">
+      <el-input v-model="userForm.vcode" maxlength="6" placeholder="验证码" style="width: 125px"></el-input> 
+    </el-col>
+    <el-col :span="12">
+      <el-button type="primary" round style="margin-left:10px;width:145px" @click="getCode" :disabled="getCodeBtnDisable">{{codeBtnWord}}</el-button>
+    </el-col>
   </el-form-item>
   
    <el-form-item label="新密码" prop="pass">
@@ -25,8 +29,12 @@
   </el-form-item>
   
   <el-form-item>
-    <el-button type="primary" @click="submitForm('userForm')" style="width: 170px">确认</el-button>
-    <el-button plain  @click="$router.back(-1)" style="width: 100px">返回登录</el-button>
+    <el-col :span="16">
+      <el-button type="primary" @click="submitForm('userForm')" style="width: 170px">确认</el-button>
+    </el-col>
+    <el-col :span="6">
+      <el-button plain  @click="$router.back(-1)" style="width: 100px">返回登录</el-button>
+    </el-col>
   </el-form-item>
 </el-form>
 </div>

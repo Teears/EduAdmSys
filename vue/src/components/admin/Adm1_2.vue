@@ -179,7 +179,7 @@
   ref="upload"
   multiple="false"
   accept=".xls,.xlsx"
-  action="http://localhost:8080/teaAdmin/upload"
+  action="http://47.93.85.24:8080/teaAdmin/upload"
   with-credentials="true" 
   :on-success="handleAvatarSuccess"
   :file-list="fileList"
