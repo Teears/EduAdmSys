@@ -16,7 +16,7 @@ public class SmsUtil {
     static final String domain = "dysmsapi.aliyuncs.com";
     static final String sign_name="三组教务";
     static final String template_code="SMS_189835091";
-    DefaultProfile profile = DefaultProfile.getProfile("default", "LTAI4GCbTtvm1EpRJYRDY6XP", "omQWjrKyj0IjQqz5UZi2qYh1evA88Q");
+    DefaultProfile profile = DefaultProfile.getProfile("default", "YourAccessKeyID", "YourAccessKeySecret");
     IAcsClient client = new DefaultAcsClient(profile);
 
     /**
