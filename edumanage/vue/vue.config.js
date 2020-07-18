@@ -3,7 +3,7 @@ module.exports = {
     productionSourceMap: true,
     devServer:{
         port:80,
-        host:'47.93.85.24',
+        host:'localhost',
         open:true,
         // proxy: {
         //     '/api': {
