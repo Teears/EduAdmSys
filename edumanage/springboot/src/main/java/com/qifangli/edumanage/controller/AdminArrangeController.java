@@ -90,6 +90,7 @@ public class AdminArrangeController {
         String dpt = param.getString("dpt");
         String grade = param.getString("grade");
         String term = param.getString("term");
+        System.out.println(dpt+"*****"+grade+"*****"+term);
         List<CourseArrange> arranges = courseArrangeService.findByTermDptGrade(term,dpt,grade);
 
         return ResultUtils.success(arranges);

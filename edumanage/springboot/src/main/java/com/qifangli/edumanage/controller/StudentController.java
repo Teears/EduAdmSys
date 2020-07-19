@@ -91,8 +91,9 @@ public class StudentController {
 
         Student student = studentService.findStudentById(id);
         String dpt = student.getDepartment();
-        String grade = student.getClassAndGrade().substring(0,3);
+        String grade = student.getClassAndGrade().substring(0,4);
         String term = termService.findActiveTerm().getId();
+        System.out.println(dpt+"*****"+grade+"*****"+term);
         List<CourseArrange> newArrange = courseArrangeService.findByTermDptGrade(term,dpt,grade);
 
         return ResultUtils.success(newArrange);
