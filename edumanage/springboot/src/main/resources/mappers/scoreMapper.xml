@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.ScoreMapper">
+    <resultMap id ="ScoreInfoMap" type="com.qifangli.edumanage.dao.entity.Score">
+        <result column="stu_no" property="stuId"/>
+        <result column="tea_crs_no" property="teaCrsId"/>
+        <result column="score_pro" property="scorePro"/>
+        <result column="score_end" property="scoreEnd"/>
+        <result column="score" property="score"/>
+    </resultMap>
+    <resultMap id ="TeaScoreInfoMap" type="com.qifangli.edumanage.dao.entity.Score">
+        <result column="stu_no" property="stuId"/>
+        <result column="tea_crs_no" property="teaCrsId"/>
+        <result column="score_pro" property="scorePro"/>
+        <result column="score_end" property="scoreEnd"/>
+        <result column="score" property="score"/>
+        <result column="stu_class" property="classAndGrade"/>
+        <result column="stu_name" property="stuName"/>
+    </resultMap>
+    <select id="findScoreByStuId" resultMap="ScoreInfoMap">
+        SELECT * FROM tbl_score WHERE stu_no = #{id}
+    </select>
+    <select id="findAvgScore" resultType="double">
+        SELECT AVG(score) FROM `tbl_score` where stu_no=#{id}
+    </select>
+    <select id="findSumCredit" resultType="int">
+        select SUM(crs_cdt) from tbl_course where crs_no in(
+        select crs_no from tbl_tea_crs where tea_crs_no in(
+        SELECT tea_crs_no FROM `tbl_score` where stu_no=#{id} and score>=60))
+    </select>
+
+    <insert id="addCrs">
+        INSERT INTO tbl_score(stu_no, tea_crs_no) VALUES (#{stuId}, #{teaCrsId})
+    </insert>
+    <delete id="deleteCrs">
+        DELETE FROM tbl_score where stu_no=#{stuId} and tea_crs_no=#{teaCrsId}
+    </delete>
+    <select id="findScoreByTC" resultMap="TeaScoreInfoMap">
+        select tbl_score.stu_no,tea_crs_no, score_pro,score_end,score,stu_class,stu_name
+        from tbl_score,tbl_student
+        where tea_crs_no=#{tcno} and tbl_score.stu_no=tbl_student.stu_no
+    </select>
+    <update id="updateScore" parameterType="Score">
+        update tbl_score set score=#{score}
+        where tea_crs_no=#{teaCrsId} and stu_no=#{stuId}
+    </update>
+
+</mapper>

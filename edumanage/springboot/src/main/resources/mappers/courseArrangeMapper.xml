@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.CourseArrangeMapper">
+    <resultMap id ="CourseArrangeInfoMap" type="com.qifangli.edumanage.dao.entity.CourseArrange">
+        <result column="tea_crs_no" property="id"/>
+        <result column="tea_name" property="teacherName"/>
+        <result column="crs_name" property="courseName"/>
+        <result column="term" property="term"/>
+        <result column="week" property="week"/>
+        <result column="time" property="time"/>
+        <result column="spot" property="spot"/>
+        <result column="tea_no" property="teacherno"/>
+        <result column="crs_type" property="type"/>
+        <result column="crs_no" property="courseno"/>
+        <result column="crs_cdt" property="credit"/>
+        <result column="spt_area" property="area"/>
+        <result column="spt_room" property="room"/>
+        <result column="crs_hours" property="hours"/>
+        <result column="selected" property="selected"/>
+        <result column="total" property="total"/>
+        <result column="grade" property="grade"/>
+
+    </resultMap>
+    <select id="findByTermAndSpot" resultMap="CourseArrangeInfoMap">
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
+        from tbl_course,tbl_teacher,tbl_spot,
+        (SELECT * FROM tbl_tea_crs where term = #{term} AND spot = #{spot})T
+        where tbl_course.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
+    </select>
+
+    <select id="findByTermAndStuId" resultMap="CourseArrangeInfoMap">
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
+        from tbl_course,tbl_teacher,tbl_spot,
+        (select * from tbl_tea_crs where term=#{term} and tea_crs_no in (
+        select tea_crs_no from tbl_score where stu_no=#{id}))T
+        where tbl_course.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
+    </select>
+    <select id="findByTermAndTeaId" resultMap="CourseArrangeInfoMap">
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room,grade
+        from tbl_course,tbl_teacher,tbl_spot,
+        (select * from tbl_tea_crs where term=#{term} and tea_crs_no in (
+        select tea_crs_no from tbl_score where tea_no=#{id}))T
+        where tbl_course.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no
+    </select>
+
+    <select id="findByTermDptGrade" resultMap="CourseArrangeInfoMap">
+        select tea_crs_no,T.tea_no,tea_name,T.crs_no,crs_name,term,week,time,spot,selected,total,crs_type,crs_cdt,crs_hours,spt_area,spt_room
+        from tbl_teacher,tbl_spot,
+        (select * from tbl_course where crs_dpt=#{dpt})S,
+        (SELECT * FROM tbl_tea_crs where term=#{term})T
+        where S.crs_no = T.crs_no and T.tea_no=tbl_teacher.tea_no and T.spot=tbl_spot.spt_no and grade=#{grade}
+    </select>
+
+    <select id="updateSelectedAdd">
+        UPDATE tbl_tea_crs set selected=selected+1 where tea_crs_no=#{id}
+    </select>
+    <select id="updateSelectedSub">
+        UPDATE tbl_tea_crs set selected=selected-1 where tea_crs_no=#{id}
+    </select>
+    <insert id="insertArrange" parameterType="CourseArrange">
+        insert into tbl_tea_crs(tea_no, crs_no, term, time, spot, week, total, grade)
+        values (#{teacherno},#{courseno},#{term},#{time},#{spot},#{week},#{total},#{grade})
+    </insert>
+    <delete id="deleteArrangeById">
+        delete from tbl_tea_crs where tea_crs_no=#{id}
+    </delete>
+    <update id="updateArrange" parameterType="CourseArrange">
+        update tbl_tea_crs set
+        tea_no=#{teacherno},crs_no=#{courseno},term=#{term},time=#{time},
+        spot=#{spot},week=#{week},total=#{total},grade=#{grade}
+        where tea_crs_no=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.StudentMapper">
+    <resultMap id ="StudentInfoMap" type="com.qifangli.edumanage.dao.entity.Student">
+        <result column="stu_no" property="id"/>
+        <result column="stu_name" property="name"/>
+        <result column="stu_sex" property="sex"/>
+        <result column="stu_gdu" property="graduate"/>
+        <result column="stu_bth" property="birth"/>
+        <result column="stu_id" property="idCard"/>
+        <result column="stu_tel" property="telephone"/>
+        <result column="stu_pol" property="political"/>
+        <result column="stu_dpt" property="department"/>
+        <result column="stu_class" property="classAndGrade"/>
+        <result column="stu_sta" property="status"/>
+        <result column="stu_pwd" property="pass"/>
+    </resultMap>
+
+    <resultMap id ="StudentInfoMapDptAndGrade" type="com.qifangli.edumanage.dao.entity.Student">
+        <result column="stu_no" property="id"/>
+        <result column="stu_name" property="name"/>
+        <result column="stu_sex" property="sex"/>
+        <result column="stu_gdu" property="graduate"/>
+        <result column="stu_bth" property="birth"/>
+        <result column="stu_id" property="idCard"/>
+        <result column="stu_tel" property="telephone"/>
+        <result column="stu_pol" property="political"/>
+        <result column="dpt_name" property="department"/>
+        <result column="stu_class" property="classAndGrade"/>
+        <result column="stu_sta" property="status"/>
+    </resultMap>
+
+    <select id="findStudentById" resultMap="StudentInfoMap">
+        SELECT * FROM tbl_student WHERE stu_no = #{id}
+    </select>
+    <update id="updatePwdByStuId">
+        update tbl_student set stu_pwd=#{newPwd} where stu_no=#{id}
+    </update>
+    <select id="findStuByDptAndGrade" resultMap="StudentInfoMapDptAndGrade">
+        select stu_no,stu_name,stu_sex,stu_gdu,stu_bth,stu_id,stu_tel,stu_pol,dpt_name,stu_class,stu_sta
+        from tbl_student,tbl_department,tbl_class
+        where class_grade=#{grade} and stu_dpt=#{dpt} and class_no=stu_class and stu_dpt=dpt_no
+    </select>
+    <insert id="insertStu" parameterType="Student">
+        insert into tbl_student(stu_no,stu_name,stu_sex,stu_gdu,stu_bth,stu_id,stu_tel,stu_pol,stu_dpt,stu_class,stu_sta,stu_pwd)
+        values (#{id},#{name},#{sex},#{graduate},#{birth},#{idCard},#{telephone},#{political},#{department},#{classAndGrade},#{status},#{pass})
+    </insert>
+    <update id="updateStu" parameterType="Student">
+        update tbl_student set stu_name=#{name},stu_sex=#{sex},stu_gdu=#{graduate},stu_bth=#{birth},stu_id=#{idCard},
+        stu_tel=#{telephone},stu_pol=#{political},stu_dpt=#{department},stu_class=#{classAndGrade},stu_sta=#{status}
+        where stu_no=#{id}
+    </update>
+    <delete id="deleteStuById">
+        delete from tbl_student where stu_no = #{id}
+    </delete>
+    <update id="updateStuTel">
+        update tbl_student set stu_tel=#{telephone} where stu_no=#{id}
+    </update>
+
+</mapper>

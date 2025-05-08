@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.TermMapper">
+<resultMap id ="TermInfoMap" type="com.qifangli.edumanage.dao.entity.Term">
+    <result column="term_no" property="id"/>
+    <result column="term_name" property="name"/>
+</resultMap>
+    <select id="findLatestTerm" resultType="java.lang.Integer">
+        SELECT MAX(term_no) FROM tbl_term
+    </select>
+    <select id="findActiveTerm" resultMap="TermInfoMap" >
+        select term_no,term_name from tbl_active,tbl_term where id="active_term_no" and name = term_no
+    </select>
+    <insert id="insertTerm"  parameterType="Term">
+        insert into tbl_term(term_no, term_name) values (#{id},#{name})
+    </insert>
+    <update id="updateActiveTerm">
+        update tbl_active set name=#{name} where id="active_term_no"
+    </update>
+</mapper>

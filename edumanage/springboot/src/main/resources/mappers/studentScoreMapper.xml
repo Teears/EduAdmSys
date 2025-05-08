@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.StudentScoreMapper">
+    <resultMap id ="StudentScoreInfoMap" type="com.qifangli.edumanage.dao.entity.StudentScore">
+        <result column="crs_no" property="id"/>
+        <result column="crs_name" property="name"/>
+        <result column="crs_cdt" property="credit"/>
+        <result column="crs_hours" property="hours"/>
+        <result column="crs_dpt" property="department"/>
+        <result column="crs_type" property="type"/>
+        <result column="score" property="score"/>
+    </resultMap>
+    <select id="findScoreByTermAndStuId" resultMap="StudentScoreInfoMap">
+        select R.crs_no,crs_name,crs_cdt,crs_hours,crs_dpt,crs_type,score from tbl_course,
+        (select crs_no,score from
+        (select tea_crs_no,crs_no from tbl_tea_crs where term=#{term})T,
+        (select tea_crs_no,score from tbl_score where stu_no=#{id})S
+        where T.tea_crs_no=S.tea_crs_no)R
+        where R.crs_no=tbl_course.crs_no
+    </select>
+</mapper>

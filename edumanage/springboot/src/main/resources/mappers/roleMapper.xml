@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.RoleMapper">
+    <resultMap id ="RoleInfoMap" type="com.qifangli.edumanage.dao.entity.Role">
+        <result column="uid" property="uid"/>
+        <result column="rid" property="rid"/>
+        <result column="tea_tel" property="telephone"/>
+        <result column="dpt_name" property="department"/>
+        <result column="tea_name" property="teaName"/>
+    </resultMap>
+
+    <select id="findRoleByUserId" resultMap="RoleInfoMap">
+        SELECT uid,role.rid,name,tea_tel,dpt_name,tea_name FROM `user_role`,`tbl_teacher`,`role`,`tbl_department`
+        where uid=#{id} and uid=tea_no and role.rid=user_role.rid and tea_dpt=tbl_department.dpt_no
+    </select>
+    <select id="findAllRole" resultMap="RoleInfoMap">
+        SELECT uid,role.rid,name,tea_tel,dpt_name,tea_name FROM `user_role`,`tbl_teacher`,`role`,`tbl_department`
+        where uid != #{id} and uid=tea_no and role.rid=user_role.rid and tea_dpt=tbl_department.dpt_no
+    </select>
+    <select id="updateToSuperAdminById">
+        update user_role set rid="super_admin" where uid=#{id}
+    </select>
+    <select id="updateToAdminById">
+        update user_role set rid="admin" where uid=#{id}
+    </select>
+    <delete id="deleteByUid">
+        delete from user_role where uid=#{id}
+    </delete>
+    <insert id="addAdmin">
+        INSERT INTO user_role(uid, rid) VALUES (#{uid}, #{rid})
+    </insert>
+</mapper>

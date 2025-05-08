@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.TeacherMapper">
+    <resultMap id ="TeacherInfoMap" type="com.qifangli.edumanage.dao.entity.Teacher">
+        <result column="tea_no" property="id"/>
+        <result column="tea_name" property="name"/>
+        <result column="tea_sex" property="sex"/>
+        <result column="tea_degree" property="degree"/>
+        <result column="tea_birth" property="birth"/>
+        <result column="tea_tel" property="telephone"/>
+        <result column="tea_pol" property="political"/>
+        <result column="tea_dpt" property="department"/>
+        <result column="tea_title" property="title"/>
+        <result column="tea_wkt" property="workTime"/>
+        <result column="tea_pwd" property="pass"/>
+        <result column="tea_id" property="idCard"/>
+    </resultMap>
+    <resultMap id ="TeacherDptInfoMap" type="com.qifangli.edumanage.dao.entity.Teacher">
+        <result column="tea_no" property="id"/>
+        <result column="tea_name" property="name"/>
+        <result column="tea_sex" property="sex"/>
+        <result column="tea_degree" property="degree"/>
+        <result column="tea_birth" property="birth"/>
+        <result column="tea_tel" property="telephone"/>
+        <result column="tea_pol" property="political"/>
+        <result column="dpt_name" property="department"/>
+        <result column="tea_title" property="title"/>
+        <result column="tea_wkt" property="workTime"/>
+        <result column="tea_id" property="idCard"/>
+    </resultMap>
+    <select id="findTeacherById" resultMap="TeacherInfoMap">
+        SELECT * FROM tbl_teacher WHERE tea_no = #{id}
+    </select>
+    <update id="updatePwdByTeaId">
+        update tbl_teacher set tea_pwd=#{newPwd} where tea_no=#{id}
+    </update>
+    <select id="findTeacherByDpt" resultMap="TeacherDptInfoMap">
+        select tea_no, tea_name, tea_sex, tea_degree, tea_title, tea_birth, tea_id, tea_tel, tea_pol, dpt_name, tea_wkt
+        from tbl_teacher, tbl_department where tea_dpt=#{dpt} and dpt_no=tea_dpt
+    </select>
+    <insert id="insertTea" parameterType="Teacher">
+        insert into tbl_teacher(tea_no, tea_name, tea_sex, tea_degree, tea_title, tea_birth, tea_id, tea_tel, tea_pol, tea_dpt, tea_wkt, tea_pwd)
+        values (#{id},#{name},#{sex},#{degree},#{title},#{birth},#{idCard},#{telephone},#{political},#{department},#{workTime},#{pass})
+    </insert>
+    <update id="updateTea" parameterType="Teacher">
+        update tbl_teacher set tea_name=#{name},tea_sex=#{sex},tea_birth=#{birth},tea_degree=#{degree},
+        tea_id=#{idCard},tea_tel=#{telephone},tea_pol=#{political},tea_wkt=#{workTime},tea_dpt=#{department},tea_title=#{title}
+        where tea_no=#{id}
+    </update>
+    <delete id="deleteTeaById">
+        delete from tbl_teacher where tea_no = #{id}
+    </delete>
+    <update id="updateTeaTel">
+        update tbl_teacher set tea_tel=#{telephone} where tea_no=#{id}
+    </update>
+
+</mapper>

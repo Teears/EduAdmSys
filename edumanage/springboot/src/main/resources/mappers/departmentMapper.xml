@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.DepartmentMapper">
+    <resultMap id ="DptInfoMap" type="com.qifangli.edumanage.dao.entity.Department">
+        <result column="dpt_no" property="id"/>
+        <result column="dpt_name" property="name"/>
+    </resultMap>
+    <select id="findDptByid" resultMap="DptInfoMap">
+        SELECT * FROM `tbl_department` where dpt_no=#{id}
+    </select>
+
+    <select id="findAllDpt" resultMap="DptInfoMap">
+        SELECT * FROM `tbl_department`
+    </select>
+
+</mapper>

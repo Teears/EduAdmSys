@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qifangli.edumanage.dao.mapper.PermissionMapper">
+    <resultMap id ="PermissionInfoMap" type="com.qifangli.edumanage.dao.entity.Permission">
+        <result column="rid" property="rid"/>
+        <result column="code" property="permsCode"/>
+        <result column="url" property="url"/>
+        <result column="pid" property="pid"/>
+    </resultMap>
+
+    <select id="findPermsByRid" resultMap="PermissionInfoMap">
+        select permission.pid,rid,code,url from role_permission,permission
+        where role_permission.rid=#{rid} and role_permission.pid=permission.pid
+    </select>
+</mapper>
